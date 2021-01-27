@@ -9,7 +9,7 @@ Point de vue utilisateur :
     <li>J'ai finis un bon nombre de jeu, j'ai beaucoup d'expérience donc le jeu monte en difficulté</li>
     <li>Je joue à jeu 1, j'ai envie de changer de jeu donc je choisi jeu 2</li>
     <li>Lorsque je suis en train de joueur, je peux voir combien de temps j'ai passé sur cette partie</li>
-    <li></li>
+    <li>test</li>
     <li></li>
     <li></li>
     <li></li>
