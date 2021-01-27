@@ -11,6 +11,6 @@ Point de vue utilisateur :
     <li>Je choisi un jeu, je gagne plusieurs fois, j'augmente de niveau. Le niveau supérieur s'avére trop difficle, je diminue de niveau</li>
     <li>Je joue à un jeu ,il me plaît pas, je change de jeu</li>
     <li>Je vois que j'ai passé trop de temps sur ce niveau, je change de jeu</li>
-    <li>Le niveau est trop dur, je consulte la solution.</li>
-    <li>Je sais pas jouer à un jeu, je regarde les règles</li>
+    <li>Je ne me souviens plus de comment marche le jeu, je veux pouvoir consulter les règles de ce jeu.</li>
+    <li>Ce jeu est trop dur, je n'y arrive pas, je veux afficher les solutions</li>
 </ul>
