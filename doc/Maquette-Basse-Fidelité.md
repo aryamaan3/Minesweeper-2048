@@ -34,9 +34,13 @@ Présence de la barre de navigation
 
 Présence de la barre de navigation.
 
-Cette page est composée de deux parties : Score et Trophés.
+Cette page est composée de deux parties : Score et Trophées.
 
+### Score
 La partie score est a son tour coupée en deux : une par jeu.
 - 2048 => on trouve le temps minimum qu'à mit un utilisateur pour finir une partie de son niveau actuel (donc si il a fait 2 minutes en débutant et qu'il passe intermédiaire, ce compteur est reinitialisé). 
 Il y a aussi la valeur de la plus grande tuile créée, le nombre totale de parties jouées ainsi que le niveau actuel du joueur.
 - Démineur => temps minimum pour completer une grille au niveau actuel, nombre de partie jouées et niveau actuel.
+
+### Trophées
+Cette partie regroupera les trophés gagnés de façon non organisé. Cet élément sera multipage en fonction du nombre de trophé gagné afin de présenter un nombre limite de trophées par page.
