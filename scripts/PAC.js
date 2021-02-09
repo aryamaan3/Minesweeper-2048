@@ -1,5 +1,5 @@
 class MESSAGE {
-
+    static INIT ="initialisation";
 }
 
 class Abs {
