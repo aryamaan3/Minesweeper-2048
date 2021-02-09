@@ -1,5 +1,4 @@
-/*
-export function barreNav(){
+/*export function barreNav(){
     // Je récupère mon élément nav avec son id
     var nav = document.getElementById('barrenav');
     //var loc = location.href;
