@@ -14,21 +14,36 @@ function barreNav(){
     //console.log(nav);
     //console.log(loc);
 
-    // Je crée la barre de navigation
-    let barre = document.createElement("ul");
+
     let elements = [];
 
-    elements.push(document.createElement("li").innerHTML = "<a href=\"./index.html\">ACCUEIL</a>");
-    elements.push(document.createElement("li").innerHTML = "<a href=\"./minesweeper/demineur.html\">DEMINEUR</a>");
-    elements.push(document.createElement("li").innerHTML = "<a href=\"./2048/2048.html\">2048</a>");
-    elements.push(document.createElement("li").innerHTML = "<a href=\"./profil/profil.html\">PROFIL</a>");
+    // Création des divs clickables
+    let boutonAcceuil = document.createElement("div");
+    boutonAcceuil.innerHTML = "<p>ACCEUIL</p>";
+    boutonAcceuil.addEventListener("click", ()=> {console.log("direction l'acceuil");})
+    elements.push(boutonAcceuil);
 
+    let boutonDemineur = document.createElement("div");
+    boutonDemineur.innerHTML = "<p>DEMINEUR</p>";
+    boutonDemineur.addEventListener("click", ()=> {console.log("direction le démineur");})
+    elements.push(boutonDemineur);
+
+    let bouton2048 = document.createElement("div");
+    bouton2048.innerHTML = "<p>2048</p>";
+    bouton2048.addEventListener("click", ()=> {console.log("direction 2048");})
+    elements.push(bouton2048);
+
+    let boutonProfil = document.createElement("div");
+    boutonProfil.innerHTML = "<p>PROFIL</p>";
+    boutonProfil.addEventListener("click", ()=> {console.log("direction le profil");})
+    elements.push(boutonProfil);
 
     // on rajoute tous les elements de la barre de navigation dans le nav du html
     for(let i = 0; i < elements.length; i++){
         //elements[i].setAttribute("class", "barrenav");
-        barre.innerHTML += elements[i];
+        //barre.innerHTML += elements[i];
+        div.appendChild(elements[i]);
     }
 
-    div.appendChild(barre);
+    //div.appendChild(barre);
 }
