@@ -10,7 +10,7 @@ header{
     color:black;
     margin:0 0 20px;
     line-height:1.1;
-    font-size: 60px;
+    font-size: 40px;
     font-weight: 500;
     text-align: center;
 }
@@ -19,7 +19,7 @@ nav{
     margin: 0 auto;
     position: absolute;
     display: inline-block;
-    top: 150px;
+    top: 120px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
