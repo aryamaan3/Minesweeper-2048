@@ -1,4 +1,4 @@
-class abs2048 extends Abs{
+/*class abs2048 extends Abs{
     constructor() {
         super();
     }
@@ -39,4 +39,4 @@ class ctrl2048 extends Ctrl{
             this.abs.getMessage(message)
         }
     }
-}
+}*/

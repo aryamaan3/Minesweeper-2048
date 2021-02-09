@@ -1,4 +1,4 @@
-class absDem extends Abs{
+/*class absDem extends Abs{
     constructor() {
         super();
     }
@@ -45,4 +45,4 @@ class ctrlDem extends Ctrl{
             this.pres.drawGrille();
         }
     }
-}
+}*/

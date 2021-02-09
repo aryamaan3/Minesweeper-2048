@@ -1,4 +1,4 @@
-class absProfil extends Abs{
+/*class absProfil extends Abs{
     constructor() {
         super();
     }
@@ -39,4 +39,4 @@ class ctrlProfil extends Ctrl{
             this.abs.getMessage(message)
         }
     }
-}
+}*/

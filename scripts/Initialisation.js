@@ -8,7 +8,7 @@ window.onload = function init(){
 
 function barreNav(){
     // Je récupère mon élément nav avec son id
-    let nav = document.getElementById('barrenav');
+    let div = document.getElementById('barrenav');
     //var loc = location.href;
 
     //console.log(nav);
@@ -30,5 +30,5 @@ function barreNav(){
         barre.innerHTML += elements[i];
     }
 
-    document.body.appendChild(barre);
+    div.appendChild(barre);
 }
