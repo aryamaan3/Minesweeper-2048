@@ -30,6 +30,7 @@ class Pres2048 extends Pres{
 }
 
 class Ctrl2048 extends Ctrl{
+
     constructor(abs, pres) {
         super(abs, pres);
     }

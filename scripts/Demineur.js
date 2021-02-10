@@ -22,6 +22,7 @@ class AbsDem extends Abs{
 }
 
 class PresDem extends Pres{
+
     constructor() {
         super();
         this.grille = new Grille(5, 5, 25);
