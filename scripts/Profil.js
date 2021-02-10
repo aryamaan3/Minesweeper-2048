@@ -1,4 +1,4 @@
-class absProfil extends Abs{
+class AbsProfil extends Abs{
     constructor() {
         super();
     }
@@ -19,7 +19,7 @@ class absProfil extends Abs{
     }
 }
 
-class presProfil extends Pres{
+class PresProfil extends Pres{
     constructor() {
         super();
     }
@@ -29,7 +29,7 @@ class presProfil extends Pres{
     }
 }
 
-class ctrlProfil extends Ctrl{
+class CtrlProfil extends Ctrl{
     constructor(abs, pres) {
         super(abs, pres);
     }

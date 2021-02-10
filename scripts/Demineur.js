@@ -1,4 +1,4 @@
-class absDem extends Abs{
+class AbsDem extends Abs{
     constructor() {
         super();
     }
@@ -21,7 +21,7 @@ class absDem extends Abs{
 
 }
 
-class presDem extends Pres{
+class PresDem extends Pres{
     constructor() {
         super();
         this.grille = new grille(10, 10, 50);
@@ -34,7 +34,7 @@ class presDem extends Pres{
 
 }
 
-class ctrlDem extends Ctrl{
+class CtrlDem extends Ctrl{
     constructor(abs, pres) {
         super(abs, pres);
     }

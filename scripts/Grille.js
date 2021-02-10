@@ -1,4 +1,4 @@
-class grille{
+class Grille{
     constructor(longeur, largeur, taille) {
         this.longeur = longeur;
         this.largeur = largeur;

@@ -1,4 +1,4 @@
-class abs2048 extends Abs{
+class Abs2048 extends Abs{
     constructor() {
         super();
     }
@@ -19,7 +19,7 @@ class abs2048 extends Abs{
     }
 }
 
-class pres2048 extends Pres{
+class Pres2048 extends Pres{
     constructor() {
         super();
     }
@@ -29,7 +29,7 @@ class pres2048 extends Pres{
     }
 }
 
-class ctrl2048 extends Ctrl{
+class Ctrl2048 extends Ctrl{
     constructor(abs, pres) {
         super(abs, pres);
     }

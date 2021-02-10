@@ -1,4 +1,4 @@
-class absCiment extends Abs{
+class AbsCiment extends Abs{
     constructor() {
         super();
     }
@@ -8,7 +8,7 @@ class absCiment extends Abs{
     }
 }
 
-class presCiment extends Pres{
+class PresCiment extends Pres{
     constructor() {
         super();
     }
@@ -18,7 +18,7 @@ class presCiment extends Pres{
     }
 }
 
-class ctrlCiment extends Ctrl{
+class CtrlCiment extends Ctrl{
     constructor(abs, pres) {
         super(abs, pres);
     }
