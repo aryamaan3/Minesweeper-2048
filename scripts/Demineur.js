@@ -24,7 +24,7 @@ class AbsDem extends Abs{
 class PresDem extends Pres{
     constructor() {
         super();
-        this.grille = new Grille(10, 10, 50);
+        this.grille = new Grille(5, 5, 25);
         this.grille.drawGrille();
     }
 
