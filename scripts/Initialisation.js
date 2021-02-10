@@ -1,49 +1,29 @@
 
-//import { barreNav } from "./BarreNavigation.js";
+import { barreNav } from "./BarreNavigation.js";
 
 // Fonction qui est executée uniquement lorsque tout le HTML est chargé (cf cours M. BUFFA)
 window.onload = function init(){
+    let abs2048 = new abs2048();
+    let pres2048 = new pres2048();
+    let ctrl2048 = new ctrl2048(abs2048, pres2048);
+
+    let absDem = new absDem();
+    let presDem = new presDem();
+    let ctrlDem = new ctrlDem(absDem, presDem);
+
+    let absProfil = new absProfil();
+    let presProfil = new presProfil();
+    let ctrlProfil = new ctrlProfil(absProfil, presProfil);
+
+    let absCiment = new absCiment();
+    let presCiment = new presCiment();
+    let ctrlCiment = new ctrlCiment(absCiment, presCiment);
+
+    ctrlCiment.addEnfant(ctrl2048);
+    ctrlCiment.addEnfant(ctrlDem);
+    ctrlCiment.addEnfant(ctrlProfil);
+    ctrlCiment.init();
+
     barreNav();
 }
 
-function barreNav(){
-    // Je récupère mon élément nav avec son id
-    let div = document.getElementById('barrenav');
-    //var loc = location.href;
-
-    //console.log(nav);
-    //console.log(loc);
-
-
-    let elements = [];
-
-    // Création des divs clickables
-    let boutonAcceuil = document.createElement("div");
-    boutonAcceuil.innerHTML = "<p>ACCEUIL</p>";
-    boutonAcceuil.addEventListener("click", ()=> {console.log("direction l'acceuil");})
-    elements.push(boutonAcceuil);
-
-    let boutonDemineur = document.createElement("div");
-    boutonDemineur.innerHTML = "<p>DEMINEUR</p>";
-    boutonDemineur.addEventListener("click", ()=> {console.log("direction le démineur");})
-    elements.push(boutonDemineur);
-
-    let bouton2048 = document.createElement("div");
-    bouton2048.innerHTML = "<p>2048</p>";
-    bouton2048.addEventListener("click", ()=> {console.log("direction 2048");})
-    elements.push(bouton2048);
-
-    let boutonProfil = document.createElement("div");
-    boutonProfil.innerHTML = "<p>PROFIL</p>";
-    boutonProfil.addEventListener("click", ()=> {console.log("direction le profil");})
-    elements.push(boutonProfil);
-
-    // on rajoute tous les elements de la barre de navigation dans le nav du html
-    for(let i = 0; i < elements.length; i++){
-        //elements[i].setAttribute("class", "barrenav");
-        //barre.innerHTML += elements[i];
-        div.appendChild(elements[i]);
-    }
-
-    //div.appendChild(barre);
-}

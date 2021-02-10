@@ -1,4 +1,4 @@
-/*class abs2048 extends Abs{
+class absDem extends Abs{
     constructor() {
         super();
     }
@@ -17,19 +17,24 @@
         }
         return result;
     }
+
+
 }
 
-class pres2048 extends Pres{
+class presDem extends Pres{
     constructor() {
         super();
+        this.grille = new grille(10, 10, 50);
+        this.grille.drawGrille();
     }
 
     getMessage(message, pieceJointe){
         //TODO
     }
+
 }
 
-class ctrl2048 extends Ctrl{
+class ctrlDem extends Ctrl{
     constructor(abs, pres) {
         super(abs, pres);
     }
@@ -37,6 +42,7 @@ class ctrl2048 extends Ctrl{
     getMessageFromParent(message){
         if (message === MESSAGE.INIT){
             this.abs.getMessage(message)
+            this.pres.drawGrille();
         }
     }
-}*/
+}
