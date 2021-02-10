@@ -2,6 +2,7 @@
 [Voici le lien pour consulter les maquettes](https://drive.google.com/file/d/1ppDDIupRJkONF2KLHX18V28JphULbRpY/view?usp=sharing)
 
 ## Accueil
+<img src="./maquette_lofi/lofi_acceuil.png">
 Cette page sommaire présente trois options : aller vers le Démineur, aller vers le 2048 ou aller vers le Profil de l'utilisateur.
 
 Les boutons "Demineur" et "2048" permettent tous deux de se rendre sur l'interface de jeu (voir les maquette 2048 et Demineur).
@@ -9,7 +10,7 @@ Les boutons "Demineur" et "2048" permettent tous deux de se rendre sur l'interfa
 Le profil est grisé (pour correspondre au critère ergonomique de guidage) au debut mais possibilité d'y acceder apres avoir complété une partie.
 
 ## 2048
-
+<img src="./maquette_lofi/lofi_2048.png">
 Cette interface présente une barre de navigation qui permet à tout moment de revenir à l'acceuil, jouer au démineur ou d'acceder à son profil (si le joueur a déjà effectué une partie, sinon cet onglet sera grisé).
 
 On retrouve :
@@ -20,7 +21,7 @@ On retrouve :
 - un indicateur de niveau
 
 ## Demineur
-
+<img src="./maquette_lofi/lofi_demineur.png">
 Présence de la barre de navigation
 
 - règles du jeu
@@ -31,7 +32,7 @@ Présence de la barre de navigation
 
 
 ## Profil 
-
+<img src="./maquette_lofi/lofi_profil.png">
 Présence de la barre de navigation.
 
 Cette page est composée de deux parties : Score et Trophées.
