@@ -25,8 +25,8 @@ class PresDem extends Pres{
 
     constructor() {
         super();
-        this.grille = new Grille(5, 5, 25);
-        this.grille.drawGrille();
+        this.grille = new Grille();
+        this.grille.drawGrille(true, 3);
     }
 
     getMessage(message, pieceJointe){
