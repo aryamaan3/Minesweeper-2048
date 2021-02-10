@@ -42,7 +42,7 @@ class CtrlDem extends Ctrl{
     getMessageFromParent(message){
         if (message === MESSAGE.INIT){
             this.abs.getMessage(message)
-            this.pres.drawGrille();
+            //this.pres.drawGrille();
         }
     }
 }

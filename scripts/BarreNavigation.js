@@ -11,8 +11,8 @@ export function barreNav(){
 
     // Création des divs clickables
     let boutonAcceuil = document.createElement("div");
-    boutonAcceuil.innerHTML = "<p>ACCEUIL</p>";
-    boutonAcceuil.addEventListener("click", ()=> {console.log("direction l'acceuil");})
+    boutonAcceuil.innerHTML = "<p>ACCUEIL</p>";
+    boutonAcceuil.addEventListener("click", ()=> {console.log("direction l'accueil");})
     elements.push(boutonAcceuil);
 
     let boutonDemineur = document.createElement("div");

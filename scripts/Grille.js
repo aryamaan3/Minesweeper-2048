@@ -12,7 +12,7 @@ class Grille{
         canvas.width = this.largeur * this.taille;
         canvas.length = this.longeur * this.taille;
         let tile = new Image();
-        tile.src = '../assets/tile.jpg';
+        tile.src = 'assets/tile.jpg';
         console.log(tile);
         //TODO
     }
