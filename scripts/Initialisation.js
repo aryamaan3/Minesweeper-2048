@@ -1,6 +1,3 @@
-
-import { barreNav } from "./BarreNavigation.js";
-
 // Fonction qui est executée uniquement lorsque tout le HTML est chargé (cf cours M. BUFFA)
 window.onload = function init(){
 
@@ -20,11 +17,14 @@ window.onload = function init(){
     let presCiment = new PresCiment();
     let ctrlCiment = new CtrlCiment(absCiment, presCiment);
 
+    let absNav = new AbsNav();
+    let presNav = new PresNav();
+    let ctrlNav = new CtrlNav(absNav, presNav);
+
     ctrlCiment.addEnfant(ctrl2048);
     ctrlCiment.addEnfant(ctrlDem);
     ctrlCiment.addEnfant(ctrlProfil);
+    ctrlCiment.addEnfant(ctrlNav);
     ctrlCiment.init();
-
-    barreNav();
 }
 

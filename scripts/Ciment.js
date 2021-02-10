@@ -4,10 +4,15 @@ class AbsCiment extends Abs{
         super();
         //Variable pour savoir quelle page est la page actuelle
         this.PAGE = "INITIALISATION";
+        this.choixPage(this.PAGE);
     }
 
     getMessage(message, pieceJointe){
-        //TODO
+        switch (message) {
+            case "CHANGEMENTPAGE":
+                this.choixPage(pieceJointe);
+                break;
+        }
     }
 
     // Permet d'afficher la page qui doit l'être
@@ -65,5 +70,13 @@ class CtrlCiment extends Ctrl{
      */
     init() {
         this.enfants.forEach(e => e.getMessageFromParent(MESSAGE.INIT));
+
+        /*
+        let nav = this.getEnfant("barrenav");
+        if (nav instanceof CtrlNav){
+            console.log("[CIMENT] J'ai bien récupéré mon CtrlNav");
+        }*/
+        //On affiche la barre de navigation
+        //Ctrl.getMessageFromParent();
     }
 }

@@ -1,5 +1,6 @@
 class MESSAGE {
     static INIT ="initialisation";
+    static CHANGEPAGE = "changementpage";
 }
 
 class Abs {
@@ -61,6 +62,40 @@ class Ctrl  {
 
     removeEnfant(controleur) {
         this.enfants = this.enfants.filter(pac => pac !== controleur);
+    }
+
+    getEnfant(typeEnfant) {
+        switch (typeEnfant) {
+            case "barrenav":
+                this.enfants.forEach(e => {
+                    if(e instanceof CtrlNav){
+                        return this.enfants[e];
+                    }
+                    else return -1;
+                });
+                break;
+            case "2048":
+                this.enfants.forEach(e => {
+                    if(e instanceof Ctrl2048) return this.enfants[e];
+                    else return -1;
+                });
+                break;
+            case "demineur":
+                this.enfants.forEach(e => {
+                    if(e instanceof CtrlDem) return this.enfants[e];
+                    else return -1;
+                });
+                break;
+            case "profil":
+                this.enfants.forEach(e => {
+                    if(e instanceof CtrlProfil) return this.enfants[e];
+                    else return -1;
+                });
+                break;
+            default:
+                return -1;
+        }
+
     }
 
     setParent(controleur) {
