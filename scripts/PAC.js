@@ -1,6 +1,11 @@
 class MESSAGE {
-    static INIT ="initialisation";
+    static INIT = "initialisation";
     static CHANGEPAGE = "changementpage";
+    static ACCUEIL = "accueil";
+    static DEMINEUR = "demineur";
+    static 2048 = "2048";
+    static PROFIL = "profil";
+    static AFFICHETOI = "affichetoi";
 }
 
 class Abs {

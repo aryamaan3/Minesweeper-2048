@@ -1,6 +1,8 @@
 class AbsNav extends Abs {
     constructor() {
         super();
+        //Variable pour savoir quelle page est la page actuelle
+        this.PAGE = "INITIALISATION";
     }
 
     init(){
@@ -21,12 +23,52 @@ class AbsNav extends Abs {
 class PresNav extends Pres{
     constructor() {
         super();
+        this.choixPage(this.PAGE);
     }
 
     getMessage(message, pieceJointe){
-        if (message == "AFFICHETOI"){
-            this.afficheNav();
+        switch (message) {
+            case MESSAGE.CHANGEPAGE:
+                this.choixPage(pieceJointe);
+                break;
+            case MESSAGE.AFFICHETOI:
+                this.afficheNav();
+                break;
         }
+    }
+
+    // Permet d'afficher la page qui doit l'être
+    choixPage(message){
+        switch (message){
+            case MESSAGE.INIT ://Même chose que accueil
+            case MESSAGE.ACCUEIL:
+                //TODO => load acceuil
+                this.PAGE = "ACCUEIL";
+                this.highlightOnglet("Accueil");
+                break;
+            case MESSAGE["2048"]:
+                //TODO => load 2048
+                this.PAGE = "2048";
+                this.highlightOnglet("2048");
+                break;
+            case MESSAGE.DEMINEUR:
+                //TODO => load acceuil
+                this.PAGE = "DEMINEUR";
+                this.highlightOnglet("Demineur");
+                break;
+            case MESSAGE.PROFIL:
+                //TODO => load acceuil
+                this.PAGE = "PROFIL";
+                this.highlightOnglet("Profil");
+                break;
+        }
+    }
+
+    highlightOnglet(page) {
+        // Modifie le CSS pour mettre en valeur l'onglet actuel
+        // l'id html de l'element est composé comme ça : ongletAcceuil, ...
+        let id = "onglet" + page;
+        console.log(id);
     }
 
     afficheNav() {
@@ -47,6 +89,7 @@ class PresNav extends Pres{
         boutonDemineur.innerHTML = "<p>DEMINEUR</p>";
         boutonDemineur.addEventListener("click", () => {
             console.log("direction le démineur");
+            CtrlNav
         })
         this.elements.push(boutonDemineur);
 
@@ -84,7 +127,7 @@ class CtrlNav extends Ctrl{
         console.log("[NAV] Message recu de ciment :"+message);
         if (message === MESSAGE.INIT){
             this.abs.getMessage(message);
-            this.pres.getMessage("AFFICHETOI");
+            this.pres.getMessage(MESSAGE.AFFICHETOI);
         }
     }
 }
