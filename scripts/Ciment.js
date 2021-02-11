@@ -34,9 +34,24 @@ class CtrlCiment extends Ctrl{
 
     recoitMessageDUnEnfant(message, piecejointe, ctrl) {
         if (message === MESSAGE.CHANGEPAGE) {
-            console.log();
+            switch(piecejointe){
+
+                case("accueil"):
+                    let acc = this.getEnfant(piecejointe);
+                    console.log(acc);
+
+                case("profil"):
+
+
+                case("demineur"):
+
+
+                case("2048"):
+
+
+            }
         }
         // ça c'était dans le code de Monsieur RENEVIER
-        else super.reçoitMessageDUnEnfant(message, piecejointe);
+        else super.recoitMessageDUnEnfant(message, piecejointe);
     }
 }

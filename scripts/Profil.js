@@ -24,6 +24,11 @@ class PresProfil extends Pres{
         super();
     }
 
+    initPage(){
+        let header = document.getElementById('title');
+        header.innerHTML ="Profil";
+    }
+
     getMessage(message, pieceJointe){
         //TODO
     }
@@ -35,8 +40,8 @@ class CtrlProfil extends Ctrl{
     }
 
     getMessageFromParent(message){
-        if (message === MESSAGE.INIT){
-            this.abs.getMessage(message)
+        if (message === MESSAGE.PROFIL){
+            this.pres.initPage();
         }
     }
 

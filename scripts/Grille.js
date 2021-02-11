@@ -10,7 +10,7 @@ class Grille{
         }
 
         else {
-            div.style.cssText = "position:absolute; top:300px; left:510px; text-align:center";
+            div.style.cssText = "position:absolute; top:300px; left:520px; text-align:center";
             document.body.appendChild(div);
 
             let canvas = document.createElement('canvas');
@@ -25,6 +25,9 @@ class Grille{
             let larg = 4;
             let tl = 100
             let tuile = new Image();
+            tuile.onload = function (){
+                console.log("image loaded");
+            }
             tuile.src = 'assets/tile2.png';
 
             for (let i = long - 1; i >= 0; i -= 1) {
@@ -37,9 +40,9 @@ class Grille{
     }
 
     selectLevel(div){
-        div.style.cssText = "position:absolute; top:300px; left:650px; text-align:center\""
+        div.style.cssText = "position:absolute; top:300px; left:535px; text-align:center; border-style:solid"
         document.body.appendChild(div);
-        let h1 = document.createElement('h1');
+        let h1 = document.createElement('h2');
         h1.innerHTML="choisissez votre niveau";
         h1.style.cssText = "text-align:center; margin:auto;";
         div.appendChild(h1);
@@ -47,6 +50,10 @@ class Grille{
         niv1.innerHTML = "débutant";
         niv1.id = "1";
         niv1.classList.add('niveau');
+        /*let p = document.createElement('p');
+        p.innerHTML = "débutant";
+        p.style.cssText = ""
+        niv1.appendChild(p);*/
         niv1.onclick = () =>{
             this.removeButtons(div, niv1, niv2, niv3, h1);
             this.drawGrilleDem(1, div);
@@ -148,7 +155,7 @@ class Grille{
 
             case(3):
 
-                div.style.cssText = "position:absolute; top:300px; left:280px; text-align:center";
+                div.style.cssText = "position:absolute; top:300px; left:270px; text-align:center";
                 document.body.appendChild(div);
 
                 let can = document.createElement('canvas');
