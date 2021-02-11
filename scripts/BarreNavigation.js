@@ -106,7 +106,7 @@ class PresNav extends Pres{
         boutonAcceuil.innerHTML = "<p>ACCUEIL</p>";
         boutonAcceuil.addEventListener("click", ()=> {
             let div = document.getElementById('canvas');
-            if(div) {document.body.removeChild(div);}
+            if(div) {document.body.removeChild(div);} //vide la page s'il y a quelque chose
             this.ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE.ACCUEIL);
         })
         this.elements.push(boutonAcceuil);
@@ -116,7 +116,7 @@ class PresNav extends Pres{
         boutonDemineur.innerHTML = "<p>DEMINEUR</p>";
         boutonDemineur.addEventListener("click", () => {
             let div = document.getElementById('canvas');
-            if(div) {document.body.removeChild(div);}
+            if(div) {document.body.removeChild(div);} //vide la page s'il y a quelque chose
             this.ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE.DEMINEUR);
         })
         this.elements.push(boutonDemineur);
@@ -126,7 +126,7 @@ class PresNav extends Pres{
         bouton2048.innerHTML = "<p>2048</p>";
         bouton2048.addEventListener("click", () => {
             let div = document.getElementById('canvas');
-            if(div) {document.body.removeChild(div);}
+            if(div) {document.body.removeChild(div);} //vide la page s'il y a quelque chose
             this.ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE.INIT2048);
         })
         this.elements.push(bouton2048);
@@ -136,7 +136,7 @@ class PresNav extends Pres{
         boutonProfil.innerHTML = "<p>PROFIL</p>";
         boutonProfil.addEventListener("click", () => {
             let div = document.getElementById('canvas');
-            if(div) {document.body.removeChild(div);}
+            if(div) {document.body.removeChild(div);} //vide la page s'il y a quelque chose
             this.ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE.PROFIL);
         })
         this.elements.push(boutonProfil);
@@ -157,8 +157,8 @@ class CtrlNav extends Ctrl{
 
     getMessageFromParent(message){
         if (message === MESSAGE.INIT){
-            this.abs.getMessage(message);
-            this.pres.getMessage(MESSAGE.AFFICHETOI);
+            this.abs.getMessage(message); //deprecated
+            this.pres.getMessage(MESSAGE.AFFICHETOI); //affiche barre de nav
         }
     }
 
@@ -170,6 +170,7 @@ class CtrlNav extends Ctrl{
                 break;
             case MESSAGE.CHANGEPAGE:
                 this.parent.recoitMessageDUnEnfant(MESSAGE.CHANGEPAGE, piecejointe);
+                //envoi le message à ciment avec le nom de la page à generer
                 break;
         }
     }

@@ -3,8 +3,11 @@ class AbsDem extends Abs{
         super();
     }
 
+    /**
+     *
+     * @param niveau
+     */
     init(niveau){
-        //appelé 3 fois??
         console.log(niveau);
         //TODO
     }
@@ -38,33 +41,38 @@ class PresDem extends Pres{
         //TODO
     }
 
+    /**
+     * genere la page et la methode pour choisir le niveau
+     */
     initPage(){
         let header = document.getElementById("title");
         header.innerHTML = "Démineur";
         this.selectLevel();
     }
 
+    /**
+     * crée des boutons qui donnent le choix de niveau à l'utilisateur
+     */
     selectLevel(){
         let div = document.createElement('div');
         div.id = "canvas";
         div.style.cssText = "position:absolute; top:300px; left:535px; text-align:center; border-style:solid"
         document.body.appendChild(div);
+        //on crée le div
+
         let h1 = document.createElement('h2');
         h1.innerHTML="choisissez votre niveau";
         h1.style.cssText = "text-align:center; margin:auto;";
         div.appendChild(h1);
+
         let niv1 = document.createElement('button');
         niv1.innerHTML = "débutant";
         niv1.id = "1";
         niv1.classList.add('niveau');
-        /*let p = document.createElement('p');
-        p.innerHTML = "débutant";
-        p.style.cssText = ""
-        niv1.appendChild(p);*/
         niv1.onclick = () =>{
-            this.removeButtons(div, niv1, niv2, niv3, h1);
-            this.ctrl.getMessageFromPresentation(MESSAGE.NIVEAU, 1);
-            this.grille.drawGrille(1);
+            this.removeButtons(div, niv1, niv2, niv3, h1); //enleve tous les boutons afin de laisser la place à la grille
+            this.ctrl.getMessageFromPresentation(MESSAGE.NIVEAU, 1); //communique le niveau au controleur
+            this.grille.drawGrille(1); //dessine la grille
         };
         div.appendChild(niv1);
 
@@ -92,6 +100,14 @@ class PresDem extends Pres{
 
     }
 
+    /**
+     * enleve les boutons
+     * @param div
+     * @param n1 bouton 1
+     * @param n2 bouton 2
+     * @param n3 bouton 2
+     * @param h1 balise h1
+     */
     removeButtons(div, n1, n2, n3, h1){
         div.style.removeProperty("position");
         div.style.removeProperty("top");
@@ -129,12 +145,15 @@ class CtrlDem extends Ctrl{
             switch(piecejointe){
                 case(1):
                     this.abs.getMessage(message, piecejointe);
+                    break;
 
                 case(2):
                     this.abs.getMessage(message, piecejointe);
+                    break;
 
                 case(3):
                     this.abs.getMessage(message, piecejointe);
+                    break;
 
             }
         }

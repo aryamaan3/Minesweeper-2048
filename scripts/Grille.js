@@ -1,8 +1,15 @@
 class Grille{
+    /**
+     * @param demineur boolean, true = demineur, false = 2048
+     */
     constructor(demineur) {
         this.demineur = demineur;
     }
 
+    /**
+     * construit grille en fonction du boolean
+     * @param niveau
+     */
     drawGrille(niveau){
         let div = document.createElement('div');
         div.id = "canvas";
@@ -37,10 +44,14 @@ class Grille{
                 }
             }
         }
-        return this.niveau
 
     }
 
+    /**
+     * dessine la grille du demineur en fonction du niveau
+     * @param niveau
+     * @param div
+     */
     drawGrilleDem(niveau, div){
         switch(niveau) {
             case(1):
