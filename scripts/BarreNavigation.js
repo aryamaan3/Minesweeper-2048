@@ -35,8 +35,8 @@ class AbsNav extends Abs {
                 // On highlight l'onglet qui a été cliqué
                 this.ctrl.getMessageFromAbstraction(MESSAGE.HIGHLIGHT, "Accueil");
                 break;
-            case MESSAGE["2048"]:
-                this.ctrl.getMessageFromAbstraction(MESSAGE.CHANGEPAGE, MESSAGE["2048"]);
+            case MESSAGE.INIT2048:
+                this.ctrl.getMessageFromAbstraction(MESSAGE.CHANGEPAGE, MESSAGE.INIT2048);
                 this.PAGE = "2048";
                 this.ctrl.getMessageFromAbstraction(MESSAGE.HIGHLIGHT, "2048");
                 break;
@@ -105,7 +105,8 @@ class PresNav extends Pres{
         boutonAcceuil.setAttribute("id","ongletAccueil");
         boutonAcceuil.innerHTML = "<p>ACCUEIL</p>";
         boutonAcceuil.addEventListener("click", ()=> {
-            console.log("direction l'accueil");
+            let div = document.getElementById('canvas');
+            if(div) {document.body.removeChild(div);} //vide la page s'il y a quelque chose
             this.ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE.ACCUEIL);
         })
         this.elements.push(boutonAcceuil);
@@ -114,7 +115,8 @@ class PresNav extends Pres{
         boutonDemineur.setAttribute("id", "ongletDemineur");
         boutonDemineur.innerHTML = "<p>DEMINEUR</p>";
         boutonDemineur.addEventListener("click", () => {
-            console.log("direction le démineur");
+            let div = document.getElementById('canvas');
+            if(div) {document.body.removeChild(div);} //vide la page s'il y a quelque chose
             this.ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE.DEMINEUR);
         })
         this.elements.push(boutonDemineur);
@@ -123,8 +125,9 @@ class PresNav extends Pres{
         bouton2048.setAttribute("id", "onglet2048");
         bouton2048.innerHTML = "<p>2048</p>";
         bouton2048.addEventListener("click", () => {
-            console.log("direction 2048");
-            this.ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE["2048"]);
+            let div = document.getElementById('canvas');
+            if(div) {document.body.removeChild(div);} //vide la page s'il y a quelque chose
+            this.ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE.INIT2048);
         })
         this.elements.push(bouton2048);
 
@@ -132,7 +135,8 @@ class PresNav extends Pres{
         boutonProfil.setAttribute("id", "ongletProfil");
         boutonProfil.innerHTML = "<p>PROFIL</p>";
         boutonProfil.addEventListener("click", () => {
-            console.log("direction le profil");
+            let div = document.getElementById('canvas');
+            if(div) {document.body.removeChild(div);} //vide la page s'il y a quelque chose
             this.ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE.PROFIL);
         })
         this.elements.push(boutonProfil);
@@ -152,10 +156,9 @@ class CtrlNav extends Ctrl{
     }
 
     getMessageFromParent(message){
-        console.log("[NAV] Message recu de ciment :"+message);
         if (message === MESSAGE.INIT){
-            this.abs.getMessage(message);
-            this.pres.getMessage(MESSAGE.AFFICHETOI);
+            this.abs.getMessage(message); //deprecated
+            this.pres.getMessage(MESSAGE.AFFICHETOI); //affiche barre de nav
         }
     }
 
@@ -167,12 +170,12 @@ class CtrlNav extends Ctrl{
                 break;
             case MESSAGE.CHANGEPAGE:
                 this.parent.recoitMessageDUnEnfant(MESSAGE.CHANGEPAGE, piecejointe);
+                //envoi le message à ciment avec le nom de la page à generer
                 break;
         }
     }
 
     getMessageFromPresentation(message, piecejointe){
-        console.log("Ctrl Nav recoit : "+message);
         switch (message){
             case MESSAGE.CHANGEPAGE:
                 this.abs.getMessage(MESSAGE.CHANGEPAGE, piecejointe);

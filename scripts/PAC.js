@@ -7,6 +7,7 @@ class MESSAGE {
     static PROFIL = "profil";
     static AFFICHETOI = "affichetoi";
     static HIGHLIGHT = "highlight";
+    static NIVEAU = "niveau";
 }
 
 class Abs {
@@ -71,7 +72,6 @@ class Ctrl  {
     }
 
     getEnfant(typeEnfant) {
-        console.log(typeEnfant);
         switch (typeEnfant) {
             case "barrenav":
                 this.enfants.forEach(e => {
@@ -94,16 +94,18 @@ class Ctrl  {
                 });
                 break;
             case "profil":
+                console.log("in case profil");
                 this.enfants.forEach(e => {
-                    if(e instanceof CtrlProfil) return this.enfants[e];
+                    if(e instanceof CtrlProfil) {
+                        console.log(e);
+                        return e;
+                    }
                     else return -1;
                 });
                 break;
             default:
-                console.log("in def for accueil");
                 this.enfants.forEach(e => {
                     if(e instanceof CtrlProfil) {
-                        console.log(this.enfants[e]);
                         return this.enfants[e];}
                     else return -1;
                 });

@@ -1,12 +1,20 @@
 class Grille{
-    constructor() {
+    /**
+     * @param demineur boolean, true = demineur, false = 2048
+     */
+    constructor(demineur) {
+        this.demineur = demineur;
     }
 
-    drawGrille(demineur){
+    /**
+     * construit grille en fonction du boolean
+     * @param niveau
+     */
+    drawGrille(niveau){
         let div = document.createElement('div');
         div.id = "canvas";
-        if (demineur){
-            this.selectLevel(div);
+        if (this.demineur){
+            this.drawGrilleDem(niveau, div);
         }
 
         else {
@@ -39,61 +47,11 @@ class Grille{
 
     }
 
-    selectLevel(div){
-        div.style.cssText = "position:absolute; top:300px; left:535px; text-align:center; border-style:solid"
-        document.body.appendChild(div);
-        let h1 = document.createElement('h2');
-        h1.innerHTML="choisissez votre niveau";
-        h1.style.cssText = "text-align:center; margin:auto;";
-        div.appendChild(h1);
-        let niv1 = document.createElement('button');
-        niv1.innerHTML = "débutant";
-        niv1.id = "1";
-        niv1.classList.add('niveau');
-        /*let p = document.createElement('p');
-        p.innerHTML = "débutant";
-        p.style.cssText = ""
-        niv1.appendChild(p);*/
-        niv1.onclick = () =>{
-            this.removeButtons(div, niv1, niv2, niv3, h1);
-            this.drawGrilleDem(1, div);
-        };
-        div.appendChild(niv1);
-
-        let niv2 = document.createElement('button');
-        niv2.innerHTML = "moyen";
-        niv2.id = "2";
-        niv2.classList.add('niveau');
-        niv2.onclick = () =>{
-            this.removeButtons(div, niv1, niv2, niv3, h1);
-            this.drawGrilleDem(2, div);
-        };
-        div.appendChild(niv2);
-
-        let niv3 = document.createElement('button');
-        niv3.innerHTML = "expert";
-        niv3.id = "3";
-        niv3.classList.add('niveau');
-        niv3.onclick = () =>{
-            this.removeButtons(div, niv1, niv2, niv3, h1);
-            this.drawGrilleDem(3, div);
-        };
-        div.appendChild(niv3);
-
-    }
-
-    removeButtons(div, n1, n2, n3, h1){
-        div.style.removeProperty("position");
-        div.style.removeProperty("top");
-        div.style.removeProperty("left");
-        div.style.removeProperty("text-align");
-
-        div.removeChild(n1);
-        div.removeChild(n2);
-        div.removeChild(n3);
-        div.removeChild(h1);
-    }
-
+    /**
+     * dessine la grille du demineur en fonction du niveau
+     * @param niveau
+     * @param div
+     */
     drawGrilleDem(niveau, div){
         switch(niveau) {
             case(1):
