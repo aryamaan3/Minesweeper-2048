@@ -29,23 +29,24 @@ class AbsNav extends Abs {
         switch (message){
             case MESSAGE.INIT ://Même chose que accueil
             case MESSAGE.ACCUEIL:
-                //TODO => load acceuil
+                // On envoie un message à la classe Accueil pour qu'elle charge sa page
+                this.ctrl.getMessageFromAbstraction(MESSAGE.CHANGEPAGE, MESSAGE.ACCUEIL);
                 this.PAGE = "ACCUEIL";
                 // On highlight l'onglet qui a été cliqué
                 this.ctrl.getMessageFromAbstraction(MESSAGE.HIGHLIGHT, "Accueil");
                 break;
             case MESSAGE["2048"]:
-                //TODO => load 2048
+                this.ctrl.getMessageFromAbstraction(MESSAGE.CHANGEPAGE, MESSAGE["2048"]);
                 this.PAGE = "2048";
                 this.ctrl.getMessageFromAbstraction(MESSAGE.HIGHLIGHT, "2048");
                 break;
             case MESSAGE.DEMINEUR:
-                //TODO => load acceuil
+                this.ctrl.getMessageFromAbstraction(MESSAGE.CHANGEPAGE, MESSAGE.DEMINEUR);
                 this.PAGE = "DEMINEUR";
                 this.ctrl.getMessageFromAbstraction(MESSAGE.HIGHLIGHT, "Demineur");
                 break;
             case MESSAGE.PROFIL:
-                //TODO => load acceuil
+                this.ctrl.getMessageFromAbstraction(MESSAGE.CHANGEPAGE, MESSAGE.PROFIL);
                 this.PAGE = "PROFIL";
                 this.ctrl.getMessageFromAbstraction(MESSAGE.HIGHLIGHT, "Profil");
                 break;
@@ -163,6 +164,9 @@ class CtrlNav extends Ctrl{
         switch (message){
             case MESSAGE.HIGHLIGHT:
                 this.pres.getMessage(message, piecejointe);
+                break;
+            case MESSAGE.CHANGEPAGE:
+                this.parent.recoitMessageDUnEnfant(MESSAGE.CHANGEPAGE, piecejointe);
                 break;
         }
     }
