@@ -39,4 +39,12 @@ class CtrlProfil extends Ctrl{
             this.abs.getMessage(message)
         }
     }
+
+    getMessageFromAbstraction(message){
+        //TODO
+    }
+
+    getMessageFromPresentation(message){
+        //TODO
+    }
 }

@@ -46,4 +46,12 @@ class CtrlDem extends Ctrl{
             //this.pres.drawGrille();
         }
     }
+
+    getMessageFromAbstraction(message){
+        //TODO
+    }
+
+    getMessageFromPresentation(message){
+        //TODO
+    }
 }

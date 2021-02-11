@@ -6,6 +6,7 @@ class MESSAGE {
     static 2048 = "2048";
     static PROFIL = "profil";
     static AFFICHETOI = "affichetoi";
+    static HIGHLIGHT = "highlight";
 }
 
 class Abs {

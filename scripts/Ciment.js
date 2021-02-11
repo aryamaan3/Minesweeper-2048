@@ -33,7 +33,7 @@ class CtrlCiment extends Ctrl{
     }
 
     recoitMessageDUnEnfant(message, piecejointe, ctrl) {
-        if (message == MESSAGE.CHANGEPAGE) {
+        if (message === MESSAGE.CHANGEPAGE) {
             console.log();
         }
         // ça c'était dans le code de Monsieur RENEVIER

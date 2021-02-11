@@ -40,4 +40,12 @@ class Ctrl2048 extends Ctrl{
             this.abs.getMessage(message)
         }
     }
+
+    getMessageFromAbstraction(message){
+        //TODO
+    }
+
+    getMessageFromPresentation(message){
+        //TODO
+    }
 }
