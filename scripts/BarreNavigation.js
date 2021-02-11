@@ -105,7 +105,7 @@ class PresNav extends Pres{
         boutonAcceuil.setAttribute("id","ongletAccueil");
         boutonAcceuil.innerHTML = "<p>ACCUEIL</p>";
         boutonAcceuil.addEventListener("click", ()=> {
-            let div = document.getElementById('canvas');
+            let div = document.getElementById('container');
             if(div) {document.body.removeChild(div);} //vide la page s'il y a quelque chose
             this.ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE.ACCUEIL);
         })
@@ -115,7 +115,7 @@ class PresNav extends Pres{
         boutonDemineur.setAttribute("id", "ongletDemineur");
         boutonDemineur.innerHTML = "<p>DEMINEUR</p>";
         boutonDemineur.addEventListener("click", () => {
-            let div = document.getElementById('canvas');
+            let div = document.getElementById('container');
             if(div) {document.body.removeChild(div);} //vide la page s'il y a quelque chose
             this.ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE.DEMINEUR);
         })
@@ -125,7 +125,7 @@ class PresNav extends Pres{
         bouton2048.setAttribute("id", "onglet2048");
         bouton2048.innerHTML = "<p>2048</p>";
         bouton2048.addEventListener("click", () => {
-            let div = document.getElementById('canvas');
+            let div = document.getElementById('container');
             if(div) {document.body.removeChild(div);} //vide la page s'il y a quelque chose
             this.ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE.INIT2048);
         })
@@ -135,7 +135,7 @@ class PresNav extends Pres{
         boutonProfil.setAttribute("id", "ongletProfil");
         boutonProfil.innerHTML = "<p>PROFIL</p>";
         boutonProfil.addEventListener("click", () => {
-            let div = document.getElementById('canvas');
+            let div = document.getElementById('container');
             if(div) {document.body.removeChild(div);} //vide la page s'il y a quelque chose
             this.ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE.PROFIL);
         })

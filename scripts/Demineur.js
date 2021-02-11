@@ -55,7 +55,7 @@ class PresDem extends Pres{
      */
     selectLevel(){
         let div = document.createElement('div');
-        div.id = "canvas";
+        div.id = "container";
         div.style.cssText = "position:absolute; top:300px; left:535px; text-align:center; border-style:solid"
         document.body.appendChild(div);
         //on crée le div

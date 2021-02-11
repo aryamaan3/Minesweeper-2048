@@ -1,9 +1,5 @@
 class Grille{
-    /**
-     * @param demineur boolean, true = demineur, false = 2048
-     */
-    constructor(demineur) {
-        this.demineur = demineur;
+    constructor() {
     }
 
     /**
@@ -11,8 +7,14 @@ class Grille{
      * @param niveau
      */
     drawGrille(niveau){
+        /*
+        let container = document.createElement('div');
+        container.id = "container";
+        document.body.appendChild(container);*/
+
         let div = document.createElement('div');
-        div.id = "canvas";
+        div.id = "container";
+
         if (this.demineur){
             this.drawGrilleDem(niveau, div);
         }
@@ -114,7 +116,7 @@ class Grille{
             case(3):
 
                 div.style.cssText = "position:absolute; top:300px; left:270px; text-align:center";
-                document.body.appendChild(div);
+                div.appendChild(div);
 
                 let can = document.createElement('canvas');
                 let contx = can.getContext("2d");
