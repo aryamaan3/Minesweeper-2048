@@ -90,6 +90,57 @@ header{
     flex-direction: column;
 }
 
+#container{
+    margin-top: 150px;
+    margin-right:auto;
+    margin-left:auto;
+    width: 500px;
+    height: 500px;
+    /*border: 0.1em solid black;*/
+}
+
+#grille2048 {
+    background-color: burlywood;
+    border-radius:15px;
+    padding: 10px;
+}
+
+#grille2048 .ligne{
+    display: grid;
+
+    /* Repris d'un TP de M. BUFFA
+        1fr signifie "une fraction de la largeur de la grille", le repeat dit "9 cases"
+       égales à une fraction (1/9ème) Voir https://css-tricks.com/snippets/css/complete-guide-grid/ */
+    grid-template-columns: repeat(4, 1fr);
+    /* Pour contraindre la hauteur des lignes */
+    grid-auto-rows: 125px; /* Taille total de la grille (500) divisé par le nombre de ligne (4)*/
+
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    border: 10px;
+    margin-bottom: 10px;
+}
+#grille2048 .ligne:last-child{
+    margin-bottom: 0px;
+}
+
+#grille2048 .ligne .case{
+    background-color: antiquewhite;
+}
+
+#case0-0 {
+    border-top-left-radius: 15px;
+}
+
+#case0-3 {
+    border-top-right-radius: 15px;
+}
+#case3-0 {
+    border-bottom-left-radius: 15px;
+}
+#case3-3 {
+    border-bottom-right-radius: 15px;
+}
 .canvas {
     border: 10px solid rgb(153, 153, 153);
     position: absolute;

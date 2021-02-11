@@ -28,12 +28,14 @@ class Grille2048{
         for(let l = 0; l <this.nbLignes; l++){
 
             let ligne = document.createElement("div");
-            ligne.id = l + "";
+            ligne.id = "ligne"+l + "";
+            ligne.className = "ligne";
             //console.log("On append une ligne à grille");
             for(let c = 0; c <this.nbColonnes; c++){
 
                 let div = document.createElement("div");
-                div.id = l +"-"+ c;
+                div.id = "case"+ l +"-"+ c;
+                div.className = "case";
                 ligne.appendChild(div);
 
             }
