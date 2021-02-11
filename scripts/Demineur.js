@@ -1,15 +1,34 @@
 class AbsDem extends Abs{
     constructor() {
         super();
+        this.tabTuiles = [];
+        this.longeur = 9;
+        this.largeur = 9;
     }
 
     /**
-     *
-     * @param niveau
+     * assigne le bon dim selon niveau et appel genTab
+     * @param niveau choisi
      */
     init(niveau){
-        console.log(niveau);
-        //TODO
+        switch(niveau){
+            case(1):
+                this.genTab();
+                break;
+
+            case(2):
+                this.longeur = 16;
+                this.largeur = 16;
+                this.genTab();
+                break;
+
+            case(3):
+                this.longeur = 30;
+                this.largeur = 16;
+                this.genTab();
+                break;
+
+        }
     }
 
     getMessage(message, pieceJointe){
@@ -19,10 +38,37 @@ class AbsDem extends Abs{
             this.init(pieceJointe);
         }
 
+        else if (message === MESSAGE.PREMIERCLICK){
+            this.genMines();
+        }
+
         else {
             result = super.recoitMessage(message, pieceJointe);
         }
         return result;
+    }
+
+    /**
+     * genere le tabTuiles
+     * tous les tuiles sont cachés au debut et il n'y a pas de mines
+     * les mines se genre apres le premier click
+     */
+    genTab(){
+        for (let i = 0; i < this.largeur; i++){ //ligne
+            this.tabTuiles[i] = []; //crée le deuxieme dim du tab
+            for (let j = 0; j < this.longeur; j++){ //colonne
+                this.tabTuiles[i][j] = new TuileAbs(i, j);
+            }
+        }
+        console.log(this.tabTuiles);
+    }
+
+    /**
+     * genere au hasard les mines en fonction du niveau
+     */
+    genMines(){
+        console.log("genMines");
+        //TODO
     }
 
 
@@ -131,6 +177,15 @@ class PresDem extends Pres{
         document.body.removeChild(div)
     }
 
+    /**
+     * message venant de l'evenement click
+     * envoi message au controleur
+     * @param message
+     */
+    click(message){
+        this.ctrl.getMessageFromPresentation(message);
+    }
+
 }
 
 class CtrlDem extends Ctrl{
@@ -166,6 +221,10 @@ class CtrlDem extends Ctrl{
                     break;
 
             }
+        }
+
+        else if (message === MESSAGE.PREMIERCLICK){
+            this.abs.getMessage(message);
         }
     }
 }

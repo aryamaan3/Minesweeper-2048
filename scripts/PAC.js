@@ -8,6 +8,8 @@ class MESSAGE {
     static AFFICHETOI = "affichetoi";
     static HIGHLIGHT = "highlight";
     static NIVEAU = "niveau";
+    static PREMIERCLICK = "premierrClick"
+    static CLICK = "click";
 }
 
 class Abs {
