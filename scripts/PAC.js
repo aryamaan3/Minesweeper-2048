@@ -3,7 +3,7 @@ class MESSAGE {
     static CHANGEPAGE = "changementpage";
     static ACCUEIL = "accueil";
     static DEMINEUR = "demineur";
-    static 2048 = "2048";
+    static INIT2048 = "2048";
     static PROFIL = "profil";
     static AFFICHETOI = "affichetoi";
     static HIGHLIGHT = "highlight";
@@ -71,6 +71,7 @@ class Ctrl  {
     }
 
     getEnfant(typeEnfant) {
+        console.log(typeEnfant);
         switch (typeEnfant) {
             case "barrenav":
                 this.enfants.forEach(e => {
@@ -99,7 +100,14 @@ class Ctrl  {
                 });
                 break;
             default:
-                return -1;
+                console.log("in def for accueil");
+                this.enfants.forEach(e => {
+                    if(e instanceof CtrlProfil) {
+                        console.log(this.enfants[e]);
+                        return this.enfants[e];}
+                    else return -1;
+                });
+                break;
         }
 
     }

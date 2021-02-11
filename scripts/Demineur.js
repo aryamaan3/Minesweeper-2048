@@ -26,11 +26,17 @@ class PresDem extends Pres{
     constructor() {
         super();
         this.grille = new Grille();
-        this.grille.drawGrille(true, 3);
+        //this.initPage();
     }
 
     getMessage(message, pieceJointe){
         //TODO
+    }
+
+    initPage(){
+        let header = document.getElementById("title");
+        header.innerHTML = "Démineur";
+        this.grille.drawGrille(true);
     }
 
 }
@@ -41,9 +47,10 @@ class CtrlDem extends Ctrl{
     }
 
     getMessageFromParent(message){
-        if (message === MESSAGE.INIT){
+        if (message === MESSAGE.DEMINEUR){
+            console.log("in INIT");
             this.abs.getMessage(message)
-            //this.pres.drawGrille();
+            this.pres.initPage();
         }
     }
 
