@@ -22,7 +22,7 @@ class Abs2048 extends Abs{
 class Pres2048 extends Pres{
     constructor() {
         super();
-        this.grille = new Grille();
+        this.grille = new Grille(false);
         //this.initPage()
     }
 
@@ -33,7 +33,7 @@ class Pres2048 extends Pres{
     initPage(){
         let header = document.getElementById('title');
         header.innerHTML = "2048";
-        this.grille.drawGrille(false);
+        this.grille.drawGrille();
     }
 }
 
@@ -45,7 +45,8 @@ class Ctrl2048 extends Ctrl{
 
     getMessageFromParent(message){
         if (message === MESSAGE.INIT2048){
-            this.abs.getMessage(message)
+            //this.abs.getMessage(message)
+            this.pres.initPage();
         }
     }
 
