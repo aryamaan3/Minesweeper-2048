@@ -33,22 +33,21 @@ class AbsNav extends Abs {
                 this.PAGE = "ACCUEIL";
                 // On highlight l'onglet qui a été cliqué
                 this.ctrl.getMessageFromAbstraction(MESSAGE.HIGHLIGHT, "Accueil");
-                //this.highlightOnglet("Accueil");
                 break;
             case MESSAGE["2048"]:
                 //TODO => load 2048
                 this.PAGE = "2048";
-                this.highlightOnglet("2048");
+                this.ctrl.getMessageFromAbstraction(MESSAGE.HIGHLIGHT, "2048");
                 break;
             case MESSAGE.DEMINEUR:
                 //TODO => load acceuil
                 this.PAGE = "DEMINEUR";
-                this.highlightOnglet("Demineur");
+                this.ctrl.getMessageFromAbstraction(MESSAGE.HIGHLIGHT, "Demineur");
                 break;
             case MESSAGE.PROFIL:
                 //TODO => load acceuil
                 this.PAGE = "PROFIL";
-                this.highlightOnglet("Profil");
+                this.ctrl.getMessageFromAbstraction(MESSAGE.HIGHLIGHT, "Profil");
                 break;
         }
     }
@@ -61,6 +60,8 @@ class PresNav extends Pres{
         this.div = document.getElementById('barrenav');
         // Array qui contient les éléments de cette barre de nav
         this.elements = [];
+
+        this.currentElement = null;
     }
 
     getMessage(message, pieceJointe){
@@ -79,20 +80,22 @@ class PresNav extends Pres{
 
     highlightOnglet(page) {
         // Modifie le CSS pour mettre en valeur l'onglet actuel
-        // l'id html de l'element est composé comme ça : ongletAcceuil, ...
-        let id = "onglet" + page;
-        let element = document.getElementById(id);
-        console.log("Voici l'element à highlight : "+element);
 
         // Effacer l'ancien highlight
-        //TODO
-        let ancien = document.getElementsByClassName("highlight");
-        //ancien.className = "";
-        ancien.style.cssText = "";
+        if(this.currentElement){ // Si il en existe un
+            //ancien.className = "";
+            this.currentElement.style.cssText = null;
+        }
+
+        // l'id html de l'element est composé comme ça : ongletAcceuil, ...
+        let id = "onglet" + page;
+        this.currentElement = document.getElementById(id);
+        //console.log("Voici l'element à highlight : "+element);
 
         // Placer le nouveau highlight
-        //element.className = "current-tab";
-        element.style.cssText = "background-color: burlywood";
+        this.currentElement.className = "current-tab";
+        // Ligne précédente n'a aucun effet : son background n'est pas prioritaire
+        this.currentElement.style.cssText = "background-color: burlywood";
     }
 
     afficheNav() {
@@ -120,7 +123,7 @@ class PresNav extends Pres{
         bouton2048.innerHTML = "<p>2048</p>";
         bouton2048.addEventListener("click", () => {
             console.log("direction 2048");
-            this.Ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE["2048"]);
+            this.ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE["2048"]);
         })
         this.elements.push(bouton2048);
 
@@ -129,7 +132,7 @@ class PresNav extends Pres{
         boutonProfil.innerHTML = "<p>PROFIL</p>";
         boutonProfil.addEventListener("click", () => {
             console.log("direction le profil");
-            this.Ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE.PROFIL);
+            this.ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE.PROFIL);
         })
         this.elements.push(boutonProfil);
 
