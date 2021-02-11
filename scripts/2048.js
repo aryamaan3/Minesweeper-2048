@@ -24,7 +24,7 @@ class Pres2048 extends Pres{
         super();
         //this.grille = new Grille(false);
         this.grille = new Grille2048();
-        this.initPage();
+        //this.initPage();
     }
 
     getMessage(message, pieceJointe){

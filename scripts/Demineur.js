@@ -32,13 +32,21 @@ class PresDem extends Pres{
 
     constructor() {
         super();
-
+        this.ctx = undefined;
         this.grille = new Grille(true);
         //this.initPage();
     }
 
     getMessage(message, pieceJointe){
         //TODO
+    }
+
+    getCtx(){
+        return this.ctx;
+    }
+
+    setCtx(ctx){
+        this.ctx = ctx;
     }
 
     /**
@@ -56,7 +64,7 @@ class PresDem extends Pres{
     selectLevel(){
         let div = document.createElement('div');
         div.id = "container";
-        div.style.cssText = "position:absolute; top:300px; left:535px; text-align:center; border-style:solid"
+        div.classList.add('choose');
         document.body.appendChild(div);
         //on crée le div
 
@@ -65,6 +73,8 @@ class PresDem extends Pres{
         h1.style.cssText = "text-align:center; margin:auto;";
         div.appendChild(h1);
 
+        div.appendChild(document.createElement('br')); // saut de ligne
+
         let niv1 = document.createElement('button');
         niv1.innerHTML = "débutant";
         niv1.id = "1";
@@ -72,7 +82,7 @@ class PresDem extends Pres{
         niv1.onclick = () =>{
             this.removeButtons(div, niv1, niv2, niv3, h1); //enleve tous les boutons afin de laisser la place à la grille
             this.ctrl.getMessageFromPresentation(MESSAGE.NIVEAU, 1); //communique le niveau au controleur
-            this.grille.drawGrille(1); //dessine la grille
+            this.grille.drawGrille(1, this); //dessine la grille
         };
         div.appendChild(niv1);
 
@@ -83,7 +93,7 @@ class PresDem extends Pres{
         niv2.onclick = () =>{
             this.removeButtons(div, niv1, niv2, niv3, h1);
             this.ctrl.getMessageFromPresentation(MESSAGE.NIVEAU, 2);
-            this.grille.drawGrille(2);
+            this.grille.drawGrille(2, this);
         };
         div.appendChild(niv2);
 
@@ -94,7 +104,7 @@ class PresDem extends Pres{
         niv3.onclick = () =>{
             this.removeButtons(div, niv1, niv2, niv3, h1);
             this.ctrl.getMessageFromPresentation(MESSAGE.NIVEAU, 3);
-            this.grille.drawGrille(3);
+            this.grille.drawGrille(3, this);
         };
         div.appendChild(niv3);
 

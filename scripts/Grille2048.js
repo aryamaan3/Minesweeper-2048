@@ -29,7 +29,7 @@ class Grille2048{
 
             let ligne = document.createElement("div");
             ligne.id = l + "";
-            console.log("On append une ligne à grille");
+            //console.log("On append une ligne à grille");
             for(let c = 0; c <this.nbColonnes; c++){
 
                 let div = document.createElement("div");

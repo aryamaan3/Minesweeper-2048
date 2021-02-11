@@ -62,29 +62,59 @@ header{
 }
 
 .niveau{
-    display:flex;
     padding:0.35em 1.2em;
-    border:0.1em solid #000000;
-    margin:10px;
+    border:0.1em solid antiquewhite;
     border-radius:15px;
     box-sizing: border-box;
     text-decoration:none;
     font-weight:500;
-    color:#FFFFFF;
+    color: black;
     transition: all 0.2s;
-    background-color: #000000;
-    width: 100px;
+    background-color: antiquewhite;
     line-height: 35px;
     font-size: 15px;
-    display: table-cell;
     vertical-align: middle;
+    width: 100px;
+    margin: 10px auto;
+    display: block;
 
-}
-.niveau p{
-    text-align: center;
 }
 .niveau:hover{
     color:#000000;
-    background-color:#FFFFFF;
+    background-color:burlywood;
 }
 
+.container{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.canvas {
+    border: 10px solid rgb(153, 153, 153);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+}
+
+.canvas2 {
+    border: 10px solid rgb(153, 153, 153);
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, 30%);
+}
+
+.rules {
+    text-align: center;
+    width: 300px;
+}
+
+.choose {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    top: 200px;
+}
