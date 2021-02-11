@@ -62,3 +62,27 @@ header{
     background-color: burlywood;
 }
 
+
+.niveau{
+    display:flex;
+    padding:0.35em 1.2em;
+    border:0.1em solid #000000;
+    margin:25px;
+    border-radius:15px;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-weight:500;
+    color:#FFFFFF;
+    text-align:center;
+    transition: all 0.2s;
+    background-color: #000000;
+    width: 100px;
+    line-height: 35px;
+    font-size: 15px;
+
+}
+.niveau:hover{
+    color:#000000;
+    background-color:#FFFFFF;
+}
+
