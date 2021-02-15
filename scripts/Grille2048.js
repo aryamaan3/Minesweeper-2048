@@ -25,6 +25,7 @@ class Grille2048{
         this.creationMatrice();
 
         this.placerNouvelleTuileSurGrille();
+        this.placerNouvelleTuileSurGrille();
     }
 
     /**
@@ -51,22 +52,29 @@ class Grille2048{
 
     creationMatrice(){
         for(let l = 0; l < this.nbLignes; l++){
-            this.matrice[l] =[];
+            this.matrice[l] =[4];
         }
     }
+
     /**
      * Fonction qui sera appelée deux fois par tour et qui place aléatoirement deux
      * nouvelle tuile (de valeur 2 ou 4) sur la grille
      */
     placerNouvelleTuileSurGrille(){
-        // On prends une case au hazard, sans se soucier du fait qu'elle soit occupée ou non pour l'instant
-        // format de l'id d'une case : case{ligne}-{colonne}
-        let ligne = Math.round(Math.random()*3);
-        let colonne = Math.round(Math.random()*3);
+        let ligne;
+        let colonne;
+
+        // On vérifie que la case selectionnée au hasard est bien vide
+        do {
+            // format de l'id d'une case : case{ligne}-{colonne}
+            ligne = Math.round(Math.random() * 3);
+            colonne = Math.round(Math.random() * 3);
+        }while(this.verifieEmplacement(ligne, colonne))
 
         // On crée un nouveau div qui contiendra notre objet tuile
         let div = document.createElement("div");
         div.className = "tuile";
+        div.innerHTML="2";
 
         let tuile = new Tuile2048();
         tuile.setLigne(ligne);
@@ -81,7 +89,18 @@ class Grille2048{
         let Case = document.getElementById("case"+ligne+"-"+colonne);
 
         console.log(Case);
+        console.log(this.matrice);
         Case.appendChild(div);
+    }
+
+    /**
+     * Méthode pour vérifier qu'une case est bien disponible pour y disposer une tuilereturn true si c'est le cas
+     * @param ligne
+     * @param colonne
+     * @returns {boolean} True si l'emplacement est valide
+     */
+    verifieEmplacement(ligne, colonne){
+        if((this.matrice[ligne][colonne] instanceof Tuile2048)) {return true}
     }
 
 }
