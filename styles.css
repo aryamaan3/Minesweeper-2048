@@ -113,7 +113,7 @@ header{
        égales à une fraction (1/9ème) Voir https://css-tricks.com/snippets/css/complete-guide-grid/ */
     grid-template-columns: repeat(4, 1fr);
     /* Pour contraindre la hauteur des lignes */
-    grid-auto-rows: 125px; /* Taille total de la grille (500) divisé par le nombre de ligne (4)*/
+    grid-auto-rows: 112.5px; /* Taille total de la grille (500) divisé par le nombre de ligne (4)*/
 
     grid-column-gap: 10px;
     grid-row-gap: 10px;
@@ -168,4 +168,10 @@ header{
     flex-direction: column;
     text-align: center;
     top: 200px;
+}
+
+.tuile{
+    background-color: aqua;
+    width: 100px;
+    height: 100px;
 }

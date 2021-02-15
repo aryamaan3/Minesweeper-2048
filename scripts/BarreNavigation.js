@@ -19,6 +19,7 @@ class AbsNav extends Abs {
             this.choixPage(pieceJointe);
         }
         else {
+            // Cette ligne ? Crée une erreur pendant debug
             result = super.recoitMessage(message, pieceJointe);
         }
         return result;
@@ -126,7 +127,9 @@ class PresNav extends Pres{
         bouton2048.innerHTML = "<p>2048</p>";
         bouton2048.addEventListener("click", () => {
             let div = document.getElementById('container');
-            if(div) {document.body.removeChild(div);} //vide la page s'il y a quelque chose
+            if(div) {
+                document.body.removeChild(div);
+            } //vide la page s'il y a quelque chose
             this.ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE.INIT2048);
         })
         this.elements.push(bouton2048);
