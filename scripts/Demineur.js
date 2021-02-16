@@ -23,8 +23,8 @@ class AbsDem extends Abs{
                 break;
 
             case(3):
-                this.longeur = 30;
-                this.largeur = 16;
+                this.longeur = 16;
+                this.largeur = 30;
                 this.genTab();
                 break;
 
@@ -39,7 +39,15 @@ class AbsDem extends Abs{
         }
 
         else if (message === MESSAGE.PREMIERCLICK){
-            this.genMines();
+            if (this.largeur === 9){
+                this.genMines(9);
+            }
+            else if (this.largeur === 16){
+                this.genMines(40);
+            }
+            else{
+                this.genMines(99);
+            }
         }
 
         else {
@@ -65,10 +73,38 @@ class AbsDem extends Abs{
 
     /**
      * genere au hasard les mines en fonction du niveau
+     * @param mines : number de mines à generer
      */
-    genMines(){
-        console.log("genMines");
-        //TODO
+    genMines(mines){
+        let  i, x, y;
+
+        x = Math.floor(Math.random() *this.largeur);
+        y = Math.floor(Math.random() *this.longeur);
+
+        for (i = 0; i < mines; i++){
+            if (this.tabTuiles[x][y].isMine()){
+                x = Math.floor(Math.random() *this.largeur);
+                y = Math.floor(Math.random() *this.longeur);
+            }
+            this.tabTuiles[x][y].setMine();
+        }
+        console.log(this.tabTuiles);
+        this.countMine();
+    }
+
+    /**
+     * compte le nb de mines dans le tab
+     */
+    countMine(){
+        let acc = 0;
+        for (let i = 0; i < this.largeur; i++){
+            for (let j = 0; j < this.longeur; j++){
+                if (this.tabTuiles[i][j].isMine()){
+                    acc ++;
+                }
+            }
+        }
+        console.log(acc);
     }
 
 

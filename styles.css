@@ -121,7 +121,7 @@ header{
     margin-bottom: 10px;
 }
 #grille2048 .ligne:last-child{
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 #grille2048 .ligne .case{
@@ -143,6 +143,7 @@ header{
 }
 .canvas {
     border: 10px solid rgb(153, 153, 153);
+    border-radius: 15px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -151,6 +152,7 @@ header{
 
 .canvas2 {
     border: 10px solid rgb(153, 153, 153);
+    border-radius: 15px;
     position: absolute;
     top: 30%;
     left: 50%;
