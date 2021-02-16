@@ -3,16 +3,31 @@ class Abs2048 extends Abs{
         super();
     }
 
+    /**
+     * Est appelée par Ciment au moment d'un changement de page
+     */
     init(){
         this.ctrl.getMessageFromAbstraction(MESSAGE.AFFICHETOI);
 
+        this.listener = e => { this.keydownHandler(e) }
         // On ajoute le listener pour les flèches directionnelles
         document.addEventListener(
             "keydown",
-            this.keydownHandler
+            /* Ici, je ne peux pas faire this.keydownHandler car
+            * JS fait une copie de cette fonction et lors de l'exécution
+            * les appels en "this." ne réfèrent la classe actuelle (Abs2048)
+            * mais la fonction !
+            */
+            this.listener
             )
     }
 
+    /**
+     * Permet à Abs2048 de recevoir un message de la part de son contrôleur
+     * @param message
+     * @param pieceJointe
+     * @returns {string}
+     */
     getMessage(message, pieceJointe){
         let result = "";
         switch (message){
@@ -28,6 +43,10 @@ class Abs2048 extends Abs{
         return result;
     }
 
+    /**
+     * Handler du signal "keydown" lorsque la page de 2048 est load
+     * @param event, donné par le addEventListener en paramètre à cette callback function
+     */
     keydownHandler(event){
         switch (event.key) {
             case MESSAGE.UP:
@@ -49,9 +68,11 @@ class Abs2048 extends Abs{
         }
     }
 
+    /**
+     * Et appelé par ciment lors du changement de page à l'aide du message REMOVELISTENER
+     */
     removeListener(){
-        console.log("Supprimer listener 2048");
-        document.removeEventListener("keydown", this.keydownHandler);
+        document.removeEventListener("keydown", this.listener);
     }
 }
 
@@ -104,13 +125,13 @@ class Ctrl2048 extends Ctrl{
         }
     }
 
-    getMessageFromAbstraction(message, piecejointe){
+    getMessageFromAbstraction(message, pieceJointe){
         switch (message){
             case MESSAGE.AFFICHETOI:
                 this.pres.getMessage(message);
                 break;
             case MESSAGE.KEYPRESSED:
-                this.pres.getMessage(message, piecejointe);
+                this.pres.getMessage(message, pieceJointe);
                 break;
         }
     }
