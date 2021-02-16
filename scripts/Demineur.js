@@ -107,6 +107,7 @@ class AbsDem extends Abs{
         pos[1] = coordY;
 
         this.ctrl.getMessageFromAbstraction(MESSAGE.DECOUVRE, pos)
+        this.ctrl.getMessageFromAbstraction(MESSAGE.VICTOIRE);
     }
 
     /**
@@ -148,6 +149,10 @@ class PresDem extends Pres{
 
         else if (message === MESSAGE.DECOUVRE){
             this.grille.decouvreTuile(pieceJointe);
+        }
+
+        else if (message === MESSAGE.VICTOIRE){
+            this.victoire();
         }
     }
 
@@ -193,6 +198,7 @@ class PresDem extends Pres{
             this.removeButtons(div, niv1, niv2, niv3, h1); //enleve tous les boutons afin de laisser la place à la grille
             this.ctrl.getMessageFromPresentation(MESSAGE.NIVEAU, 1); //communique le niveau au controleur
             this.grille.drawGrille(1, this); //dessine la grille
+            this.setPremierClick();
         };
         div.appendChild(niv1);
 
@@ -204,6 +210,7 @@ class PresDem extends Pres{
             this.removeButtons(div, niv1, niv2, niv3, h1);
             this.ctrl.getMessageFromPresentation(MESSAGE.NIVEAU, 2);
             this.grille.drawGrille(2, this);
+            this.setPremierClick();
         };
         div.appendChild(niv2);
 
@@ -215,6 +222,7 @@ class PresDem extends Pres{
             this.removeButtons(div, niv1, niv2, niv3, h1);
             this.ctrl.getMessageFromPresentation(MESSAGE.NIVEAU, 3);
             this.grille.drawGrille(3, this);
+            this.setPremierClick();
         };
         div.appendChild(niv3);
 
@@ -258,6 +266,24 @@ class PresDem extends Pres{
         else {
             this.ctrl.getMessageFromPresentation(MESSAGE.CLICK, coord);
         }
+    }
+
+    setPremierClick(){
+        this.premierClick = true;
+    }
+
+    /**
+     * genere banner victoire
+     */
+    victoire(){
+        //TODO
+        // à ameilorer
+        this.ctx.fillStyle = "#FFF"
+        this.ctx.fillRect(0, 100, 300, 50);
+
+        this.ctx.fillStyle = "#000"
+        this.ctx.font = "20px 'San Francisco'";
+        this.ctx.fillText("Vous avez gagné", 10, 130);
     }
 
 }

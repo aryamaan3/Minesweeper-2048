@@ -16,7 +16,8 @@ class MESSAGE {
     static RIGHT = "ArrowRight";
     static LEFT = "ArrowLeft";
     static REMOVELISTENER = "removelistener";
-    static DECOUVRE ="decouvreTuile"
+    static DECOUVRE ="decouvreTuile";
+    static VICTOIRE = "victoire";
 }
 
 class Abs {
