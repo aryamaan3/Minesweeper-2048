@@ -1,6 +1,8 @@
 class Grille{
     constructor(demineur) {
         this.demineur = demineur;
+        this.tabTuile = [];
+        this.ctx;
     }
 
     /**
@@ -21,18 +23,22 @@ class Grille{
 
         let canvas = document.createElement('canvas');
         let ctx = canvas.getContext("2d");
+        this.ctx = ctx;
         presDem.setCtx(ctx);
         canvas.classList.add("canvas");
         canvas.id = "grilles";
 
-        let premierClick = true;
-        canvas.addEventListener("click",  () => {
-            if(premierClick){
-                presDem.click(MESSAGE.PREMIERCLICK); //gere le premier click
-                premierClick = false;
+        canvas.addEventListener("click",  (e) => {
+            // https://www.quirksmode.org/js/events_properties.html
+            let posx, posy;
+            if (e.offsetX) {
+                posx = e.offsetX;
+                posy = e.offsetY;
             }
-            presDem.click(MESSAGE.CLICK);
+            presDem.click(posx, posy);
         });
+
+        let longeur, largeur;
 
         //desinne grille en fonction du niveau selectionné
         switch(niveau) {
@@ -40,51 +46,49 @@ class Grille{
 
                 canvas.width = 9 * 30;
                 canvas.height = 9 * 30;
-                div.appendChild(canvas);
 
-                let long = 9;
-                let larg = 9;
+                longeur = 9;
+                largeur = 9;
 
-                for (let i = long - 1; i >= 0; i -= 1) {
-                    for (let j = larg - 1; j >= 0; j -= 1) {
-                        let tuile = new Tuile(i, j);
-                        tuile.draw(ctx);
-                    }
-                }
                 break;
 
             case(2):
                 canvas.width = 16 * 30;
                 canvas.height = 16 * 30;
-                div.appendChild(canvas);
 
-                let longeur = 16;
-                let largeur = 16;
+                longeur = 16;
+                largeur = 16;
 
-
-                for (let i = longeur - 1; i >= 0; i -= 1) {
-                    for (let j = largeur - 1; j >= 0; j -= 1) {
-                        let tuile = new Tuile(i, j);
-                        tuile.draw(ctx);
-                    }
-                }
                 break;
 
             case(3):
                 canvas.width = 30 * 30;
                 canvas.height = 16 * 30;
-                div.appendChild(canvas);
 
-                let len = 30;
-                let wid = 16;
+                longeur = 30;
+                largeur = 16;
 
-                for (let i = len - 1; i >= 0; i -= 1) {
-                    for (let j = wid - 1; j >= 0; j -= 1) {
-                        let tuile = new Tuile(i, j);
-                        tuile.draw(ctx);
-                    }
-                }
                 break;
         }
+        div.appendChild(canvas);
+
+        for (let i = longeur - 1; i >= 0; i -= 1) {
+            this.tabTuile[i] = [];
+            for (let j = largeur - 1; j >= 0; j -= 1) {
+                let tuile = new Tuile(i, j);
+                this.tabTuile[i][j] = tuile;
+                tuile.draw(ctx);
+            }
+        }
+    }
+
+    /**
+     * appel tuile pour decouvrir tuile
+     * @param pos : index de la tuile dans tab
+     */
+    decouvreTuile(pos){
+        let tuile = this.tabTuile[pos[0]][pos[1]]
+        tuile.setCache();
+        tuile.draw(this.ctx);
     }
 }

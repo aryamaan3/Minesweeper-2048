@@ -39,15 +39,23 @@ class AbsDem extends Abs{
         }
 
         else if (message === MESSAGE.PREMIERCLICK){
+            console.log("premier click called");
             if (this.largeur === 9){
-                this.genMines(9);
+                this.genMines(9, pieceJointe);
             }
             else if (this.largeur === 16){
-                this.genMines(40);
+                this.genMines(40, pieceJointe);
             }
             else{
-                this.genMines(99);
+                this.genMines(99, pieceJointe);
             }
+        }
+
+        else if (message === MESSAGE.CLICK){
+            console.log("click called");
+            let posx = Math.floor(pieceJointe[0] / 30); //on le convertis aux indices d'un tab
+            let posy = Math.floor(pieceJointe[1] / 30);
+            this.tuileClicked(posx, posy)
         }
 
         else {
@@ -68,28 +76,37 @@ class AbsDem extends Abs{
                 this.tabTuiles[i][j] = new TuileAbs(i, j);
             }
         }
-        console.log(this.tabTuiles);
     }
 
     /**
      * genere au hasard les mines en fonction du niveau
      * @param mines : number de mines à generer
+     * @param coord tab des coordonnées x et y du click souris sur le canvas
      */
-    genMines(mines){
+    genMines(mines, coord){
         let  i, x, y;
+        let coordX = Math.floor(coord[0] / 30); //on le convertis aux indices d'un tab
+        let coordY = Math.floor(coord[1] / 30);
 
         x = Math.floor(Math.random() *this.largeur);
         y = Math.floor(Math.random() *this.longeur);
 
         for (i = 0; i < mines; i++){
-            if (this.tabTuiles[x][y].isMine()){
+            while ((this.tabTuiles[x][y].isMine()) || (x === coordX && y === coordY)){
                 x = Math.floor(Math.random() *this.largeur);
                 y = Math.floor(Math.random() *this.longeur);
             }
             this.tabTuiles[x][y].setMine();
         }
-        console.log(this.tabTuiles);
-        this.countMine();
+        if (this.countMine() != mines){
+            console.log("erreur sur nb de mines genérés");
+        }
+
+        let pos = [];
+        pos[0] = coordX;
+        pos[1] = coordY;
+
+        this.ctrl.getMessageFromAbstraction(MESSAGE.DECOUVRE, pos)
     }
 
     /**
@@ -104,7 +121,11 @@ class AbsDem extends Abs{
                 }
             }
         }
-        console.log(acc);
+        return acc;
+    }
+
+    tuileClicked(posx, posy){
+        //TODO
     }
 
 
@@ -116,11 +137,18 @@ class PresDem extends Pres{
         super();
         this.ctx = undefined;
         this.grille = new Grille(true);
+        this.premierClick = true;
         //this.initPage();
     }
 
     getMessage(message, pieceJointe){
-        //TODO
+        if (message === MESSAGE.DEMINEUR){
+            this.initPage();
+        }
+
+        else if (message === MESSAGE.DECOUVRE){
+            this.grille.decouvreTuile(pieceJointe);
+        }
     }
 
     getCtx(){
@@ -216,10 +244,20 @@ class PresDem extends Pres{
     /**
      * message venant de l'evenement click
      * envoi message au controleur
-     * @param message
+     * @param coordX coordonnée x du placement du click souris
+     * @param coordY coordonnée y du placement du click souris
      */
-    click(message){
-        this.ctrl.getMessageFromPresentation(message);
+    click(coordX, coordY){
+        let coord = [];
+        coord[0] = coordX;
+        coord[1] = coordY;
+        if (this.premierClick){
+            this.ctrl.getMessageFromPresentation(MESSAGE.PREMIERCLICK, coord);
+            this.premierClick = false;
+        }
+        else {
+            this.ctrl.getMessageFromPresentation(MESSAGE.CLICK, coord);
+        }
     }
 
 }
@@ -233,34 +271,17 @@ class CtrlDem extends Ctrl{
         if (message === MESSAGE.DEMINEUR){
             //console.log("in INIT");
             //this.abs.getMessage(message)
-            this.pres.initPage();
+            this.pres.getMessage(message);
         }
     }
 
-    getMessageFromAbstraction(message){
-        //TODO
+    getMessageFromAbstraction(message, piecejointe){
+        //march pour decouvre
+        this.pres.getMessage(message, piecejointe);
     }
 
     getMessageFromPresentation(message, piecejointe){
-        if (message === MESSAGE.NIVEAU){
-            switch(piecejointe){
-                case(1):
-                    this.abs.getMessage(message, piecejointe);
-                    break;
-
-                case(2):
-                    this.abs.getMessage(message, piecejointe);
-                    break;
-
-                case(3):
-                    this.abs.getMessage(message, piecejointe);
-                    break;
-
-            }
-        }
-
-        else if (message === MESSAGE.PREMIERCLICK){
-            this.abs.getMessage(message);
-        }
+        //cela marche pour message : niveau, premierclick et click
+        this.abs.getMessage(message, piecejointe);
     }
 }
