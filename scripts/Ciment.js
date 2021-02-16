@@ -30,38 +30,44 @@ class CtrlCiment extends Ctrl{
      */
     init() {
         this.enfants.forEach(e => e.getMessageFromParent(MESSAGE.INIT));
+        this.header = document.getElementById('title');
+        this.j2048 = this.enfants[0];
+        this.demineur = this.enfants[1];
+        this.profil = this.enfants[2];
     }
 
     recoitMessageDUnEnfant(message, piecejointe, ctrl) {
         if (message === MESSAGE.CHANGEPAGE) {
             switch(piecejointe){
                 case(MESSAGE.ACCUEIL):
-                    let header = document.getElementById('title');
-                    header.innerHTML = "Site de jeux en ligne"
+                    this.header.innerHTML = "Site de jeux en ligne"
                     break;
 
                 case(MESSAGE.PROFIL):
                     /*let profil = this.getEnfant(piecejointe);
                     console.log("resultat de getEnfant(profil) = "+ profil);*/
-                    let profil = this.enfants[2];
-                    profil.getMessageFromParent(MESSAGE.PROFIL);
+                    this.profil.getMessageFromParent(MESSAGE.PROFIL);
                     //envoi au controleur de profil
                     break;
 
                 case(MESSAGE.DEMINEUR):
-                    let demineur = this.enfants[1];
-                    demineur.getMessageFromParent(MESSAGE.DEMINEUR);
+                    this.demineur.getMessageFromParent(MESSAGE.DEMINEUR);
                     //envoi au controleur de demineur
                     break;
 
                 case(MESSAGE.INIT2048):
-                    let jeu1 = this.enfants[0];
-                    jeu1.getMessageFromParent(MESSAGE.INIT2048);
+                    this.j2048.getMessageFromParent(MESSAGE.INIT2048);
                     //envoi au controleur de 2048
                     break;
 
 
             }
+        } else if (message === MESSAGE.REMOVELISTENER){
+            // On dit à tous le monde d'enlever ses listeners
+            //let j2048 = this.enfants[0];
+            this.j2048.getMessageFromParent(MESSAGE.REMOVELISTENER);
+            this.demineur.getMessageFromParent(MESSAGE.REMOVELISTENER);
+            this.profil.getMessageFromParent(MESSAGE.REMOVELISTENER);
         }
         // ça c'était dans le code de Monsieur RENEVIER
         else super.recoitMessageDUnEnfant(message, piecejointe);

@@ -106,8 +106,7 @@ class PresNav extends Pres{
         boutonAcceuil.setAttribute("id","ongletAccueil");
         boutonAcceuil.innerHTML = "<p>ACCUEIL</p>";
         boutonAcceuil.addEventListener("click", ()=> {
-            let div = document.getElementById('container');
-            if(div) {document.body.removeChild(div);} //vide la page s'il y a quelque chose
+            this.reinitialisationPage();
             this.ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE.ACCUEIL);
         })
         this.elements.push(boutonAcceuil);
@@ -116,8 +115,7 @@ class PresNav extends Pres{
         boutonDemineur.setAttribute("id", "ongletDemineur");
         boutonDemineur.innerHTML = "<p>DEMINEUR</p>";
         boutonDemineur.addEventListener("click", () => {
-            let div = document.getElementById('container');
-            if(div) {document.body.removeChild(div);} //vide la page s'il y a quelque chose
+            this.reinitialisationPage();
             this.ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE.DEMINEUR);
         })
         this.elements.push(boutonDemineur);
@@ -126,10 +124,7 @@ class PresNav extends Pres{
         bouton2048.setAttribute("id", "onglet2048");
         bouton2048.innerHTML = "<p>2048</p>";
         bouton2048.addEventListener("click", () => {
-            let div = document.getElementById('container');
-            if(div) {
-                document.body.removeChild(div);
-            } //vide la page s'il y a quelque chose
+            this.reinitialisationPage();
             this.ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE.INIT2048);
         })
         this.elements.push(bouton2048);
@@ -138,8 +133,7 @@ class PresNav extends Pres{
         boutonProfil.setAttribute("id", "ongletProfil");
         boutonProfil.innerHTML = "<p>PROFIL</p>";
         boutonProfil.addEventListener("click", () => {
-            let div = document.getElementById('container');
-            if(div) {document.body.removeChild(div);} //vide la page s'il y a quelque chose
+            this.reinitialisationPage();
             this.ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE.PROFIL);
         })
         this.elements.push(boutonProfil);
@@ -150,6 +144,20 @@ class PresNav extends Pres{
             //barre.innerHTML += elements[i];
             this.div.appendChild(this.elements[i]);
         }
+    }
+
+    /**
+     * Lorsqu'on change de page, on doit supprimer le container précédent mais aussi
+     * les listeners spécifiques au jeu
+     */
+    reinitialisationPage(){
+        let div = document.getElementById('container');
+        if(div) {
+            document.body.removeChild(div);
+        } //vide la page s'il y a quelque chose
+
+        // On dit à tous le monde de supprimer ses listeners
+        this.ctrl.getMessageFromPresentation(MESSAGE.REMOVELISTENER);
     }
 }
 
@@ -182,6 +190,9 @@ class CtrlNav extends Ctrl{
         switch (message){
             case MESSAGE.CHANGEPAGE:
                 this.abs.getMessage(MESSAGE.CHANGEPAGE, piecejointe);
+                break;
+            case MESSAGE.REMOVELISTENER:
+                this.parent.recoitMessageDUnEnfant(MESSAGE.REMOVELISTENER);
                 break;
         }
     }

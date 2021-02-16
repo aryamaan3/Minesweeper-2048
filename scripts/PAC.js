@@ -10,6 +10,12 @@ class MESSAGE {
     static NIVEAU = "niveau";
     static PREMIERCLICK = "premierrClick"
     static CLICK = "click";
+    static KEYPRESSED = "keypressed";
+    static UP = "ArrowUp";
+    static DOWN = "ArrowDown";
+    static RIGHT = "ArrowRight";
+    static LEFT = "ArrowLeft";
+    static REMOVELISTENER = "removelistener";
 }
 
 class Abs {
