@@ -8,7 +8,9 @@ class Grille2048{
         this.grille.id = "grille2048";
 
         // Cette matrice contiendra les tuiles
-        this.matrice = [];
+        //this.matrice = [];
+        // Liste non-ordonnée qui contient toute les tuiles présentes dans le jeu
+        this.listeTuile = [];
     }
 
     construction(){
@@ -21,8 +23,6 @@ class Grille2048{
 
         // On l'ajoute au html
         container.appendChild(this.grille);
-
-        this.creationMatrice();
 
         this.placerNouvelleTuileSurGrille();
         this.placerNouvelleTuileSurGrille();
@@ -51,13 +51,6 @@ class Grille2048{
         }
     }
 
-    creationMatrice(){
-        for(let l = 0; l < this.nbLignes; l++){
-            // Crée les 4 lignes
-            this.matrice[l] = [null, null, null, null];
-        }
-    }
-
     /**
      * Fonction qui sera appelée deux fois par tour et qui place aléatoirement deux
      * nouvelle tuile (de valeur 2 ou 4) sur la grille
@@ -77,16 +70,21 @@ class Grille2048{
         tuile.setLigne(ligne);
         tuile.setColonne(colonne);
         tuile.setValue(2);
-        // On ajoute cette tuile à notre matrice
-        this.matrice[ligne][colonne] = tuile;
+
+        // On ajoute cette tuile à notre liste
+        this.listeTuile.push(tuile);
     }
 
     miseAJourGrille(){
-        // On itère sur la matrice à la recherche de tuile
-        this.matrice.forEach(e => {
-            e.forEach(tuile => {
-                if(tuile instanceof Tuile2048){
-                    console.log("Tuile : ligne " + tuile.ligne+", colonne "+tuile.colonne);
+        // On efface tous les anciens div
+        let anciennesTuiles = document.querySelectorAll(".tuile");
+        anciennesTuiles.forEach((element, index, parent) => {
+            element.parentElement.removeChild(element);
+        })
+
+        // On itère sur la liste pour recreer les div
+            this.listeTuile.forEach(tuile => {
+                    //console.log("Tuile : ligne " + tuile.ligne+", colonne "+tuile.colonne);
 
                     // On crée un nouveau div qui contiendra notre objet tuile
                     let div = document.createElement("div");
@@ -100,27 +98,46 @@ class Grille2048{
                     //console.log(Case);
                     //console.log(this.matrice);
                     Case.appendChild(div);
-                }
-            })
         });
     }
 
-    /**
-     * Méthode pour vérifier qu'une case est bien disponible pour y disposer une tuilereturn true si c'est le cas
-     * @param ligne
-     * @param colonne
-     * @returns {boolean} True si l'emplacement est valide
-     */
-    verifieEmplacement(ligne, colonne){
-        if((this.matrice[ligne][colonne] instanceof Tuile2048)) {return true}
-    }
-
     nouveauTour(direction){
+        console.log("Nouveau tour");
         // Déplacement de toutes les tuiles dans la matrice
+        this.deplaceTuileDansMatrice(direction);
 
         // mise à jour de la grille
-
+        this.miseAJourGrille();
         // Création des nouvelles tuiles
 
+    }
+
+    deplaceTuileDansMatrice(direction) {
+
+        this.listeTuile.forEach(tuile => {
+
+                    switch (direction){
+                        case MESSAGE.RIGHT:
+                            // On les bouge dans l'array
+                            this.changeHorizontalPos(tuile, 3);
+                            // on change les propriétés de l'objet
+                            console.log(this.listeTuile);
+                            break;
+                    }
+                });
+    }
+
+    changeHorizontalPos(tuile, newPos){
+        console.log("Changement horizontal");
+        let oldPos = tuile.colonne;
+        tuile.setColonne(newPos);
+    }
+
+    verifieEmplacement(ligne, colonne) {
+        this.listeTuile.forEach(tuile => {
+            if(tuile.ligne == ligne && tuile.colonne == colonne){
+                return false;
+            }
+        })
     }
 }

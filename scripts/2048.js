@@ -104,6 +104,7 @@ class Pres2048 extends Pres{
 
     deplacement(direction){
         //TODO
+        this.grille.nouveauTour(direction);
     }
 
 }
