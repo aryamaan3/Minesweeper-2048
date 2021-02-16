@@ -3,7 +3,7 @@ class Grille2048{
         console.log("nouvelle grille");
         this.nbLignes = 4;
         this.nbColonnes = 4;
-        this.nbCases = this.nbLignes * this.nbColonnes;
+        //this.nbCases = this.nbLignes * this.nbColonnes;
         this.grille = document.createElement("div");
         this.grille.id = "grille2048";
 
@@ -26,6 +26,7 @@ class Grille2048{
 
         this.placerNouvelleTuileSurGrille();
         this.placerNouvelleTuileSurGrille();
+        this.miseAJourGrille();
     }
 
     /**
@@ -52,7 +53,8 @@ class Grille2048{
 
     creationMatrice(){
         for(let l = 0; l < this.nbLignes; l++){
-            this.matrice[l] =[4];
+            // Crée les 4 lignes
+            this.matrice[l] = [null, null, null, null];
         }
     }
 
@@ -71,26 +73,36 @@ class Grille2048{
             colonne = Math.round(Math.random() * 3);
         }while(this.verifieEmplacement(ligne, colonne))
 
-        // On crée un nouveau div qui contiendra notre objet tuile
-        let div = document.createElement("div");
-        div.className = "tuile";
-        div.innerHTML="2";
-
         let tuile = new Tuile2048();
         tuile.setLigne(ligne);
         tuile.setColonne(colonne);
         tuile.setValue(2);
-
         // On ajoute cette tuile à notre matrice
         this.matrice[ligne][colonne] = tuile;
+    }
 
-        //console.log("On va récuperer la case"+ligne+"-"+colonne);
-        //on récupère notre case grâce à l'id généré aléatoirement
-        let Case = document.getElementById("case"+ligne+"-"+colonne);
+    miseAJourGrille(){
+        // On itère sur la matrice à la recherche de tuile
+        this.matrice.forEach(e => {
+            e.forEach(tuile => {
+                if(tuile instanceof Tuile2048){
+                    console.log("Tuile : ligne " + tuile.ligne+", colonne "+tuile.colonne);
 
-        console.log(Case);
-        console.log(this.matrice);
-        Case.appendChild(div);
+                    // On crée un nouveau div qui contiendra notre objet tuile
+                    let div = document.createElement("div");
+                    div.className = "tuile";
+                    div.innerHTML="2";
+
+                    //console.log("On va récuperer la case"+ligne+"-"+colonne);
+                    //on récupère notre case grâce à l'id généré aléatoirement
+                    let Case = document.getElementById("case"+ tuile.ligne +"-"+tuile.colonne);
+
+                    //console.log(Case);
+                    //console.log(this.matrice);
+                    Case.appendChild(div);
+                }
+            })
+        });
     }
 
     /**
@@ -103,4 +115,12 @@ class Grille2048{
         if((this.matrice[ligne][colonne] instanceof Tuile2048)) {return true}
     }
 
+    nouveauTour(direction){
+        // Déplacement de toutes les tuiles dans la matrice
+
+        // mise à jour de la grille
+
+        // Création des nouvelles tuiles
+
+    }
 }
