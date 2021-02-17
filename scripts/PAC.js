@@ -20,6 +20,7 @@ class MESSAGE {
     static VICTOIRE = "victoire";
     static MINE = "mine";
     static PERTE = "perte";
+    static INDICE = "indice";
 }
 
 class Abs {

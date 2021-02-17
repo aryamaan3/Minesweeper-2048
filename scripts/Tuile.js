@@ -39,6 +39,12 @@ class Tuile{
         ctx.drawImage(mine, this.x, this.y, this.size, this.size);
     }
 
+    drawIndice(ctx, indice){
+        ctx.fillStyle = "#000";
+        ctx.font = "20px 'San Francisco'";
+        ctx.fillText(indice, this.x + 10, this.y + 20);
+    }
+
     setCache(){
         this.hidden = false;
     }

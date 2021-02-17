@@ -103,11 +103,15 @@ class AbsDem extends Abs{
         let pos = [];
         pos[0] = coordX;
         pos[1] = coordY;
+        let posEtIndice = [];
+        posEtIndice[0] = pos;
 
         this.genIndiceTab();
+        posEtIndice[1] = this.tabTuiles[coordX][coordY].getIndice();
 
         this.tabTuiles[coordX][coordY].setDecouvert(); // marque le mine cliqué comme decouvert
         this.ctrl.getMessageFromAbstraction(MESSAGE.DECOUVRE, pos)
+        this.ctrl.getMessageFromAbstraction(MESSAGE.INDICE, posEtIndice);
         //this.ctrl.getMessageFromAbstraction(MESSAGE.VICTOIRE);
     }
 
@@ -142,11 +146,11 @@ class AbsDem extends Abs{
      * marque les indices dans les prop de la tuile
      */
     genIndiceTuile(ligne, colonne){
-        //https://gamedev.stackexchange.com/questions/12831/fastest-way-to-get-all-adjacent-tiles
+        //https://gamedev.stackexchange.com/questions/31909/best-algorithm-for-recursive-adjacent-tiles
         let nbMines = 0;
-        //on itére 3 x 3 = 9 fois pour les tuiles adjacente
+        //on itére 3 x 3 pour les tuiles adjacente - 1 tuile concerné = 8 fois
         for (let i = -1; i <= 1; i++){ // on fait iterer -1, 0 et 1
-            for (let j = 0; j <= 1; j++){
+            for (let j = -1; j <= 1; j++){
                 //verifie si c'est pas en dehors du tab
                 if ((ligne + i >= 0) && (ligne + i < this.longeur) && (colonne + j >= 0) && (colonne + j < this.largeur)) {
                     let tuile = this.tabTuiles[ligne + i][colonne + j];
@@ -172,12 +176,16 @@ class AbsDem extends Abs{
         if (tuile.isHidden()){
             if (tuile.isMine()){
                 this.ctrl.getMessageFromAbstraction(MESSAGE.MINE, pos);
-                this.ctrl.getMessageFromAbstraction(MESSAGE.PERTE);
+                //this.ctrl.getMessageFromAbstraction(MESSAGE.PERTE);
             }
             else {
                 this.ctrl.getMessageFromAbstraction(MESSAGE.DECOUVRE, pos);
                 tuile.setDecouvert();
-                console.log("je suis à "+pos+" et nbMines = "+tuile.getIndice());
+                let posEtIndice = [];
+                posEtIndice[0] = pos;
+                posEtIndice [1] = tuile.getIndice();
+                this.ctrl.getMessageFromAbstraction(MESSAGE.INDICE, posEtIndice);
+                //TODO probleme sur la tuile adjacente en haut droite
             }
         }
     }
@@ -203,6 +211,10 @@ class PresDem extends Pres{
 
         else if (message === MESSAGE.DECOUVRE){
             this.grille.decouvreTuile(pieceJointe);
+        }
+
+        else if (message === MESSAGE.INDICE){
+            this.grille.showIndice(pieceJointe);
         }
 
         else if (message === MESSAGE.MINE){
@@ -378,7 +390,7 @@ class CtrlDem extends Ctrl{
     }
 
     getMessageFromAbstraction(message, piecejointe){
-        //march pour victoire, perte, decouvre et mine
+        //march pour victoire, perte, decouvre, indice et mine
         this.pres.getMessage(message, piecejointe);
     }
 

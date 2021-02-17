@@ -99,4 +99,9 @@ class Grille{
         tuile.setMine();
         tuile.drawMine(this.ctx);
     }
+
+    showIndice(posEtIndice){
+        let tuile = this.tabTuile[posEtIndice[0][0]][posEtIndice[0][1]];
+        tuile.drawIndice(this.ctx, posEtIndice[1]);
+    }
 }
