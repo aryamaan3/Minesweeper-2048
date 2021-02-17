@@ -50,19 +50,15 @@ class Abs2048 extends Abs{
     keydownHandler(event){
         switch (event.key) {
             case MESSAGE.UP:
-                console.log("Keypressed vers le haut");
                 this.ctrl.getMessageFromAbstraction(MESSAGE.KEYPRESSED,MESSAGE.UP);
                 break;
             case MESSAGE.DOWN:
-                console.log("Keypressed vers le bas");
                 this.ctrl.getMessageFromAbstraction(MESSAGE.KEYPRESSED,MESSAGE.DOWN);
                 break;
             case MESSAGE.RIGHT:
-                console.log("Keypressed vers la droite");
                 this.ctrl.getMessageFromAbstraction(MESSAGE.KEYPRESSED,MESSAGE.RIGHT);
                 break;
             case MESSAGE.LEFT:
-                console.log("Keypressed vers la gauche");
                 this.ctrl.getMessageFromAbstraction(MESSAGE.KEYPRESSED,MESSAGE.LEFT);
                 break;
         }
