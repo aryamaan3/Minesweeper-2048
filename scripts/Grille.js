@@ -2,7 +2,7 @@ class Grille{
     constructor(demineur) {
         this.demineur = demineur;
         this.tabTuile = [];
-        this.ctx;
+        this.ctx = undefined;
     }
 
     /**
@@ -18,7 +18,7 @@ class Grille{
 
         let div = document.createElement('div');
         div.id = "container";
-        div.classList.add('container');
+        div.classList.add('containerDem');
         document.body.appendChild(div);
 
         let canvas = document.createElement('canvas');
@@ -80,6 +80,8 @@ class Grille{
                 tuile.draw(ctx);
             }
         }
+
+        presDem.setCanvas(canvas);
     }
 
     /**

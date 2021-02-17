@@ -96,7 +96,7 @@ header{
     flex-direction: column;
 }
 
-#container{
+#containerDem{
     margin-top: 150px;
     margin-right:auto;
     margin-left:auto;
@@ -151,9 +151,9 @@ header{
     border: 10px solid rgb(153, 153, 153);
     border-radius: 15px;
     position: absolute;
-    top: 50%;
+    top: 20%;
     left: 50%;
-    transform: translate(-50%, 50%);
+    transform: translate(-50%, 30%);
 }
 
 .canvas2 {

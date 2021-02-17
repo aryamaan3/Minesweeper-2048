@@ -39,7 +39,6 @@ class AbsDem extends Abs{
         }
 
         else if (message === MESSAGE.PREMIERCLICK){
-            console.log("premier click called");
             if (this.largeur === 9){
                 this.genMines(9, pieceJointe);
             }
@@ -98,7 +97,7 @@ class AbsDem extends Abs{
             }
             this.tabTuiles[x][y].setMine();
         }
-        if (this.countMine() != mines){
+        if (this.countMine() !== mines){
             console.log("erreur sur nb de mines genérés");
         }
 
@@ -139,6 +138,7 @@ class PresDem extends Pres{
         this.ctx = undefined;
         this.grille = new Grille(true);
         this.premierClick = true;
+        this.canvas = undefined;
         //this.initPage();
     }
 
@@ -162,6 +162,10 @@ class PresDem extends Pres{
 
     setCtx(ctx){
         this.ctx = ctx;
+    }
+
+    setCanvas(canvas){
+        this.canvas = canvas;
     }
 
     /**
@@ -276,14 +280,12 @@ class PresDem extends Pres{
      * genere banner victoire
      */
     victoire(){
-        //TODO
-        // à ameilorer
         this.ctx.fillStyle = "#FFF"
-        this.ctx.fillRect(0, 100, 300, 50);
+        this.ctx.fillRect(0, (this.canvas.height - 70) / 2, this.canvas.width, 50);
 
         this.ctx.fillStyle = "#000"
         this.ctx.font = "20px 'San Francisco'";
-        this.ctx.fillText("Vous avez gagné", 10, 130);
+        this.ctx.fillText("Vous avez gagné", (this.canvas.width / 2) - 65, (this.canvas.height / 2) - 5);
     }
 
 }
