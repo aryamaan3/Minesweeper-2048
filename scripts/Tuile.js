@@ -23,16 +23,24 @@ class Tuile{
         this.y = y * this.size;
         this.hidden = true;
         this.mine = false;
-        this.decouvert = false;
     }
 
-    draw(ctx){
+    draw(ctx, indice){
         if (this.hidden) {
             ctx.drawImage(hidden, this.x, this.y, this.size, this.size);
         }
-        else if (!this.hidden){
+        else {
             ctx.drawImage(decouvert, this.x, this.y, this.size, this.size);
         }
+
+        if (this.mine){
+            this.drawMine(ctx)
+        }
+
+        if (indice){
+            this.drawIndice(ctx, indice);
+        }
+
     }
 
     drawMine(ctx){

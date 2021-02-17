@@ -7,8 +7,9 @@ class Grille{
 
     /**
      * construit grille en fonction du boolean
-     * @param niveau
-     * @param presDem
+     * @param niveau selectionné
+     * @param presDem afin d'acceder à certaines methodes de pres étant donnée que grille est une
+     * extension de presDem
      */
     drawGrille(niveau, presDem){
         /*
@@ -20,6 +21,7 @@ class Grille{
         div.id = "container";
         div.classList.add('containerDem');
         document.body.appendChild(div);
+        //on crée le div
 
         let canvas = document.createElement('canvas');
         let ctx = canvas.getContext("2d");
@@ -27,11 +29,12 @@ class Grille{
         presDem.setCtx(ctx);
         canvas.classList.add("canvas");
         canvas.id = "grilles";
+        //on crée le canvas
 
         canvas.addEventListener("click",  (e) => {
             // https://www.quirksmode.org/js/events_properties.html
             let posx, posy;
-            if (e.offsetX) {
+            if (e.offsetX) { //position sur le canvas
                 posx = e.offsetX;
                 posy = e.offsetY;
             }
@@ -40,7 +43,7 @@ class Grille{
 
         let longeur, largeur;
 
-        //desinne grille en fonction du niveau selectionné
+        //dimensionne canvas en fonction du niveau selectionné
         switch(niveau) {
             case(1):
 
@@ -71,21 +74,23 @@ class Grille{
                 break;
         }
         div.appendChild(canvas);
+        //ajoute canvas à l'html
 
-        for (let i = longeur - 1; i >= 0; i -= 1) {
-            this.tabTuile[i] = [];
-            for (let j = largeur - 1; j >= 0; j -= 1) {
-                let tuile = new Tuile(i, j);
-                this.tabTuile[i][j] = tuile;
-                tuile.draw(ctx);
+        //dessine les tuiles cachés
+        for (let ligne = 0; ligne < longeur; ligne ++) { // on itére sur les lignes
+            this.tabTuile[ligne] = []; //on cree le deuxieme dimension
+            for (let col = 0; col < largeur; col ++) { //on itere sur les colonnes
+                let tuile = new Tuile(ligne, col);
+                this.tabTuile[ligne][col] = tuile;
+                tuile.draw(ctx); //dessine l'image
             }
         }
 
-        presDem.setCanvas(canvas);
+        presDem.setCanvas(canvas); //on envoi le canvas au pres
     }
 
     /**
-     * appel tuile pour decouvrir tuile
+     * appel tuile.js pour decouvrir la tuile cliqué
      * @param pos : index de la tuile dans tab
      */
     decouvreTuile(pos){
@@ -94,14 +99,22 @@ class Grille{
         tuile.draw(this.ctx);
     }
 
+    /**
+     * appel tuile.js pour afficher une mine à la place de la tuile
+     * @param pos de la tuile dans le tab
+     */
     mine(pos){
         let tuile = this.tabTuile[pos[0]][pos[1]];
         tuile.setMine();
-        tuile.drawMine(this.ctx);
+        tuile.draw(this.ctx);
     }
 
+    /**
+     * appel tuile.js pour dessiner le nb de mines adjacents à la tuile
+     * @param posEtIndice de la tuile
+     */
     showIndice(posEtIndice){
         let tuile = this.tabTuile[posEtIndice[0][0]][posEtIndice[0][1]];
-        tuile.drawIndice(this.ctx, posEtIndice[1]);
+        tuile.draw(this.ctx, posEtIndice[1]);
     }
 }

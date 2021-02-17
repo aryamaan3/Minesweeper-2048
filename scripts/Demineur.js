@@ -90,12 +90,14 @@ class AbsDem extends Abs{
         y = Math.floor(Math.random() *this.longeur);
 
         for (i = 0; i < mines; i++){
+            //traite les cas où la tuile est déjà une mine et si ça correspond à la tuile cliqué
             while ((this.tabTuiles[x][y].isMine()) || (x === coordX && y === coordY)){
                 x = Math.floor(Math.random() *this.largeur);
                 y = Math.floor(Math.random() *this.longeur);
             }
             this.tabTuiles[x][y].setMine();
         }
+        //verifie si il y a bien le bon nb de mines genérés
         if (this.countMine() !== mines){
             console.log("erreur sur nb de mines genérés");
         }
@@ -106,10 +108,10 @@ class AbsDem extends Abs{
         let posEtIndice = [];
         posEtIndice[0] = pos;
 
-        this.genIndiceTab();
+        this.genIndiceTab(); //ajoute les indices aux tuiles
         posEtIndice[1] = this.tabTuiles[coordX][coordY].getIndice();
 
-        this.tabTuiles[coordX][coordY].setDecouvert(); // marque le mine cliqué comme decouvert
+        this.tabTuiles[coordX][coordY].setDecouvert(); // marque la tuile cliqué comme decouvert
         this.ctrl.getMessageFromAbstraction(MESSAGE.DECOUVRE, pos)
         this.ctrl.getMessageFromAbstraction(MESSAGE.INDICE, posEtIndice);
         //this.ctrl.getMessageFromAbstraction(MESSAGE.VICTOIRE);
@@ -117,6 +119,7 @@ class AbsDem extends Abs{
 
     /**
      * compte le nb de mines dans le tab
+     * @return acc = mines dans le tab
      */
     countMine(){
         let acc = 0;
@@ -131,7 +134,7 @@ class AbsDem extends Abs{
     }
 
     /**
-     * appel methode qui genere les indice en fonction des mines autour
+     * appel genIndiceTuile pour chaque tuile du tab
      */
     genIndiceTab(){
         for (let ligne = 0; ligne < this.longeur; ligne ++){
@@ -144,6 +147,8 @@ class AbsDem extends Abs{
     /**
      * genere indice en fonction des mines autour d'une tuile
      * marque les indices dans les prop de la tuile
+     * @param ligne indices ligne dans le tab de la tuile
+     * @param colonne indice col dans le tab de la tuile
      */
     genIndiceTuile(ligne, colonne){
         //https://gamedev.stackexchange.com/questions/31909/best-algorithm-for-recursive-adjacent-tiles
@@ -165,8 +170,8 @@ class AbsDem extends Abs{
 
     /**
      * decide ce qu'il faut faire lors d'un click d'une tuile
-     * @param posx : number = indice ligne de la tuile dans tab
-     * @param posy : number = inidce colonne de la tuile dans tab
+     * @param posx indice ligne de la tuile dans tab
+     * @param posy inidce colonne de la tuile dans tab
      */
     tuileClicked(posx, posy){
         let tuile = this.tabTuiles[posx][posy];
@@ -176,16 +181,15 @@ class AbsDem extends Abs{
         if (tuile.isHidden()){
             if (tuile.isMine()){
                 this.ctrl.getMessageFromAbstraction(MESSAGE.MINE, pos);
-                //this.ctrl.getMessageFromAbstraction(MESSAGE.PERTE);
+                this.ctrl.getMessageFromAbstraction(MESSAGE.PERTE);
             }
             else {
                 this.ctrl.getMessageFromAbstraction(MESSAGE.DECOUVRE, pos);
-                tuile.setDecouvert();
+                tuile.setDecouvert(); //marque tuile comme decouvert
                 let posEtIndice = [];
                 posEtIndice[0] = pos;
                 posEtIndice [1] = tuile.getIndice();
-                this.ctrl.getMessageFromAbstraction(MESSAGE.INDICE, posEtIndice);
-                //TODO probleme sur la tuile adjacente en haut droite
+                this.ctrl.getMessageFromAbstraction(MESSAGE.INDICE, posEtIndice); //montre le nb des mines adjacents
             }
         }
     }
@@ -222,16 +226,16 @@ class PresDem extends Pres{
         }
 
         else if (message === MESSAGE.VICTOIRE){
-            this.victoire();
+            this.afficher("Vous avez gagné!");
         }
 
         else if (message === MESSAGE.PERTE){
-            this.perte();
+            this.afficher("Vous avez perdu");
         }
-    }
 
-    getCtx(){
-        return this.ctx;
+        else {
+            super.recoitMessage(message);
+        }
     }
 
     setCtx(ctx){
@@ -243,7 +247,7 @@ class PresDem extends Pres{
     }
 
     /**
-     * genere la page et la methode pour choisir le niveau
+     * genere la page et appel la methode pour choisir le niveau
      */
     initPage(){
         let header = document.getElementById("title");
@@ -273,7 +277,8 @@ class PresDem extends Pres{
         niv1.id = "1";
         niv1.classList.add('niveau');
         niv1.onclick = () =>{
-            this.removeButtons(div, niv1, niv2, niv3, h1); //enleve tous les boutons afin de laisser la place à la grille
+            //this.removeButtons(div, niv1, niv2, niv3, h1);
+            document.body.removeChild(div) //enleve tous les boutons afin de laisser la place à la grille
             this.ctrl.getMessageFromPresentation(MESSAGE.NIVEAU, 1); //communique le niveau au controleur
             this.grille.drawGrille(1, this); //dessine la grille
             this.setPremierClick();
@@ -285,7 +290,8 @@ class PresDem extends Pres{
         niv2.id = "2";
         niv2.classList.add('niveau');
         niv2.onclick = () =>{
-            this.removeButtons(div, niv1, niv2, niv3, h1);
+            //this.removeButtons(div, niv1, niv2, niv3, h1);
+            document.body.removeChild(div) //enleve tous les boutons afin de laisser la place à la grille
             this.ctrl.getMessageFromPresentation(MESSAGE.NIVEAU, 2);
             this.grille.drawGrille(2, this);
             this.setPremierClick();
@@ -297,34 +303,14 @@ class PresDem extends Pres{
         niv3.id = "3";
         niv3.classList.add('niveau');
         niv3.onclick = () =>{
-            this.removeButtons(div, niv1, niv2, niv3, h1);
+            //this.removeButtons(div, niv1, niv2, niv3, h1);
+            document.body.removeChild(div) //enleve tous les boutons afin de laisser la place à la grille
             this.ctrl.getMessageFromPresentation(MESSAGE.NIVEAU, 3);
             this.grille.drawGrille(3, this);
             this.setPremierClick();
         };
         div.appendChild(niv3);
 
-    }
-
-    /**
-     * enleve les boutons
-     * @param div
-     * @param n1 bouton 1
-     * @param n2 bouton 2
-     * @param n3 bouton 2
-     * @param h1 balise h1
-     */
-    removeButtons(div, n1, n2, n3, h1){
-        div.style.removeProperty("position");
-        div.style.removeProperty("top");
-        div.style.removeProperty("left");
-        div.style.removeProperty("text-align");
-
-        div.removeChild(n1);
-        div.removeChild(n2);
-        div.removeChild(n3);
-        div.removeChild(h1);
-        document.body.removeChild(div)
     }
 
     /**
@@ -351,28 +337,18 @@ class PresDem extends Pres{
     }
 
     /**
-     * genere banner victoire
+     * affiche le texte au milieu du canvas
+     * @param texte à afficher
      */
-    victoire(){
+    afficher(texte){
         this.ctx.fillStyle = "#FFF"
         this.ctx.fillRect(0, (this.canvas.height - 70) / 2, this.canvas.width, 50);
 
         this.ctx.fillStyle = "#000"
         this.ctx.font = "20px 'San Francisco'";
-        this.ctx.fillText("Vous avez gagné", (this.canvas.width / 2) - 65, (this.canvas.height / 2) - 5);
+        this.ctx.fillText(texte, (this.canvas.width / 2) - 65, (this.canvas.height / 2) - 5);
     }
 
-    /**
-     * genere banner perte
-     */
-    perte(){
-        this.ctx.fillStyle = "#FFF"
-        this.ctx.fillRect(0, (this.canvas.height - 70) / 2, this.canvas.width, 50);
-
-        this.ctx.fillStyle = "#000"
-        this.ctx.font = "20px 'San Francisco'";
-        this.ctx.fillText("Vous avez perdu", (this.canvas.width / 2) - 65, (this.canvas.height / 2) - 5);
-    }
 
 }
 
