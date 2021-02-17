@@ -6,6 +6,10 @@ body {
     font-weight:400;
 }
 
+h2 {
+    margin: 0 auto;
+}
+
 @font-face {
     font-family: "San Francisco";
     font-weight: 400;
@@ -96,6 +100,15 @@ header{
     flex-direction: column;
 }
 
+#container{
+    margin-top: 150px;
+    margin-right:auto;
+    margin-left:auto;
+    width: 500px;
+    height: 500px;
+    /*border: 0.1em solid black;*/
+}
+
 #containerDem{
     margin-top: 150px;
     margin-right:auto;
@@ -175,7 +188,7 @@ header{
     display: flex;
     flex-direction: column;
     text-align: center;
-    top: 200px;
+    top: 10px;
 }
 
 .tuile{

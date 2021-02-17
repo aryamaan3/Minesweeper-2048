@@ -18,6 +18,8 @@ class MESSAGE {
     static REMOVELISTENER = "removelistener";
     static DECOUVRE ="decouvreTuile";
     static VICTOIRE = "victoire";
+    static MINE = "mine";
+    static PERTE = "perte";
 }
 
 class Abs {

@@ -51,7 +51,6 @@ class AbsDem extends Abs{
         }
 
         else if (message === MESSAGE.CLICK){
-            console.log("click called");
             let posx = Math.floor(pieceJointe[0] / 30); //on le convertis aux indices d'un tab
             let posy = Math.floor(pieceJointe[1] / 30);
             this.tuileClicked(posx, posy)
@@ -105,8 +104,11 @@ class AbsDem extends Abs{
         pos[0] = coordX;
         pos[1] = coordY;
 
+        this.genIndiceTab();
+
+        this.tabTuiles[coordX][coordY].setDecouvert(); // marque le mine cliqué comme decouvert
         this.ctrl.getMessageFromAbstraction(MESSAGE.DECOUVRE, pos)
-        this.ctrl.getMessageFromAbstraction(MESSAGE.VICTOIRE);
+        //this.ctrl.getMessageFromAbstraction(MESSAGE.VICTOIRE);
     }
 
     /**
@@ -124,8 +126,60 @@ class AbsDem extends Abs{
         return acc;
     }
 
+    /**
+     * appel methode qui genere les indice en fonction des mines autour
+     */
+    genIndiceTab(){
+        for (let ligne = 0; ligne < this.longeur; ligne ++){
+            for (let colonne = 0; colonne < this.largeur; colonne ++){
+                this.genIndiceTuile(ligne, colonne);
+            }
+        }
+    }
+
+    /**
+     * genere indice en fonction des mines autour d'une tuile
+     * marque les indices dans les prop de la tuile
+     */
+    genIndiceTuile(ligne, colonne){
+        //https://gamedev.stackexchange.com/questions/12831/fastest-way-to-get-all-adjacent-tiles
+        let nbMines = 0;
+        //on itére 3 x 3 = 9 fois pour les tuiles adjacente
+        for (let i = -1; i <= 1; i++){ // on fait iterer -1, 0 et 1
+            for (let j = 0; j <= 1; j++){
+                //verifie si c'est pas en dehors du tab
+                if ((ligne + i >= 0) && (ligne + i < this.longeur) && (colonne + j >= 0) && (colonne + j < this.largeur)) {
+                    let tuile = this.tabTuiles[ligne + i][colonne + j];
+                    if (tuile.isMine()) {
+                        nbMines++;
+                    }
+                }
+            }
+        }
+        this.tabTuiles[ligne][colonne].setIndice(nbMines);
+    }
+
+    /**
+     * decide ce qu'il faut faire lors d'un click d'une tuile
+     * @param posx : number = indice ligne de la tuile dans tab
+     * @param posy : number = inidce colonne de la tuile dans tab
+     */
     tuileClicked(posx, posy){
-        //TODO
+        let tuile = this.tabTuiles[posx][posy];
+        let pos = [];
+        pos[0] = posx;
+        pos[1] = posy;
+        if (tuile.isHidden()){
+            if (tuile.isMine()){
+                this.ctrl.getMessageFromAbstraction(MESSAGE.MINE, pos);
+                this.ctrl.getMessageFromAbstraction(MESSAGE.PERTE);
+            }
+            else {
+                this.ctrl.getMessageFromAbstraction(MESSAGE.DECOUVRE, pos);
+                tuile.setDecouvert();
+                console.log("je suis à "+pos+" et nbMines = "+tuile.getIndice());
+            }
+        }
     }
 
 
@@ -151,8 +205,16 @@ class PresDem extends Pres{
             this.grille.decouvreTuile(pieceJointe);
         }
 
+        else if (message === MESSAGE.MINE){
+            this.grille.mine(pieceJointe);
+        }
+
         else if (message === MESSAGE.VICTOIRE){
             this.victoire();
+        }
+
+        else if (message === MESSAGE.PERTE){
+            this.perte();
         }
     }
 
@@ -187,9 +249,9 @@ class PresDem extends Pres{
         document.body.appendChild(div);
         //on crée le div
 
-        let h1 = document.createElement('h2');
+        let h1 = document.createElement('h1');
         h1.innerHTML="choisissez votre niveau";
-        h1.style.cssText = "text-align:center; margin:auto;";
+        h1.style.cssText = "text-align:center; margin: 0 auto;";
         div.appendChild(h1);
 
         div.appendChild(document.createElement('br')); // saut de ligne
@@ -288,6 +350,18 @@ class PresDem extends Pres{
         this.ctx.fillText("Vous avez gagné", (this.canvas.width / 2) - 65, (this.canvas.height / 2) - 5);
     }
 
+    /**
+     * genere banner perte
+     */
+    perte(){
+        this.ctx.fillStyle = "#FFF"
+        this.ctx.fillRect(0, (this.canvas.height - 70) / 2, this.canvas.width, 50);
+
+        this.ctx.fillStyle = "#000"
+        this.ctx.font = "20px 'San Francisco'";
+        this.ctx.fillText("Vous avez perdu", (this.canvas.width / 2) - 65, (this.canvas.height / 2) - 5);
+    }
+
 }
 
 class CtrlDem extends Ctrl{
@@ -304,7 +378,7 @@ class CtrlDem extends Ctrl{
     }
 
     getMessageFromAbstraction(message, piecejointe){
-        //march pour decouvre
+        //march pour victoire, perte, decouvre et mine
         this.pres.getMessage(message, piecejointe);
     }
 

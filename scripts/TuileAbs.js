@@ -8,10 +8,15 @@ class TuileAbs{
         this.colonne = colonne;
         this.hidden = true;
         this.mine = false;
+        this.indice = undefined;
     }
 
     isHidden(){
         return this.hidden;
+    }
+
+    setDecouvert(){
+        this.hidden = false;
     }
 
     isMine(){
@@ -20,5 +25,13 @@ class TuileAbs{
 
     setMine(){
         this.mine = true;
+    }
+
+    setIndice(indice){
+        this.indice = indice;
+    }
+
+    getIndice(){
+        return this.indice;
     }
 }
