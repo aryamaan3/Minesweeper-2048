@@ -101,7 +101,7 @@ class Grille2048{
                     // On crée un nouveau div qui contiendra notre objet tuile
                     let div = document.createElement("div");
                     div.className = "tuile";
-                    div.innerHTML="2";
+                    div.innerHTML=""+tuile.getValue();
 
                     //console.log("On va récuperer la case"+ligne+"-"+colonne);
                     //on récupère notre case grâce à l'id généré aléatoirement
@@ -134,6 +134,7 @@ class Grille2048{
                 // Inconvéniant : sera executé pour chaque tuile
                 tuilesSurMemeLigne = this.trouveAlignementHorinzontal(tuile);
 
+
                 // Maintenant qu'on un array pour case sur la même ligne ou colonnes
                 // On peut les déplacer
 
@@ -141,6 +142,15 @@ class Grille2048{
                     // Maintenant qu'on a toute les tuiles, on ordonne notre tableau en fonction de
                     // la colonne de l'element
                     tuilesSurMemeLigne.sort(this.ordonneLigne);
+
+                    // Ici, il faut vérifier si deux cases adjacente sont de même
+                    // valeur et si c'est le cas : les fusionner
+
+                    if(this.fusionPossible(tuilesSurMemeLigne)){
+                        this.fusion(tuilesSurMemeLigne, direction);
+                    }
+
+                    //TODO re-sort ?
 
                     // Puis après l'avoir ordonné, il faut placer les tuiles au bon endroit :
                     // Si la longeur de tuileSurMemeLigne == 3 alors la première tuile
@@ -154,6 +164,7 @@ class Grille2048{
                     if(direction === MESSAGE.RIGHT){
                         for(let len = 3; len > 3 - longueur; len --){
                             tuilesSurMemeLigne.pop().setColonne(len);
+
                         }
                     } else {
                         for(let len = 0; len < longueur; len ++){
@@ -199,6 +210,16 @@ class Grille2048{
                     // Maintenant qu'on a toute les tuiles, on ordonne notre tableau en fonction de
                     // la colonne de l'element
                     tuileSurMemeColonne.sort(this.ordonneColonne);
+
+
+                    // Ici, il faut vérifier si deux cases adjacente sont de même
+                    // valeur et si c'est le cas : les fusionner
+
+                    if(this.fusionPossible(tuilesSurMemeLigne)){
+                        this.fusion(tuilesSurMemeLigne, direction);
+                    }
+
+                    //TODO re-sort ?
 
                     // Il faut stocker la longueur puisqu'elle va changer lorsqu'on va faire pop ou shift
                     let longueur = tuileSurMemeColonne.length;
@@ -320,4 +341,76 @@ class Grille2048{
         tuile.setLigne(newPos);
     }
 
+    /**
+     * Fonction qui permet de savoir si une fusion est possible sur une ligne/colonne
+     * @param tuileSurMemeLigneOuColonne : array ordonné des cases d'une ligne
+     * @return true si une fusion est possible, false sinon
+     */
+    fusionPossible(tuileSurMemeLigneOuColonne){
+        // On va itérer sur la liste et on va comparer la valeur de la tuile
+        // actuelle avec la prochaine
+        for(let i = 0; i < tuileSurMemeLigneOuColonne.length - 1; i ++){
+            if(tuileSurMemeLigneOuColonne[i].getValue() === tuileSurMemeLigneOuColonne[i+1].getValue()){
+                //console.log("On a candidat pour fusion");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    fusion(tuileSurMemeLigneOuColonne, direction){
+        // Le comportement au niveau de l'array est le même pour la DROITE et le BAS
+        // De même pour la GAUCHE et le HAUT
+
+        // On enregistre ça puisque ça va changer avec les pop et shift
+        let len = tuileSurMemeLigneOuColonne.length;
+
+        switch (direction){
+            case MESSAGE.RIGHT:
+            case MESSAGE.DOWN:
+                // on va partir de la fin pour revenir vers le début
+                // i = (len-1) car on veut prendre le dernier indice
+                for(let i = (len-1); i > 0 ; i--){
+                    if(tuileSurMemeLigneOuColonne[i].getValue() === tuileSurMemeLigneOuColonne[i-1].getValue()){
+                        console.log("On fusionne tuile ligne"
+                            + tuileSurMemeLigneOuColonne[i].ligne + ", colonne : "
+                            + tuileSurMemeLigneOuColonne[i].colonne + " et tuile ligne "+
+                            + tuileSurMemeLigneOuColonne[i-1].ligne + ", colonne : "
+                            + tuileSurMemeLigneOuColonne[i-1].colonne);
+                        // On passe en premier la tuile qui va survivre à la fusion
+                        this.fusionne2Tuiles(tuileSurMemeLigneOuColonne[i], tuileSurMemeLigneOuColonne[i-1]);
+                    }
+                }
+                break;
+            case MESSAGE.LEFT:
+            case MESSAGE.UP:
+                //TODO
+                for(let i = 0; i < len - 1 ; i++){
+                    if(tuileSurMemeLigneOuColonne[i].getValue() === tuileSurMemeLigneOuColonne[i+1].getValue()){
+                        // On passe en premier la tuile qui va survivre à la fusion
+                        this.fusionne2Tuiles(tuileSurMemeLigneOuColonne[i], tuileSurMemeLigneOuColonne[i+1]);
+                    }
+                }
+                break;
+        }
+    }
+
+    /**
+     * Fonction appelée par fusion()
+     * @param tuile1 Tuile qui sera gardée, dans le cas d'un mouvement à droite, c'est la tuile la plus à droite
+     * @param tuile2 Tuile qui sera supprimée au profit de tuile1
+     */
+    fusionne2Tuiles(tuile1,tuile2){
+        // Soit l'on donne la valeur de tuile2 à tuile1
+        // Ou alors on fait valeur de tuile1 * 2 puisque seule les tuiles de même valeur fusionne
+        // Pour mettre en lumière des erreurs potentielles, j'applique la première méthode
+
+        tuile1.setValue(tuile1.getValue() + tuile2.getValue());
+
+        // On supprime tuile2 et son div .tuile associé
+        /*
+        delete tuile2.ligne;
+        delete tuile2.colonne;
+        delete tuile2.value;*/
+    }
 }
