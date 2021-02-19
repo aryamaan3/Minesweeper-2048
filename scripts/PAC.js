@@ -17,9 +17,9 @@ class MESSAGE {
     static LEFT = "ArrowLeft";
     static REMOVELISTENER = "removelistener";
     static DECOUVRE ="decouvreTuile";
-    static VICTOIRE = "victoire";
+    static VIC_DEM = "victoire";
     static MINE = "mine";
-    static PERTE = "perte";
+    static DEF_DEM = "perte";
     static INDICE = "indice";
 }
 

@@ -2,8 +2,8 @@ class AbsDem extends Abs{
     constructor() {
         super();
         this.tabTuiles = [];
-        this.longeur = 9;
-        this.largeur = 9;
+        this.colonne = 9; //colonne
+        this.ligne = 9; //ligne
     }
 
     /**
@@ -17,14 +17,14 @@ class AbsDem extends Abs{
                 break;
 
             case(2):
-                this.longeur = 16;
-                this.largeur = 16;
+                this.colonne = 16;
+                this.ligne = 16;
                 this.genTab();
                 break;
 
             case(3):
-                this.longeur = 16;
-                this.largeur = 30;
+                this.colonne = 16;
+                this.ligne = 30;
                 this.genTab();
                 break;
 
@@ -39,10 +39,10 @@ class AbsDem extends Abs{
         }
 
         else if (message === MESSAGE.PREMIERCLICK){
-            if (this.largeur === 9){
+            if (this.ligne === 9){
                 this.genMines(9, pieceJointe);
             }
-            else if (this.largeur === 16){
+            else if (this.ligne === 16){
                 this.genMines(40, pieceJointe);
             }
             else{
@@ -68,11 +68,22 @@ class AbsDem extends Abs{
      * les mines se genre apres le premier click
      */
     genTab(){
-        for (let i = 0; i < this.largeur; i++){ //ligne
+        for (let i = 0; i < this.ligne; i++){ //ligne
             this.tabTuiles[i] = []; //crée le deuxieme dim du tab
-            for (let j = 0; j < this.longeur; j++){ //colonne
+            for (let j = 0; j < this.colonne; j++){ //colonne
                 this.tabTuiles[i][j] = new TuileAbs(i, j);
             }
+        }
+    }
+
+    getNiveau(){
+        switch(this.ligne){
+            case(9):
+                return 1;
+            case(16):
+                return 2;
+            default:
+                return 3;
         }
     }
 
@@ -86,14 +97,14 @@ class AbsDem extends Abs{
         let coordX = Math.floor(coord[0] / 30); //on le convertis aux indices d'un tab
         let coordY = Math.floor(coord[1] / 30);
 
-        x = Math.floor(Math.random() *this.largeur);
-        y = Math.floor(Math.random() *this.longeur);
+        x = Math.floor(Math.random() *this.ligne);
+        y = Math.floor(Math.random() *this.colonne);
 
         for (i = 0; i < mines; i++){
             //traite les cas où la tuile est déjà une mine et si ça correspond à la tuile cliqué
             while ((this.tabTuiles[x][y].isMine()) || (x === coordX && y === coordY)){
-                x = Math.floor(Math.random() *this.largeur);
-                y = Math.floor(Math.random() *this.longeur);
+                x = Math.floor(Math.random() *this.ligne);
+                y = Math.floor(Math.random() *this.colonne);
             }
             this.tabTuiles[x][y].setMine();
         }
@@ -112,8 +123,8 @@ class AbsDem extends Abs{
      */
     countMine(){
         let acc = 0;
-        for (let i = 0; i < this.largeur; i++){
-            for (let j = 0; j < this.longeur; j++){
+        for (let i = 0; i < this.ligne; i++){
+            for (let j = 0; j < this.colonne; j++){
                 if (this.tabTuiles[i][j].isMine()){
                     acc ++;
                 }
@@ -126,8 +137,8 @@ class AbsDem extends Abs{
      * appel genIndiceTuile pour chaque tuile du tab
      */
     genIndiceTab(){
-        for (let ligne = 0; ligne < this.largeur; ligne ++){
-            for (let colonne = 0; colonne < this.longeur; colonne ++){
+        for (let ligne = 0; ligne < this.ligne; ligne ++){
+            for (let colonne = 0; colonne < this.colonne; colonne ++){
                 this.genIndiceTuile(ligne, colonne);
             }
         }
@@ -146,7 +157,7 @@ class AbsDem extends Abs{
         for (let i = -1; i <= 1; i++){ // on fait iterer -1, 0 et 1
             for (let j = -1; j <= 1; j++){
                 //verifie si c'est pas en dehors du tab
-                if ((ligne + i >= 0) && (ligne + i < this.largeur) && (colonne + j >= 0) && (colonne + j < this.longeur)) {
+                if ((ligne + i >= 0) && (ligne + i < this.ligne) && (colonne + j >= 0) && (colonne + j < this.colonne)) {
                     let tuile = this.tabTuiles[ligne + i][colonne + j];
                     if (tuile.isMine()) {
                         nbMines++;
@@ -170,7 +181,7 @@ class AbsDem extends Abs{
         if (tuile.isHidden()){
             if (tuile.isMine()){
                 this.ctrl.getMessageFromAbstraction(MESSAGE.MINE, pos);
-                this.ctrl.getMessageFromAbstraction(MESSAGE.PERTE);
+                this.ctrl.getMessageFromAbstraction(MESSAGE.DEF_DEM, this.getNiveau());
             }
             else {
                 this.ctrl.getMessageFromAbstraction(MESSAGE.DECOUVRE, pos);
@@ -180,8 +191,9 @@ class AbsDem extends Abs{
                 posEtIndice [1] = tuile.getIndice();
                 this.ctrl.getMessageFromAbstraction(MESSAGE.INDICE, posEtIndice); //montre le nb des mines adjacents
                 if (!posEtIndice[1]){ //si indice 0
-                    this.decouvrirAutour(tuile, pos);
+                    this.decouvrirAutour(tuile, pos); //decouvre les tuile à 0 autour
                 }
+                this.verifVictoire() //verifie si le joueur a gagné
             }
         }
     }
@@ -196,7 +208,7 @@ class AbsDem extends Abs{
         for (let i = -1; i <= 1; i++){ // on fait iterer -1, 0 et 1
             for (let j = -1; j <= 1; j++){
                 //verifie si c'est pas en dehors du tab
-                if ((pos[0] + i >= 0) && (pos[0] + i < this.largeur) && (pos[1] + j >= 0) && (pos[1] + j < this.longeur)) {
+                if ((pos[0] + i >= 0) && (pos[0] + i < this.ligne) && (pos[1] + j >= 0) && (pos[1] + j < this.colonne)) {
                     let tuile2 = this.tabTuiles[pos[0] + i][pos[1] + j];
                     if (tuile2.getIndice()) { //si la tuile à une indice sup à 0
                         this.tuileClicked(pos[0] + i, pos[1] + j);
@@ -209,6 +221,39 @@ class AbsDem extends Abs{
                     }
                 }
             }
+        }
+    }
+
+    verifVictoire(){
+        let nbHidden = 0;
+        //on compte le nb de tuiles encore cachés dans le tab
+        for (let ligne = 0; ligne < this.ligne; ligne++){
+            for (let colonne = 0; colonne < this.colonne; colonne++){
+                let tuile = this.tabTuiles[ligne][colonne];
+                if (tuile.isHidden()){
+                    nbHidden ++;
+                }
+            }
+        }
+        //on differencie par niveau
+        switch(this.ligne){
+            case(9):
+                if (nbHidden === 9){
+                    this.ctrl.getMessageFromAbstraction(MESSAGE.VIC_DEM, 1);
+                }
+                break;
+
+            case(16):
+                if (nbHidden === 40){
+                    this.ctrl.getMessageFromAbstraction(MESSAGE.VIC_DEM, 2);
+                }
+                break;
+
+            default:
+                if (nbHidden === 99){
+                    this.ctrl.getMessageFromAbstraction(MESSAGE.VIC_DEM, 3);
+                }
+                break;
         }
     }
 
@@ -243,11 +288,11 @@ class PresDem extends Pres{
             this.grille.mine(pieceJointe);
         }
 
-        else if (message === MESSAGE.VICTOIRE){
+        else if (message === MESSAGE.VIC_DEM){
             this.afficher("Vous avez gagné!");
         }
 
-        else if (message === MESSAGE.PERTE){
+        else if (message === MESSAGE.DEF_DEM){
             this.afficher("Vous avez perdu");
         }
 
@@ -386,6 +431,9 @@ class CtrlDem extends Ctrl{
     getMessageFromAbstraction(message, piecejointe){
         //march pour victoire, perte, decouvre, indice et mine
         this.pres.getMessage(message, piecejointe);
+        if (message === MESSAGE.VIC_DEM || message === MESSAGE.DEF_DEM){
+            this.parent.recoitMessageDUnEnfant(message, piecejointe, this);
+        }
     }
 
     getMessageFromPresentation(message, piecejointe){

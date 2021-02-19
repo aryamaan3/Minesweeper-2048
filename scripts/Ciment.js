@@ -38,7 +38,7 @@ class CtrlCiment extends Ctrl{
 
     recoitMessageDUnEnfant(message, piecejointe, ctrl) {
         if (message === MESSAGE.CHANGEPAGE) {
-            switch(piecejointe){
+            switch (piecejointe) {
                 case(MESSAGE.ACCUEIL):
                     this.header.innerHTML = "Site de jeux en ligne"
                     break;
@@ -62,12 +62,18 @@ class CtrlCiment extends Ctrl{
 
 
             }
-        } else if (message === MESSAGE.REMOVELISTENER){
+        } else if (message === MESSAGE.REMOVELISTENER) {
             // On dit à tous le monde d'enlever ses listeners
             //let j2048 = this.enfants[0];
             this.j2048.getMessageFromParent(MESSAGE.REMOVELISTENER);
             this.demineur.getMessageFromParent(MESSAGE.REMOVELISTENER);
             this.profil.getMessageFromParent(MESSAGE.REMOVELISTENER);
+        }
+        else if (message === MESSAGE.VIC_DEM) {
+            this.profil.getMessageFromParent(message, piecejointe);
+        }
+        else if (message === MESSAGE.DEF_DEM) {
+            this.profil.getMessageFromParent(message, piecejointe);
         }
         // ça c'était dans le code de Monsieur RENEVIER
         else super.recoitMessageDUnEnfant(message, piecejointe);
