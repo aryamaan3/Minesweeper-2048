@@ -116,9 +116,12 @@ class Grille2048{
         // Déplacement de toutes les tuiles dans la matrice
         this.deplaceTuileDansMatrice(direction);
 
+        // Création des nouvelles tuiles
+        this.placerNouvelleTuileSurGrille();
+        this.placerNouvelleTuileSurGrille();
+
         // mise à jour de la grille
         this.miseAJourGrille();
-        // Création des nouvelles tuiles
 
     }
 
