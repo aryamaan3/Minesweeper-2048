@@ -137,11 +137,49 @@ class Grille2048{
                 // Maintenant qu'on un array pour case sur la même ligne ou colonnes
                 // On peut les déplacer
 
-                if(tuilesSurMemeLigne.length !== 0){
+                if(tuilesSurMemeLigne.length > 1){
                     // Maintenant qu'on a toute les tuiles, on ordonne notre tableau en fonction de
                     // la colonne de l'element
                     tuilesSurMemeLigne.sort(this.ordonneLigne);
-                    console.log(tuilesSurMemeLigne);
+
+                    // Puis après l'avoir ordonné, il faut placer les tuiles au bon endroit :
+                    // Si la longeur de tuileSurMemeLigne == 3 alors la première tuile
+                    // est à la position 1, la deuxième à la pos 2 et la dernière à la pos 3
+
+                    // Il faut stocker la longueur puisqu'elle va changer lorsqu'on va faire pop ou shift
+                    let longueur = tuilesSurMemeLigne.length;
+
+                    // Ce for permet d'éviter le switch à rallonge qui est en dessus que je garde
+                    // tout de même au cas où j'ai besoin de plus de précision
+                    if(direction === MESSAGE.RIGHT){
+                        for(let len = 3; len > 3 - longueur; len --){
+                            tuilesSurMemeLigne.pop().setColonne(len);
+                        }
+                    } else {
+                        for(let len = 0; len < longueur; len ++){
+                            // Shift et pas pop puisque le premier element de la liste doit se retrouver
+                            // tout à gauche
+                            tuilesSurMemeLigne.shift().setColonne(len);
+                        }
+                    }
+
+                    /*
+                    switch(tuilesSurMemeLigne.length){
+                        case 2:
+                            // On a deux tuiles sur la même ligne
+                            tuilesSurMemeLigne.pop().setColonne(3);
+                            tuilesSurMemeLigne.pop().setColonne(2);
+                            break;
+                        case 3:
+                            // 3 tuiles sur la même ligne
+                            tuilesSurMemeLigne.pop().setColonne(3);
+                            tuilesSurMemeLigne.pop().setColonne(2);
+                            tuilesSurMemeLigne.pop().setColonne(1);
+                            break;
+                        case 4:
+                            // Pas de changement
+                            break;
+                    }*/
                 } else { // Si il n'y a pas d'autre tuile, il faut la déplacer au maximum
                     if(direction === MESSAGE.RIGHT){ tuile.setColonne(3); }
                     else{ tuile.setColonne(0); }
@@ -157,10 +195,41 @@ class Grille2048{
                 // Maintenant qu'on un array pour case sur la même ligne ou colonnes
                 // On peut les déplacer
 
-                if(tuileSurMemeColonne.length !== 0){
+                if(tuileSurMemeColonne.length > 1){
                     // Maintenant qu'on a toute les tuiles, on ordonne notre tableau en fonction de
                     // la colonne de l'element
                     tuileSurMemeColonne.sort(this.ordonneColonne);
+
+                    // Il faut stocker la longueur puisqu'elle va changer lorsqu'on va faire pop ou shift
+                    let longueur = tuileSurMemeColonne.length;
+
+                    if(direction === MESSAGE.DOWN){
+                        for(let len = 3; len > 3 - longueur; len --){
+                            tuileSurMemeColonne.pop().setLigne(len);
+                        }
+                    } else { // UP
+                        for(let len = 0; len < longueur; len ++){
+                            // Shift et pas pop puisque le premier element de la liste doit se retrouver
+                            // tout à gauche
+                            tuileSurMemeColonne.shift().setLigne(len);
+                        }
+                    }
+                    /*switch(tuileSurMemeColonne.length){
+                        case 2:
+                            // On a deux tuiles sur la même ligne
+                            tuileSurMemeColonne.pop().setLigne(3);
+                            tuileSurMemeColonne.pop().setLigne(2);
+                            break;
+                        case 3:
+                            // 3 tuiles sur la même ligne
+                            tuileSurMemeColonne.pop().setLigne(3);
+                            tuileSurMemeColonne.pop().setLigne(2);
+                            tuileSurMemeColonne.pop().setLigne(1);
+                            break;
+                        case 4:
+                            // Pas de changement
+                            break;
+                    }*/
 
                 } else { // Si il n'y a pas d'autre tuile, il faut la déplacer au maximum
                     if(direction === MESSAGE.DOWN){ tuile.setLigne(3); }
@@ -179,25 +248,29 @@ class Grille2048{
      */
     trouveAlignementHorinzontal(tuile){
         let tuileSurMemeLigne = [];
+
+        // On sait que la tuile passée en paramètre fait déjà partie de notre liste
+        tuileSurMemeLigne.push(tuile);
+
             // On parcours de nouveau nos tuiles pour trouver des alignements
-            this.listeTuile.forEach( autreTuile =>{
+        this.listeTuile.forEach( autreTuile =>{
 
-                // Si on trouve une tuile (différente de la notre) sur la même ligne
-                if( (tuile.ligne === autreTuile.ligne) && (tuile !== autreTuile) ){
-                    console.log("Deux tuiles sur la même ligne");
-                    // On ajoute dans un tableau toutes les tuiles qui sont sur
-                    // la même ligne, une fois qu'on les a toute trouvées, on pourra
-                    // les déplacer
-                    tuileSurMemeLigne.push(tuile);
-                }
-
-        })
+            // Si on trouve une tuile (différente de la notre) sur la même ligne
+            if( (tuile.ligne === autreTuile.ligne) && (tuile !== autreTuile) ){
+                // On ajoute dans un tableau toutes les tuiles qui sont sur
+                // la même ligne, une fois qu'on les a toute trouvées, on pourra
+                // les déplacer
+                tuileSurMemeLigne.push(autreTuile);
+            }
+        });
 
         return tuileSurMemeLigne;
     }
 
     trouveAlignementVertical(tuile){
         let tuileSurMemeColonne = [];
+
+        tuileSurMemeColonne.push(tuile);
         // On parcours de nouveau nos tuiles pour trouver des alignements
         this.listeTuile.forEach( autreTuile =>{
 
@@ -207,9 +280,8 @@ class Grille2048{
                 // On ajoute dans un tableau toutes les tuiles qui sont sur
                 // la même ligne, une fois qu'on les a toute trouvées, on pourra
                 // les déplacer
-                tuileSurMemeColonne.push(tuile);
+                tuileSurMemeColonne.push(autreTuile);
             }
-
         })
 
         return tuileSurMemeColonne;
