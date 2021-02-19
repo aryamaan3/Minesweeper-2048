@@ -1,6 +1,5 @@
 class Grille2048{
     constructor() {
-        console.log("nouvelle grille");
         this.nbLignes = 4;
         this.nbColonnes = 4;
         //this.nbCases = this.nbLignes * this.nbColonnes;
@@ -147,10 +146,13 @@ class Grille2048{
                     // valeur et si c'est le cas : les fusionner
 
                     if(this.fusionPossible(tuilesSurMemeLigne)){
+
                         this.fusion(tuilesSurMemeLigne, direction);
+                        //this.miseAJourGrille();
                     }
 
                     //TODO re-sort ?
+                    //TODO Modifier tuilesSurMemeLigne avec fusion
 
                     // Puis après l'avoir ordonné, il faut placer les tuiles au bon endroit :
                     // Si la longeur de tuileSurMemeLigne == 3 alors la première tuile
@@ -215,8 +217,8 @@ class Grille2048{
                     // Ici, il faut vérifier si deux cases adjacente sont de même
                     // valeur et si c'est le cas : les fusionner
 
-                    if(this.fusionPossible(tuilesSurMemeLigne)){
-                        this.fusion(tuilesSurMemeLigne, direction);
+                    if(this.fusionPossible(tuileSurMemeColonne)){
+                        this.fusion(tuileSurMemeColonne, direction);
                     }
 
                     //TODO re-sort ?
@@ -297,7 +299,8 @@ class Grille2048{
 
             // Si on trouve une tuile (différente de la notre) sur la même ligne
             if( (tuile.colonne === autreTuile.colonne) && (tuile !== autreTuile) ){
-                console.log("Deux tuiles sur la même colonne");
+                //console.log("Deux tuiles sur la même colonne");
+
                 // On ajoute dans un tableau toutes les tuiles qui sont sur
                 // la même ligne, une fois qu'on les a toute trouvées, on pourra
                 // les déplacer
@@ -351,7 +354,7 @@ class Grille2048{
         // actuelle avec la prochaine
         for(let i = 0; i < tuileSurMemeLigneOuColonne.length - 1; i ++){
             if(tuileSurMemeLigneOuColonne[i].getValue() === tuileSurMemeLigneOuColonne[i+1].getValue()){
-                //console.log("On a candidat pour fusion");
+                //console.log("fusion possible");
                 return true;
             }
         }
@@ -359,6 +362,7 @@ class Grille2048{
     }
 
     fusion(tuileSurMemeLigneOuColonne, direction){
+        //console.log(direction);
         // Le comportement au niveau de l'array est le même pour la DROITE et le BAS
         // De même pour la GAUCHE et le HAUT
 
@@ -372,19 +376,19 @@ class Grille2048{
                 // i = (len-1) car on veut prendre le dernier indice
                 for(let i = (len-1); i > 0 ; i--){
                     if(tuileSurMemeLigneOuColonne[i].getValue() === tuileSurMemeLigneOuColonne[i-1].getValue()){
-                        console.log("On fusionne tuile ligne"
+                        /*console.log("On fusionne tuile ligne"
                             + tuileSurMemeLigneOuColonne[i].ligne + ", colonne : "
                             + tuileSurMemeLigneOuColonne[i].colonne + " et tuile ligne "+
                             + tuileSurMemeLigneOuColonne[i-1].ligne + ", colonne : "
-                            + tuileSurMemeLigneOuColonne[i-1].colonne);
+                            + tuileSurMemeLigneOuColonne[i-1].colonne);*/
                         // On passe en premier la tuile qui va survivre à la fusion
                         this.fusionne2Tuiles(tuileSurMemeLigneOuColonne[i], tuileSurMemeLigneOuColonne[i-1]);
+
                     }
                 }
                 break;
             case MESSAGE.LEFT:
             case MESSAGE.UP:
-                //TODO
                 for(let i = 0; i < len - 1 ; i++){
                     if(tuileSurMemeLigneOuColonne[i].getValue() === tuileSurMemeLigneOuColonne[i+1].getValue()){
                         // On passe en premier la tuile qui va survivre à la fusion
@@ -404,13 +408,29 @@ class Grille2048{
         // Soit l'on donne la valeur de tuile2 à tuile1
         // Ou alors on fait valeur de tuile1 * 2 puisque seule les tuiles de même valeur fusionne
         // Pour mettre en lumière des erreurs potentielles, j'applique la première méthode
-
+        if(tuile1.getValue() !== tuile2.getValue() ){
+            console.log("Erreur, les deux tuiles ne sont pas égales");
+        }
         tuile1.setValue(tuile1.getValue() + tuile2.getValue());
 
         // On supprime tuile2 et son div .tuile associé
-        /*
-        delete tuile2.ligne;
+
+        // Cette ligne permet de ne pas fusionner une case qui vient de l'etre
+        // J'avais un problème lorsque 3 case était sur la même ligne au moment d'une fusion
+        tuile2.setValue(0);
+        /*delete tuile2.ligne;
         delete tuile2.colonne;
         delete tuile2.value;*/
+        this.remove(this.listeTuile, tuile2);
+    }
+
+    /**
+     * Enlève un element d'un array
+     * @param array
+     * @param element
+     */
+    remove(array, element){
+        let index = array.indexOf(element);
+        array.splice(index,1);
     }
 }
