@@ -102,19 +102,8 @@ class AbsDem extends Abs{
             console.log("erreur sur nb de mines genérés");
         }
 
-        let pos = [];
-        pos[0] = coordX;
-        pos[1] = coordY;
-        let posEtIndice = [];
-        posEtIndice[0] = pos;
-
         this.genIndiceTab(); //ajoute les indices aux tuiles
-        posEtIndice[1] = this.tabTuiles[coordX][coordY].getIndice();
-
-        this.tabTuiles[coordX][coordY].setDecouvert(); // marque la tuile cliqué comme decouvert
-        this.ctrl.getMessageFromAbstraction(MESSAGE.DECOUVRE, pos)
-        this.ctrl.getMessageFromAbstraction(MESSAGE.INDICE, posEtIndice);
-        //this.ctrl.getMessageFromAbstraction(MESSAGE.VICTOIRE);
+        this.tuileClicked(coordX, coordY); //traite la tuile cliqué
     }
 
     /**
@@ -137,8 +126,8 @@ class AbsDem extends Abs{
      * appel genIndiceTuile pour chaque tuile du tab
      */
     genIndiceTab(){
-        for (let ligne = 0; ligne < this.longeur; ligne ++){
-            for (let colonne = 0; colonne < this.largeur; colonne ++){
+        for (let ligne = 0; ligne < this.largeur; ligne ++){
+            for (let colonne = 0; colonne < this.longeur; colonne ++){
                 this.genIndiceTuile(ligne, colonne);
             }
         }
@@ -157,7 +146,7 @@ class AbsDem extends Abs{
         for (let i = -1; i <= 1; i++){ // on fait iterer -1, 0 et 1
             for (let j = -1; j <= 1; j++){
                 //verifie si c'est pas en dehors du tab
-                if ((ligne + i >= 0) && (ligne + i < this.longeur) && (colonne + j >= 0) && (colonne + j < this.largeur)) {
+                if ((ligne + i >= 0) && (ligne + i < this.largeur) && (colonne + j >= 0) && (colonne + j < this.longeur)) {
                     let tuile = this.tabTuiles[ligne + i][colonne + j];
                     if (tuile.isMine()) {
                         nbMines++;
@@ -190,6 +179,35 @@ class AbsDem extends Abs{
                 posEtIndice[0] = pos;
                 posEtIndice [1] = tuile.getIndice();
                 this.ctrl.getMessageFromAbstraction(MESSAGE.INDICE, posEtIndice); //montre le nb des mines adjacents
+                if (!posEtIndice[1]){ //si indice 0
+                    this.decouvrirAutour(tuile, pos);
+                }
+            }
+        }
+    }
+
+    /**
+     * decouvre les tuiles ayant indice 0 autour de la tuile donnée en param
+     * @param tuile ayant comme indice 0
+     * @param pos
+     */
+    decouvrirAutour(tuile, pos){
+        //meme algo que pour les indices
+        for (let i = -1; i <= 1; i++){ // on fait iterer -1, 0 et 1
+            for (let j = -1; j <= 1; j++){
+                //verifie si c'est pas en dehors du tab
+                if ((pos[0] + i >= 0) && (pos[0] + i < this.largeur) && (pos[1] + j >= 0) && (pos[1] + j < this.longeur)) {
+                    let tuile2 = this.tabTuiles[pos[0] + i][pos[1] + j];
+                    if (tuile2.getIndice()) { //si la tuile à une indice sup à 0
+                        this.tuileClicked(pos[0] + i, pos[1] + j);
+                    }
+                    else {
+                        if (tuile2.isHidden()) { //indice 0 et non traité
+                            this.tuileClicked(pos[0] + i, pos[1] + j); //recursion
+                            //afin de traiter les tuiles à 0 autour de celle là
+                        }
+                    }
+                }
             }
         }
     }
