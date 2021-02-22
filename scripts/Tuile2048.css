@@ -1,5 +1,9 @@
-.tuile{
-    background-color: lightgrey;
+
+/* Pour selectionner toutes les classNames au format tuile[...] et donc eviter de recopier du code
+ * dans les .tuile2, .tuile4, ...
+ * https://stackoverflow.com/questions/5110249/wildcard-in-css-for-classes
+ */
+div[class^="tuile"] {
     width: 100%;
     height: 100%;
     text-align: center;
@@ -8,11 +12,61 @@
     font-family: "Gill Sans", sans-serif;
     font-size: 60px;
     color: burlywood;
+}
 
+/*
+* Au cas où le joueur dépasse 4096
+ */
+.tuileDefault{
+    background-color: lightgrey;
+}
+
+.tuile2{
+    background-color: lightgrey;
 }
 
 .tuile4{
     background-color: grey;
+}
+
+.tuile8{
+    background-color: rosybrown;
+}
+
+.tuile16{
+    background-color: lightsalmon;
+}
+
+.tuile32{
+    background-color: lightcoral;
+}
+
+.tuile64{
+    background-color: indianred;
+}
+
+.tuile128{
+    background-color: palegoldenrod;
+}
+
+.tuile256{
+    background-color: goldenrod;
+}
+
+.tuile512{
+    background-color: gold;
+}
+
+.tuile1024{
+    background-color: lightgreen;
+}
+
+.tuile2048{
+    background-color: darkseagreen;
+}
+
+.tuile4096{
+    background-color: yellowgreen;
 }
 
 .case .tuile{

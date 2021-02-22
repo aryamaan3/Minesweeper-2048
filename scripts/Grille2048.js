@@ -86,7 +86,10 @@ class Grille2048{
 
     miseAJourGrille(){
         // On efface tous les anciens div
-        let anciennesTuiles = document.querySelectorAll(".tuile");
+        let anciennesTuiles = document.querySelectorAll('div[class^="tuile"]');
+        // => pour le 'div[class^="tuile"]' :
+        // https://stackoverflow.com/questions/22442808/can-you-use-a-wildcard-in-getelementbyid
+        // Me permet de récupérer les className au format tuile[...]
         anciennesTuiles.forEach((element) => {
             element.parentElement.removeChild(element);
         })
@@ -97,7 +100,7 @@ class Grille2048{
 
                     // On crée un nouveau div qui contiendra notre objet tuile
                     let div = document.createElement("div");
-                    div.className = "tuile";
+                    div.className = "tuile" + tuile.getValue(); // tuile2, tuile4, ...
                     div.innerHTML=""+tuile.getValue();
 
                     //console.log("On va récuperer la case"+ligne+"-"+colonne);
