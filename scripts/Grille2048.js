@@ -80,6 +80,9 @@ class Grille2048{
         tuile.setColonne(colonne);
         tuile.setValue(2);
 
+        // Pour avoir une animation d'apparition
+        tuile.setApparition(true);
+
         // On ajoute cette tuile à notre liste
         this.listeTuile.push(tuile);
     }
@@ -102,6 +105,16 @@ class Grille2048{
                     let div = document.createElement("div");
                     div.className = "tuile" + tuile.getValue(); // tuile2, tuile4, ...
                     div.innerHTML=""+tuile.getValue();
+
+                    // Si c'est la première fois que la tuile apparait sur la grille
+                    // on lui fait subir une animation
+                    if(tuile.getApparition()){
+                        div.style.animationName = "apparition";
+                        div.style.animationDuration = "0.3s";
+
+                        // Dès lors qu'elle a été exécutée une première fois, on en a plus besoin
+                        tuile.setApparition(false);
+                    }
 
                     //console.log("On va récuperer la case"+ligne+"-"+colonne);
                     //on récupère notre case grâce à l'id généré aléatoirement
@@ -441,4 +454,5 @@ class Grille2048{
         let index = array.indexOf(element);
         array.splice(index,1);
     }
+
 }

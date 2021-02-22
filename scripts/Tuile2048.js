@@ -9,6 +9,11 @@ class Tuile2048{
 
         // Une valeur = 2, 4, 8, 16 ...
         this.value = 0;
+
+        // Variable qui permet de savoir si il faut faire une
+        // animation lors de l'apparition d'une nouvelle tuile
+        // (à chaque tour)
+        this.apparition = false;
     }
 
     setLigne(ligne){
@@ -25,6 +30,14 @@ class Tuile2048{
 
     getValue(){
         return this.value;
+    }
+
+    setApparition(bool){
+        this.apparition = bool;
+    }
+
+    getApparition(){
+        return this.apparition;
     }
 
 }
