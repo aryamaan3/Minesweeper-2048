@@ -20,9 +20,7 @@ class Grille2048{
 
         // On l'ajoute au html
         container.appendChild(this.grille);
-
-        this.placerNouvelleTuileSurGrille();
-        this.placerNouvelleTuileSurGrille();
+        
         this.placerNouvelleTuileSurGrille();
         this.placerNouvelleTuileSurGrille();
         this.miseAJourGrille();
@@ -116,12 +114,16 @@ class Grille2048{
         // Déplacement de toutes les tuiles dans la matrice
         this.deplaceTuileDansMatrice(direction);
 
-        // Création des nouvelles tuiles
-        this.placerNouvelleTuileSurGrille();
-        this.placerNouvelleTuileSurGrille();
+        // Si la grille n'est pas full
+        if(this.listeTuile.length < 16){
+            // Création d'une nouvelle tuile
+            this.placerNouvelleTuileSurGrille();
+        }
 
         // mise à jour de la grille
         this.miseAJourGrille();
+
+        console.log(this.listeTuile);
 
     }
 
