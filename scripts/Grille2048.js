@@ -10,6 +10,11 @@ class Grille2048{
         this.listeTuile = [];
     }
 
+    /**
+     * Méthode appelée une unique fois, à l'initialisation.
+     * Elle construit la structure HTML de la grille, avec un container
+     * et des div dont la class est "case".
+     */
     construction(){
         // On crée et accroche notre element HTML à la page
         let container = document.createElement('div');
@@ -27,7 +32,7 @@ class Grille2048{
     }
 
     /**
-     * Remplie la matrice de div (4 par lignes)
+     * Remplie la grille de div (4 par lignes) dont la classe est "case"
      */
     fillGrilleDiv(){
         for(let l = 0; l <this.nbLignes; l++){
@@ -48,6 +53,13 @@ class Grille2048{
         }
     }
 
+    /**
+     * Méthode qui fait en sorte qu'une tuile ne soit pas placée sur une tuile déjà existante.
+     * Est utilisée dans un while de la méthode placerNouvelleTuileSurGrille().
+     * @param ligne
+     * @param colonne
+     * @returns {boolean} true si la position est libre, false sinon
+     */
     verifieEmplacement(ligne, colonne) {
         let emplacement = false;
         this.listeTuile.forEach( tuile => {
@@ -78,7 +90,7 @@ class Grille2048{
         let tuile = new Tuile2048();
         tuile.setLigne(ligne);
         tuile.setColonne(colonne);
-        tuile.setValue(2);
+        tuile.setValue(this.randomValue());
 
         // Pour avoir une animation d'apparition
         tuile.setApparition(true);
@@ -87,6 +99,24 @@ class Grille2048{
         this.listeTuile.push(tuile);
     }
 
+    /**
+     * On a une chance sur 10 d'avoir un 4 comme nouvelle tuile
+     * Utilisé par placerNouvelleTuileSurGrille() au moment du setValue de la tuile
+     * @returns {number} Valeur de la nouvelle tuile
+     */
+    randomValue(){
+        let val = Math.round(Math.random() * 10);
+        if (val < 9){
+            return 2;
+        } else { return 4;}
+    }
+
+    /**
+     * Méthodes qui efface dans un premier temps tous les anciens div de class tuile pour
+     * les reconstruire en fonction des mouvements qu'il y a eu.
+     * On itère sur notre listeTuile afin de construire un div "tuile" pour chaque tuile
+     * Ce div est placé grace à la position (ligne/colonne) qui est extrait de l'objet tuile
+     */
     miseAJourGrille(){
         // On efface tous les anciens div
         let anciennesTuiles = document.querySelectorAll('div[class^="tuile"]');
@@ -125,6 +155,14 @@ class Grille2048{
         });
     }
 
+    /**
+     * Lorsqu'un mouvement est décidé par l'utilisateur, si ce mouvemeny est permit,
+     * alors un tour passe : il y a une création de tuile.
+     * A la fin du tour, on met à jour notre grille, ce qui va générer les div en fonction
+     * des tuiles.
+     * @param direction
+     */
+
     nouveauTour(direction){
         console.log("Nouveau tour");
         // Déplacement de toutes les tuiles dans la matrice
@@ -143,6 +181,11 @@ class Grille2048{
 
     }
 
+    /**
+     * Cette méthode gère le déplacement des tuiles contenue dans listeTuile.
+     * Elle regarde les alignements de case, ordonne les fusions si besoin
+     * @param direction
+     */
     deplaceTuileDansMatrice(direction) {
 
         let tuilesSurMemeLigne = [];
@@ -287,7 +330,9 @@ class Grille2048{
     }
 
     /**
-     *
+     * Méthode qui itère sur la liste de tuile à la recherche de tuiles sur la même ligne
+     * que la tuile passée en paramètre.
+     * @param tuile
      * @returns {[]} Array qui contient toutes les tuiles
      */
     trouveAlignementHorinzontal(tuile){
@@ -311,6 +356,12 @@ class Grille2048{
         return tuileSurMemeLigne;
     }
 
+    /**
+     * Méthode qui itère sur la liste de tuile à la recherche de tuiles sur la même colonne
+     * que la tuile passée en paramètre.
+     * @param tuile
+     * @returns {[]}
+     */
     trouveAlignementVertical(tuile){
         let tuileSurMemeColonne = [];
 
@@ -333,8 +384,8 @@ class Grille2048{
     }
 
     /**
-     * Fonction utilisée par sort pour faire un trie automatique de
-     * l'array qui contient les aligments horizontaux
+     * Fonction utilisée par sort pour faire un tri automatique de
+     * l'array qui contient les alignements horizontaux
      * @param a
      * @param b
      * @returns {number}
@@ -347,22 +398,19 @@ class Grille2048{
         else {return 0;}
     }
 
+    /**
+     * Fonction utilisée par sort pour faire un tri automatique de
+     * l'array qui contient les alignements verticaux
+     * @param a
+     * @param b
+     * @returns {number}
+     */
     ordonneColonne(a,b){
         // a et b sont deux tuiles
         // Sort s'attends à recevoir 1 si a > b, -1 si a < b, 0 sinon
         if(a.ligne > b.ligne){ return 1;}
         else if (a.ligne < b.ligne){ return -1;}
         else {return 0;}
-    }
-
-    changeHorizontalPos(tuile, newPos){
-        //let oldPos = tuile.colonne;
-        tuile.setColonne(newPos);
-    }
-
-    changeVerticalPos(tuile, newPos){
-        //let oldPos = tuile.colonne;
-        tuile.setLigne(newPos);
     }
 
     /**
@@ -382,6 +430,12 @@ class Grille2048{
         return false;
     }
 
+    /**
+     * Fonction qui s'occupe de fusionner les tuiles prétendantes d'une même ligne ou colonne.
+     * S'occupe d'une ligne ou colonne à la fois.
+     * @param tuileSurMemeLigneOuColonne
+     * @param direction
+     */
     fusion(tuileSurMemeLigneOuColonne, direction){
         //console.log(direction);
         // Le comportement au niveau de l'array est le même pour la DROITE et le BAS
