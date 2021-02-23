@@ -8,13 +8,15 @@ class AbsProfil extends Abs{
     init(){
         if (localStorage.getItem('vicDem')){
             this.vicDemineur = Number(localStorage.getItem('vicDem'));
+            this.ctrl.getMessageFromAbstraction(MESSAGE.VIC_DEM, this.vicDemineur);
         }
         else {
             localStorage.setItem('vicDem', '0');
         }
 
         if (localStorage.getItem('defDem')){
-            this.defDemineur = Number(localStorage.getItem('vicDem'));
+            this.defDemineur = Number(localStorage.getItem('defDem'));
+            this.ctrl.getMessageFromAbstraction(MESSAGE.DEF_DEM, this.defDemineur);
         }
         else {
             localStorage.setItem('defDem', '0');
@@ -59,7 +61,6 @@ class AbsProfil extends Abs{
 class PresProfil extends Pres{
     constructor() {
         super();
-        this.totalPlayed = 0;
         this.vicDemineur = 0;
         this.lossDem = 0;
         this.vic2048 = 0;
@@ -99,7 +100,7 @@ class PresProfil extends Pres{
 
         let ratio = document.createElement('p');
         ratio.id ="ratio";
-        ratio.innerHTML = "Ratio : "+ this.vicDemineur / this.lossDem;
+        ratio.innerHTML = "Ratio : "+ ((this.vicDemineur / this.lossDem).toFixed(2)) || 0; // si nan alors affiche 0
         demineur.appendChild(ratio);
 
         /*-------------------------------2048------------------------------*/
