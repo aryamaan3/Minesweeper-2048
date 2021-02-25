@@ -29,7 +29,7 @@ class Abs {
         this.ctrl = ctrl;
     }
 
-    recoitMessage(message, piecejointe) {
+    recoitMessage(message) {
         console.error("recoitMessage de Abs pas encore implémentée : "+message);
     }
 }
@@ -42,7 +42,7 @@ class Pres {
 
     }
 
-    recoitMessage(message, piecejointe) {
+    recoitMessage(message) {
         console.error("recoitMessage de Pres pas encore implémentée : "+message);
     }
 
@@ -60,7 +60,7 @@ class Ctrl  {
         this.enfants = [];
     }
 
-    recoitMessageDeLAbstraction(message, piecejointe) {
+    recoitMessageDeLAbstraction(message) {
         console.error("recoitMessageDeLAbstraction non impl : "+message);
     }
 
@@ -68,64 +68,17 @@ class Ctrl  {
         console.error("recoitMessageDUnEnfant non impl : "+message);
     }
 
-    recoitMessageDuParent(message, piecejointe) {
-        console.error("recoitMessageDuParent non impl : "+message);
+    recoitMessageDuParent(message, ctrl) {
+        console.error("recoitMessageDuParent non impl : "+message + " "+ ctrl);
     }
 
-    recoitMessageDeLaPresentation(message, piecejointe) {
+    recoitMessageDeLaPresentation(message) {
         console.error("recoitMessageDeLaPresentation non impl : "+message);
     }
 
     addEnfant(controleur) {
         this.enfants.push(controleur);
         controleur.setParent(this);
-    }
-
-    removeEnfant(controleur) {
-        this.enfants = this.enfants.filter(pac => pac !== controleur);
-    }
-
-    getEnfant(typeEnfant) {
-        switch (typeEnfant) {
-            case "barrenav":
-                this.enfants.forEach(e => {
-                    if(e instanceof CtrlNav){
-                        return this.enfants[e];
-                    }
-                    else return -1;
-                });
-                break;
-            case "2048":
-                this.enfants.forEach(e => {
-                    if(e instanceof Ctrl2048) return this.enfants[e];
-                    else return -1;
-                });
-                break;
-            case "demineur":
-                this.enfants.forEach(e => {
-                    if(e instanceof CtrlDem) return this.enfants[e];
-                    else return -1;
-                });
-                break;
-            case "profil":
-                console.log("in case profil");
-                this.enfants.forEach(e => {
-                    if(e instanceof CtrlProfil) {
-                        console.log(e);
-                        return e;
-                    }
-                    else return -1;
-                });
-                break;
-            default:
-                this.enfants.forEach(e => {
-                    if(e instanceof CtrlProfil) {
-                        return this.enfants[e];}
-                    else return -1;
-                });
-                break;
-        }
-
     }
 
     setParent(controleur) {

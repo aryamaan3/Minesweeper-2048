@@ -32,7 +32,7 @@ class AbsDem extends Abs{
     }
 
     getMessage(message, pieceJointe){
-        let result = "";
+        let result = 0;
 
         if (message === MESSAGE.NIVEAU){
             this.init(pieceJointe);
@@ -67,6 +67,7 @@ class AbsDem extends Abs{
 
         else {
             result = super.recoitMessage(message, pieceJointe);
+            result = 1;
         }
         return result;
     }
@@ -455,18 +456,35 @@ class CtrlDem extends Ctrl{
             //this.abs.getMessage(message)
             this.pres.getMessage(message);
         }
+        else if (message === MESSAGE.INIT || message === MESSAGE.REMOVELISTENER){
+        }
+        else{
+            super.recoitMessageDuParent(message, "demineur");
+        }
     }
 
     getMessageFromAbstraction(message, piecejointe){
-        //march pour victoire, perte, decouvre, indice et mine
-        this.pres.getMessage(message, piecejointe);
-        if (message === MESSAGE.VIC_DEM || message === MESSAGE.DEF_DEM){
+
+        if (message === MESSAGE.DECOUVRE || message === MESSAGE.INDICE || message === MESSAGE.MINE || message === MESSAGE.CLIC_DROIT) {
+            this.pres.getMessage(message, piecejointe);
+        }
+
+        else if (message === MESSAGE.VIC_DEM || message === MESSAGE.DEF_DEM){
+            this.pres.getMessage(message, piecejointe);
             this.parent.recoitMessageDUnEnfant(message, piecejointe, this);
+        }
+        else{
+            super.recoitMessageDeLAbstraction(message)
         }
     }
 
     getMessageFromPresentation(message, piecejointe){
         //cela marche pour message : niveau, premierclick, clicDroit et click
-        this.abs.getMessage(message, piecejointe);
+        let result;
+        result = this.abs.getMessage(message, piecejointe);
+        if (result){
+            super.recoitMessageDeLaPresentation(message)
+        }
+
     }
 }
