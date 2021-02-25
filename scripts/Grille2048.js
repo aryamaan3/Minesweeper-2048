@@ -164,22 +164,26 @@ class Grille2048{
      */
 
     nouveauTour(direction){
-        console.log("Nouveau tour");
-        // Déplacement de toutes les tuiles dans la matrice
-        this.deplaceTuileDansMatrice(direction);
+        //console.log("Nouveau tour");
+        console.log(this.mouvementPossible(direction));
+        // On vérifie si le mouvement est autorisé
+        if(this.mouvementPossible(direction)){
+            // Déplacement de toutes les tuiles dans la matrice
+            this.deplaceTuileDansMatrice(direction);
 
-        // Si la grille n'est pas full
-        if(this.listeTuile.length < 16){
-            // Création d'une nouvelle tuile
-            this.placerNouvelleTuileSurGrille();
+            // Si la grille n'est pas full
+            if(this.listeTuile.length < 16){
+                // Création d'une nouvelle tuile
+                this.placerNouvelleTuileSurGrille();
+            }
+
+            // mise à jour de la grille
+            this.miseAJourGrille();
+
+            // A la fin du tour, on dois enlever les marques des tuiles qui ont été fusionnées
+            // (marque qui peremt d'éviter les doubles fusions lors du même tour)
+            this.clearFusion();
         }
-
-        // mise à jour de la grille
-        this.miseAJourGrille();
-
-        // A la fin du tour, on dois enlever les marques des tuiles qui ont été fusionnées
-        // (marque qui peremt d'éviter les doubles fusions lors du même tour)
-        this.clearFusion();
     }
 
     /**
@@ -212,14 +216,10 @@ class Grille2048{
                 // On peut les déplacer
 
                 if(tuilesSurMemeLigne.length > 1){
-                    // Maintenant qu'on a toute les tuiles, on ordonne notre tableau en fonction de
-                    // la colonne de l'element
-                    tuilesSurMemeLigne.sort(this.ordonneLigne);
-
                     // Ici, il faut vérifier si deux cases adjacente sont de même
                     // valeur et si c'est le cas : les fusionner
 
-                    if(this.fusionPossible(tuilesSurMemeLigne)){
+                    if(this.fusionPossible(tuilesSurMemeLigne, direction)){
 
                         this.fusion(tuilesSurMemeLigne, direction);
                         //this.miseAJourGrille();
@@ -283,15 +283,10 @@ class Grille2048{
                 // On peut les déplacer
 
                 if(tuileSurMemeColonne.length > 1){
-                    // Maintenant qu'on a toute les tuiles, on ordonne notre tableau en fonction de
-                    // la colonne de l'element
-                    tuileSurMemeColonne.sort(this.ordonneColonne);
-
-
                     // Ici, il faut vérifier si deux cases adjacente sont de même
                     // valeur et si c'est le cas : les fusionner
 
-                    if(this.fusionPossible(tuileSurMemeColonne)){
+                    if(this.fusionPossible(tuileSurMemeColonne, direction)){
                         this.fusion(tuileSurMemeColonne, direction);
                     }
 
@@ -426,17 +421,119 @@ class Grille2048{
     /**
      * Fonction qui permet de savoir si une fusion est possible sur une ligne/colonne
      * @param tuileSurMemeLigneOuColonne : array ordonné des cases d'une ligne
+     * @param direction
      * @return true si une fusion est possible, false sinon
      */
-    fusionPossible(tuileSurMemeLigneOuColonne){
+    fusionPossible(tuileSurMemeLigneOuColonne, direction){
+        // Maintenant qu'on a toute les tuiles, on ordonne notre tableau en fonction de
+        // la colonne de l'element
+        if(direction === MESSAGE.RIGHT || direction === MESSAGE.LEFT){
+            tuileSurMemeLigneOuColonne.sort(this.ordonneLigne);
+        } else {
+            tuileSurMemeLigneOuColonne.sort(this.ordonneColonne);
+        }
         // On va itérer sur la liste et on va comparer la valeur de la tuile
         // actuelle avec la prochaine
         for(let i = 0; i < tuileSurMemeLigneOuColonne.length - 1; i ++){
             if(tuileSurMemeLigneOuColonne[i].getValue() === tuileSurMemeLigneOuColonne[i+1].getValue()){
-                //console.log("fusion possible");
+                /*console.log("fusion possible entre ligne "
+                    +tuileSurMemeLigneOuColonne[i].ligne +" colonne "+
+                    tuileSurMemeLigneOuColonne[i].colonne+ "et ligne "+
+                    tuileSurMemeLigneOuColonne[i+1].ligne +" colonne "+
+                    tuileSurMemeLigneOuColonne[i+1].colonne);*/
                 return true;
             }
         }
+        return false;
+    }
+
+    /**
+     * Pas de déplacement si toutes les tuiles sont collés vers la direction voulue
+     * ET qu'aucune fusion n'est possible
+     */
+    mouvementPossible(direction){
+        let tuilesSurMemeLigne = [];
+        let tuilesSurMemeColonne = [];
+
+        // Présomption false, dès que c'est true => au moins un mouvement possible
+        let possible = false;
+
+        // Le mur est la bord de la grille vers où les tuiles s'entassent
+        // C'est l'indice de la ligne ou colonne
+        let mur;
+        switch (direction){
+            case MESSAGE.RIGHT:
+            case MESSAGE.DOWN:
+                mur = 3;
+                break;
+            case MESSAGE.LEFT:
+            case MESSAGE.UP:
+                mur = 0;
+                break;
+        }
+
+        for(let i = 0; i < this.listeTuile.length ; i ++){
+            let tuile = this.listeTuile[i];
+            tuilesSurMemeLigne = this.trouveAlignementHorinzontal(tuile);
+            tuilesSurMemeColonne = this.trouveAlignementVertical(tuile);
+
+            // Si une fusion horizontale est possible lors d'une déplacement horizontal, true
+            if(this.fusionPossible(tuilesSurMemeLigne, direction)
+                && (direction === MESSAGE.LEFT || direction === MESSAGE.RIGHT)){
+                console.log("Fusion horizontale possible");
+                return true;
+            }
+            // Si une fusion verticale est possible lors d'une déplacement vertical, true
+            if(this.fusionPossible(tuilesSurMemeColonne, direction)
+                && (direction === MESSAGE.UP || direction === MESSAGE.DOWN)){
+                console.log("Fusion verticale possible");
+                return true;
+            }
+
+            // Si j'ai deux cases sur la même ligne et que la somme de leur colonne
+            // est différente de 5, ça veut dire qu'elle ne sont pas collée
+            // Si j'en ai 3 et que la somme veut 1 + 2 + 3 = 6, elles sont collées à droite
+            let sommeColonne = 0;
+            let sommeLigne = 0;
+
+            for(let c = 0; c < tuilesSurMemeLigne.length ; c ++){
+                sommeColonne += tuilesSurMemeLigne[c].colonne;
+            }
+            for(let l = 0; l < tuilesSurMemeColonne.length ; l ++){
+                sommeLigne += tuilesSurMemeColonne[l].ligne;
+            }
+
+            switch (tuilesSurMemeLigne.length){
+                case 1:
+                    if (sommeColonne !== 3 && direction === MESSAGE.RIGHT){return true;}
+                    if (sommeColonne !== 0 && direction === MESSAGE.LEFT){return true;}
+                    break;
+                case 2:
+                    if(sommeColonne !== 5 && direction === MESSAGE.RIGHT){return true;}
+                    if (sommeColonne !== 1 && direction === MESSAGE.LEFT){return true;}
+                    break;
+                case 3:
+                    if(sommeColonne !== 6 && direction === MESSAGE.RIGHT){return true;}
+                    if (sommeColonne !== 3 && direction === MESSAGE.LEFT){return true;}
+                    break;
+            }
+
+            switch (tuilesSurMemeColonne.length){
+                case 1:
+                    if (sommeLigne !== 3 && direction === MESSAGE.DOWN){return true;}
+                    if (sommeLigne !== 0 && direction === MESSAGE.UP){return true;}
+                    break;
+                case 2:
+                    if(sommeLigne !== 5 && direction === MESSAGE.DOWN){return true;}
+                    if (sommeLigne !== 1 && direction === MESSAGE.UP){return true;}
+                    break;
+                case 3:
+                    if(sommeLigne !== 6 && direction === MESSAGE.DOWN){return true;}
+                    if (sommeLigne !== 3 && direction === MESSAGE.UP){return true;}
+                    break;
+            }
+        }
+        // si aucun des return true est exécuté
         return false;
     }
 
