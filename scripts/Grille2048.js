@@ -177,8 +177,18 @@ class Grille2048{
         // mise à jour de la grille
         this.miseAJourGrille();
 
-        console.log(this.listeTuile);
+        // A la fin du tour, on dois enlever les marques des tuiles qui ont été fusionnées
+        // (marque qui peremt d'éviter les doubles fusions lors du même tour)
+        this.clearFusion();
+    }
 
+    /**
+     * Nettoie toutes les tuiles de leur propriété "fusion"
+     */
+    clearFusion(){
+        this.listeTuile.forEach(tuile => {
+            tuile.setFusion(true);
+        })
     }
 
     /**
@@ -450,7 +460,8 @@ class Grille2048{
                 // on va partir de la fin pour revenir vers le début
                 // i = (len-1) car on veut prendre le dernier indice
                 for(let i = (len-1); i > 0 ; i--){
-                    if(tuileSurMemeLigneOuColonne[i].getValue() === tuileSurMemeLigneOuColonne[i-1].getValue()){
+                    if(tuileSurMemeLigneOuColonne[i].getValue() === tuileSurMemeLigneOuColonne[i-1].getValue()
+                        && tuileSurMemeLigneOuColonne[i].getFusion() && tuileSurMemeLigneOuColonne[i-1].getFusion()){
                         /*console.log("On fusionne tuile ligne"
                             + tuileSurMemeLigneOuColonne[i].ligne + ", colonne : "
                             + tuileSurMemeLigneOuColonne[i].colonne + " et tuile ligne "+
@@ -465,7 +476,8 @@ class Grille2048{
             case MESSAGE.LEFT:
             case MESSAGE.UP:
                 for(let i = 0; i < len - 1 ; i++){
-                    if(tuileSurMemeLigneOuColonne[i].getValue() === tuileSurMemeLigneOuColonne[i+1].getValue()){
+                    if(tuileSurMemeLigneOuColonne[i].getValue() === tuileSurMemeLigneOuColonne[i+1].getValue()
+                        && tuileSurMemeLigneOuColonne[i].getFusion() && tuileSurMemeLigneOuColonne[i+1].getFusion()){
                         // On passe en premier la tuile qui va survivre à la fusion
                         this.fusionne2Tuiles(tuileSurMemeLigneOuColonne[i], tuileSurMemeLigneOuColonne[i+1]);
                     }
@@ -487,6 +499,9 @@ class Grille2048{
             console.log("Erreur, les deux tuiles ne sont pas égales");
         }
         tuile1.setValue(tuile1.getValue() + tuile2.getValue());
+
+        // Afin de ne pas faire de double fusion lors du même tour, on marque la tuile survivante :
+        tuile1.setFusion(false);
 
         // On supprime tuile2 et son div .tuile associé
 

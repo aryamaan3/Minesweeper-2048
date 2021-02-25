@@ -14,6 +14,13 @@ class Tuile2048{
         // animation lors de l'apparition d'une nouvelle tuile
         // (à chaque tour)
         this.apparition = false;
+
+        // Marque pour savoir si la case a déjà été fusionnée une première
+        // fois au cours de ce tour. Permet d'éviter les doubles fusions
+        // lors d'un même tour.
+        this.fusion = true;
+        // A la fin d'un tour, on va itérer sur les tuiles pour réinitialiser
+        // ces valeurs
     }
 
     setLigne(ligne){
@@ -38,6 +45,14 @@ class Tuile2048{
 
     getApparition(){
         return this.apparition;
+    }
+
+    getFusion(){
+        return this.fusion;
+    }
+
+    setFusion(bool){
+        this.fusion = bool;
     }
 
 }
