@@ -4,6 +4,7 @@ class AbsDem extends Abs{
         this.tabTuiles = [];
         this.colonne = 9; //colonne
         this.ligne = 9; //ligne
+        this.afficheAll = false;
     }
 
     /**
@@ -191,9 +192,11 @@ class AbsDem extends Abs{
         if (tuile.isHidden()){
             if (tuile.isMine()){
                 this.ctrl.getMessageFromAbstraction(MESSAGE.MINE, pos);
-                this.ctrl.getMessageFromAbstraction(MESSAGE.DEF_DEM, this.getNiveau());
                 tuile.setDecouvert();
-                this.afficheTout()
+                if (!this.afficheAll) {
+                    this.ctrl.getMessageFromAbstraction(MESSAGE.DEF_DEM, this.getNiveau());
+                    this.afficheTout();
+                }
             }
             else {
                 this.ctrl.getMessageFromAbstraction(MESSAGE.DECOUVRE, pos);
@@ -271,11 +274,13 @@ class AbsDem extends Abs{
     }
 
     afficheTout(){
+        this.afficheAll = true;
         for (let li = 0; li < this.ligne; li++){
             for (let col = 0; col < this.colonne; col++){
                 this.tuileClicked(li, col);
             }
         }
+        this.afficheAll = false;
     }
 
 
