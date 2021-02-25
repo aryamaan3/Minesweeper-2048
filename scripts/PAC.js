@@ -21,6 +21,7 @@ class MESSAGE {
     static MINE = "mine";
     static DEF_DEM = "perte";
     static INDICE = "indice";
+    static CLIC_DROIT = "clickDroit"
 }
 
 class Abs {

@@ -56,6 +56,15 @@ class AbsDem extends Abs{
             this.tuileClicked(posx, posy)
         }
 
+        else if (message === MESSAGE.CLIC_DROIT){
+            let posx = Math.floor(pieceJointe[0] / 30); //on le convertis aux indices d'un tab
+            let posy = Math.floor(pieceJointe[1] / 30);
+            let pos = [];
+            pos[0] = posx;
+            pos[1] = posy;
+            this.ctrl.getMessageFromAbstraction(message, pos);
+        }
+
         else {
             result = super.recoitMessage(message, pieceJointe);
         }
@@ -299,6 +308,10 @@ class PresDem extends Pres{
             this.grille.mine(pieceJointe);
         }
 
+        else if (message === MESSAGE.CLIC_DROIT){
+            this.grille.drapeau(pieceJointe);
+        }
+
         else if (message === MESSAGE.VIC_DEM){
             this.afficher("Vous avez gagné!");
         }
@@ -392,17 +405,22 @@ class PresDem extends Pres{
      * envoi message au controleur
      * @param coordX coordonnée x du placement du click souris
      * @param coordY coordonnée y du placement du click souris
+     * @param click true pour click gauche, false pour click droit
      */
-    click(coordX, coordY){
+    click(coordX, coordY, click){
         let coord = [];
         coord[0] = coordX;
         coord[1] = coordY;
-        if (this.premierClick){
-            this.ctrl.getMessageFromPresentation(MESSAGE.PREMIERCLICK, coord);
-            this.premierClick = false;
+        if (click) {
+            if (this.premierClick) {
+                this.ctrl.getMessageFromPresentation(MESSAGE.PREMIERCLICK, coord);
+                this.premierClick = false;
+            } else {
+                this.ctrl.getMessageFromPresentation(MESSAGE.CLICK, coord);
+            }
         }
         else {
-            this.ctrl.getMessageFromPresentation(MESSAGE.CLICK, coord);
+            this.ctrl.getMessageFromPresentation(MESSAGE.CLIC_DROIT, coord);
         }
     }
 
@@ -448,7 +466,7 @@ class CtrlDem extends Ctrl{
     }
 
     getMessageFromPresentation(message, piecejointe){
-        //cela marche pour message : niveau, premierclick et click
+        //cela marche pour message : niveau, premierclick, clicDroit et click
         this.abs.getMessage(message, piecejointe);
     }
 }

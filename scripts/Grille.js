@@ -38,8 +38,19 @@ class Grille{
                 posx = e.offsetX;
                 posy = e.offsetY;
             }
-            presDem.click(posx, posy);
+            presDem.click(posx, posy, true); //click gauche
         });
+
+        canvas.addEventListener("contextmenu", (e) => {
+            //https://stackoverflow.com/questions/47737404/detecting-left-and-right-mouse-events-for-a-canvas-game
+            let posx, posy;
+            e.preventDefault();
+            if (e.offsetX) { //position sur le canvas
+                posx = e.offsetX;
+                posy = e.offsetY;
+            }
+            presDem.click(posx, posy, false) //click droit
+        })
 
         let longeur, largeur;
 
@@ -116,5 +127,20 @@ class Grille{
     showIndice(posEtIndice){
         let tuile = this.tabTuile[posEtIndice[0][0]][posEtIndice[0][1]];
         tuile.draw(this.ctx, posEtIndice[1]);
+    }
+
+    /**
+     * appel tuile pour dessiner un drapeau à l'endroit cliqué
+     * @param pos de la tuile
+     */
+    drapeau(pos){
+        let tuile = this.tabTuile[pos[0]][pos[1]];
+        if (!tuile.isDrapeau()) { //si la tuile n'a pas de drapeau
+            tuile.setDrapeau(true)
+        }
+        else { //si la tuile a deja un drapeau
+            tuile.setDrapeau(false);
+        }
+        tuile.draw(this.ctx);
     }
 }

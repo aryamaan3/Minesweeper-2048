@@ -16,6 +16,12 @@ mine.onload = function (){
 }
 mine.src = 'assets/mine.png';
 
+let drapeau = new Image();
+drapeau.onload = function (){
+    console.log("drapeau loaded");
+}
+drapeau.src = 'assets/drapeau.png';
+
 class Tuile{
     constructor(x, y) {
         this.size = 30;
@@ -23,6 +29,7 @@ class Tuile{
         this.y = y * this.size;
         this.hidden = true;
         this.mine = false;
+        this.drapeau = false;
     }
 
     draw(ctx, indice){
@@ -39,6 +46,10 @@ class Tuile{
 
         if (indice){
             this.drawIndice(ctx, indice);
+        }
+
+        if (this.drapeau){
+            ctx.drawImage(drapeau, this.x, this.y, this.size, this.size);
         }
 
     }
@@ -59,5 +70,13 @@ class Tuile{
 
     setMine(){
         this.mine = true;
+    }
+
+    isDrapeau(){
+        return this.drapeau;
+    }
+
+    setDrapeau(bool){
+        this.drapeau = bool;
     }
 }
