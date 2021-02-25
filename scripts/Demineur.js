@@ -182,6 +182,8 @@ class AbsDem extends Abs{
             if (tuile.isMine()){
                 this.ctrl.getMessageFromAbstraction(MESSAGE.MINE, pos);
                 this.ctrl.getMessageFromAbstraction(MESSAGE.DEF_DEM, this.getNiveau());
+                tuile.setDecouvert();
+                this.afficheTout()
             }
             else {
                 this.ctrl.getMessageFromAbstraction(MESSAGE.DECOUVRE, pos);
@@ -240,6 +242,7 @@ class AbsDem extends Abs{
             case(9):
                 if (nbHidden === 9){
                     this.ctrl.getMessageFromAbstraction(MESSAGE.VIC_DEM, 1);
+                    //this.afficheTout();
                 }
                 break;
 
@@ -254,6 +257,14 @@ class AbsDem extends Abs{
                     this.ctrl.getMessageFromAbstraction(MESSAGE.VIC_DEM, 3);
                 }
                 break;
+        }
+    }
+
+    afficheTout(){
+        for (let li = 0; li < this.ligne; li++){
+            for (let col = 0; col < this.colonne; col++){
+                this.tuileClicked(li, col);
+            }
         }
     }
 
