@@ -21,7 +21,6 @@ class AbsProfil extends Abs{
         else {
             localStorage.setItem('defDem', '0');
         }
-
     }
 
     getMessage(message, pieceJointe){

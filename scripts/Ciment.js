@@ -13,10 +13,83 @@ class AbsCiment extends Abs{
 class PresCiment extends Pres{
     constructor() {
         super();
+        this.time = 0;
+        this.timer;
     }
 
+
     getMessage(message, pieceJointe){
-        //TODO
+        if(message === MESSAGE.CHANGEPAGE){
+            this.removeStats();
+            if(pieceJointe === MESSAGE.INIT2048 || pieceJointe === MESSAGE.DEMINEUR) {
+                this.initStats();
+            }
+        }
+    }
+
+    initStats(message){
+        let barreNav = document.getElementById("barrenav");
+
+        let barreStats = document.createElement("div");
+        barreStats.id = "barrestats";
+
+        let timer = document.createElement("div");
+        timer.id = "timer";
+        timer.innerHTML = "00:00";
+        this.startTimer();
+        barreStats.appendChild(timer);
+
+        if(message === MESSAGE.DEMINEUR) {
+            let nbMines = document.createElement("div");
+            nbMines.id = "compteurmines";
+            nbMines.innerHTML = "0";
+            barreStats.appendChild(nbMines);
+        }
+        if(message === MESSAGE.INIT2048){
+            let meilleureTuile = document.createElement("div");
+            meilleureTuile.id = "meilleuretuile";
+            meilleureTuile.innerHTML = "2";
+            barreStats.appendChild(meilleureTuile);
+        }
+        let boutonNouvellePartie = document.createElement("div");
+        boutonNouvellePartie.id = "nouvellepartie";
+        boutonNouvellePartie.innerHTML = "NOUVELLE PARTIE";
+        boutonNouvellePartie.addEventListener("click", e => {
+
+            this.ctrl.recoitMessageDeLaPresentation(message);
+        });
+        barreStats.appendChild(boutonNouvellePartie);
+
+        barreNav.insertAdjacentElement('afterend', barreStats);
+    }
+
+    startTimer() {
+        // setInterval is a built-in function that will call the given function
+        // every N milliseconds (1 second = 1000 ms)
+        this.timer = setInterval(() => {
+            this.time += 1;
+
+            let timer = document.getElementById("timer");
+
+            timer.innerHTML = this.time;
+        }, 1000);
+    }
+
+    /**
+     * A appeller lors du game over
+     */
+    stopTimer(){
+        //TODO : appeler dans le game over des jeux
+        this.time = 0;
+        clearInterval(this.timer);
+    }
+
+    removeStats() {
+        this.stopTimer();
+        let barreStats = document.getElementById("barrestats");
+        if(barreStats){
+            document.body.removeChild(barreStats);
+        }
     }
 }
 
@@ -38,25 +111,30 @@ class CtrlCiment extends Ctrl{
 
     recoitMessageDUnEnfant(message, piecejointe, ctrl) {
         if (message === MESSAGE.CHANGEPAGE) {
+
             switch (piecejointe) {
                 case(MESSAGE.ACCUEIL):
                     this.header.innerHTML = "Site de jeux en ligne"
+                    this.pres.getMessage(message);
                     break;
 
                 case(MESSAGE.PROFIL):
                     /*let profil = this.getEnfant(piecejointe);
                     console.log("resultat de getEnfant(profil) = "+ profil);*/
                     this.profil.getMessageFromParent(MESSAGE.PROFIL);
+                    this.pres.getMessage(message);
                     //envoi au controleur de profil
                     break;
 
                 case(MESSAGE.DEMINEUR):
                     this.demineur.getMessageFromParent(MESSAGE.DEMINEUR);
+                    this.pres.getMessage(message, piecejointe);
                     //envoi au controleur de demineur
                     break;
 
                 case(MESSAGE.INIT2048):
                     this.j2048.getMessageFromParent(MESSAGE.INIT2048);
+                    this.pres.getMessage(message, piecejointe);
                     //envoi au controleur de 2048
                     break;
 
@@ -77,5 +155,17 @@ class CtrlCiment extends Ctrl{
         }
         // ça c'était dans le code de Monsieur RENEVIER
         else super.recoitMessageDUnEnfant(message, piecejointe);
+    }
+
+    recoitMessageDeLaPresentation(message) {
+        switch (message){
+            case MESSAGE.DEMINEUR:
+                this.demineur.getMessageFromParent(MESSAGE.DEMINEUR);
+                break;
+            case MESSAGE.INIT2048:
+                this.j2048.getMessageFromParent(MESSAGE.INIT2048);
+                break;
+        }
+        //super.recoitMessageDeLaPresentation(message);
     }
 }
