@@ -9,7 +9,9 @@ class Abs2048 extends Abs{
     init(){
         this.ctrl.getMessageFromAbstraction(MESSAGE.AFFICHETOI);
 
-        this.listener = e => { this.keydownHandler(e) }
+        this.listener = e => {
+            this.keydownHandler(e);
+        }
         // On ajoute le listener pour les flèches directionnelles
         document.addEventListener(
             "keydown",
@@ -50,15 +52,20 @@ class Abs2048 extends Abs{
     keydownHandler(event){
         switch (event.key) {
             case MESSAGE.UP:
+                // On ne veut pas que l'user se déplace dans la page si il utilise ses flèches
+                event.preventDefault();
                 this.ctrl.getMessageFromAbstraction(MESSAGE.KEYPRESSED,MESSAGE.UP);
                 break;
             case MESSAGE.DOWN:
+                event.preventDefault();
                 this.ctrl.getMessageFromAbstraction(MESSAGE.KEYPRESSED,MESSAGE.DOWN);
                 break;
             case MESSAGE.RIGHT:
+                event.preventDefault();
                 this.ctrl.getMessageFromAbstraction(MESSAGE.KEYPRESSED,MESSAGE.RIGHT);
                 break;
             case MESSAGE.LEFT:
+                event.preventDefault();
                 this.ctrl.getMessageFromAbstraction(MESSAGE.KEYPRESSED,MESSAGE.LEFT);
                 break;
         }
