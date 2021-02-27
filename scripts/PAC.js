@@ -22,6 +22,8 @@ class MESSAGE {
     static DEF_DEM = "perte";
     static INDICE = "indice";
     static CLIC_DROIT = "clickDroit"
+    static CLEAR_CONTAINER = "clearcontainer";
+    static SCORE = "score";
 }
 
 class Abs {

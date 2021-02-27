@@ -77,6 +77,9 @@ class PresNav extends Pres{
             case MESSAGE.HIGHLIGHT:
                 this.highlightOnglet(pieceJointe);
                 break;
+            case MESSAGE.CLEAR_CONTAINER:
+                this.reinitialisationPage();
+                break;
         }
     }
 
@@ -170,6 +173,9 @@ class CtrlNav extends Ctrl{
         if (message === MESSAGE.INIT){
             this.abs.getMessage(message); //deprecated
             this.pres.getMessage(MESSAGE.AFFICHETOI); //affiche barre de nav
+        }
+        else if(message === MESSAGE.CLEAR_CONTAINER){
+            this.pres.getMessage(message);
         }
     }
 

@@ -22,8 +22,11 @@ class PresCiment extends Pres{
         if(message === MESSAGE.CHANGEPAGE){
             this.removeStats();
             if(pieceJointe === MESSAGE.INIT2048 || pieceJointe === MESSAGE.DEMINEUR) {
-                this.initStats();
+                this.initStats(pieceJointe);
             }
+        }
+        else if (message === MESSAGE.SCORE){
+            this.changeScore(pieceJointe);
         }
     }
 
@@ -35,27 +38,31 @@ class PresCiment extends Pres{
 
         let timer = document.createElement("div");
         timer.id = "timer";
-        timer.innerHTML = "00:00";
+        timer.innerHTML = "0";
         this.startTimer();
         barreStats.appendChild(timer);
 
+        // Si c'est le démineur, on affiche un un compteur de mines restantes
         if(message === MESSAGE.DEMINEUR) {
             let nbMines = document.createElement("div");
             nbMines.id = "compteurmines";
             nbMines.innerHTML = "0";
             barreStats.appendChild(nbMines);
         }
-        if(message === MESSAGE.INIT2048){
-            let meilleureTuile = document.createElement("div");
-            meilleureTuile.id = "meilleuretuile";
-            meilleureTuile.innerHTML = "2";
-            barreStats.appendChild(meilleureTuile);
+        // Si c'est 2048, le compteur de mine est remplacé par un compteur de score
+        else if(message === MESSAGE.INIT2048){
+            let score = document.createElement("div");
+            score.id = "score";
+            score.innerHTML = "0";
+            barreStats.appendChild(score);
         }
+
         let boutonNouvellePartie = document.createElement("div");
         boutonNouvellePartie.id = "nouvellepartie";
         boutonNouvellePartie.innerHTML = "NOUVELLE PARTIE";
         boutonNouvellePartie.addEventListener("click", e => {
-
+            // Comme dans la barre navigation, il faut donner l'ordre de nettoyer le container
+            this.ctrl.recoitMessageDeLaPresentation(MESSAGE.CLEAR_CONTAINER);
             this.ctrl.recoitMessageDeLaPresentation(message);
         });
         barreStats.appendChild(boutonNouvellePartie);
@@ -91,6 +98,15 @@ class PresCiment extends Pres{
             document.body.removeChild(barreStats);
         }
     }
+
+    /**
+     * Permet de modifier l'affichage du score en fonction de ce que renvoie les jeux
+     * @param score
+     */
+    changeScore(score) {
+        let scoreDiv = document.getElementById("score");
+        scoreDiv.innerHTML = score;
+    }
 }
 
 class CtrlCiment extends Ctrl{
@@ -107,6 +123,7 @@ class CtrlCiment extends Ctrl{
         this.j2048 = this.enfants[0];
         this.demineur = this.enfants[1];
         this.profil = this.enfants[2];
+        this.nav = this.enfants[3];
     }
 
     recoitMessageDUnEnfant(message, piecejointe, ctrl) {
@@ -153,6 +170,10 @@ class CtrlCiment extends Ctrl{
         else if (message === MESSAGE.DEF_DEM) {
             this.profil.getMessageFromParent(message, piecejointe);
         }
+        else if (message === MESSAGE.SCORE){
+            // Permet d'afficher le nouveau score dans la barre de stats
+            this.pres.getMessage(message, piecejointe);
+        }
         // ça c'était dans le code de Monsieur RENEVIER
         else super.recoitMessageDUnEnfant(message, piecejointe);
     }
@@ -164,6 +185,10 @@ class CtrlCiment extends Ctrl{
                 break;
             case MESSAGE.INIT2048:
                 this.j2048.getMessageFromParent(MESSAGE.INIT2048);
+                break;
+            case MESSAGE.CLEAR_CONTAINER:
+                // Pour supprimer l'ancien container
+                this.nav.getMessageFromParent(message);
                 break;
         }
         //super.recoitMessageDeLaPresentation(message);

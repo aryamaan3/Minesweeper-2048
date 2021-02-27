@@ -77,6 +77,12 @@ class Pres2048 extends Pres{
         super();
         //this.grille = new Grille(false);
         //this.initPage();
+
+        // ON stocke ici le nombre de tour valide qui se sont écoulés
+        this.nbTour = 0;
+
+        // N'est pas stocké ici mais dans Grille2048
+        this.score = 0;
     }
 
     getMessage(message, pieceJointe){
@@ -99,8 +105,20 @@ class Pres2048 extends Pres{
     }
 
     deplacement(direction){
-        //TODO
-        this.grille.nouveauTour(direction);
+
+        // Si le tour est valide, on compte un tour supplémentaire
+        // et on vérifie que le score n'est pas changé
+        if(this.grille.nouveauTour(direction)){
+            this.nbTour ++;
+
+            if(this.score !== this.grille.getScore()){
+                this.score = this.grille.getScore();
+                //console.log(this.score);
+                // On envoie le nouveau score pour l'affichage dans Ciment
+                this.ctrl.getMessageFromPresentation(MESSAGE.SCORE, this.score);
+            }
+        }
+
     }
 
 }
@@ -133,7 +151,11 @@ class Ctrl2048 extends Ctrl{
         }
     }
 
-    getMessageFromPresentation(message){
-        //TODO
+    getMessageFromPresentation(message, pieceJointe){
+        switch (message){
+            case MESSAGE.SCORE:
+                this.parent.recoitMessageDUnEnfant(message,pieceJointe);
+                break;
+        }
     }
 }

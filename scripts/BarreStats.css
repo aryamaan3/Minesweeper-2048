@@ -1,6 +1,22 @@
 #barrestats{
-    margin: 0 auto;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, 50%);
+    margin-top: 160px;
+    margin-right:auto;
+    margin-left:auto;
+    width: 500px;
+    height: 50px;
+}
+
+#barrestats div {
+    width: 150px;
+    height: 75px;
+    background-color: burlywood;
+    display: inline-block;
+    border-radius:5px;
+}
+
+#barrestats div:first-child {
+    margin-right: 25px;
+}
+#barrestats div:last-child {
+    margin-left: 25px;
 }

@@ -8,6 +8,10 @@ class Grille2048{
 
         // Liste non-ordonnée qui contient toute les tuiles présentes dans le jeu
         this.listeTuile = [];
+
+        // Variable qui sera incrémentée dans cette classe et récupérée à chaque
+        // tour par 2048 pour pouvoir le display
+        this.score = 0;
     }
 
     /**
@@ -161,11 +165,12 @@ class Grille2048{
      * A la fin du tour, on met à jour notre grille, ce qui va générer les div en fonction
      * des tuiles.
      * @param direction
+     * @return true si le tour était valide, false sinon
      */
 
     nouveauTour(direction){
         //console.log("Nouveau tour");
-        console.log(this.mouvementPossible(direction));
+        //console.log(this.mouvementPossible(direction));
         // On vérifie si le mouvement est autorisé
         if(this.mouvementPossible(direction)){
             // Déplacement de toutes les tuiles dans la matrice
@@ -183,7 +188,10 @@ class Grille2048{
             // A la fin du tour, on dois enlever les marques des tuiles qui ont été fusionnées
             // (marque qui peremt d'éviter les doubles fusions lors du même tour)
             this.clearFusion();
+
+            return true;
         }
+        return false;
     }
 
     /**
@@ -480,13 +488,13 @@ class Grille2048{
             // Si une fusion horizontale est possible lors d'une déplacement horizontal, true
             if(this.fusionPossible(tuilesSurMemeLigne, direction)
                 && (direction === MESSAGE.LEFT || direction === MESSAGE.RIGHT)){
-                console.log("Fusion horizontale possible");
+                //console.log("Fusion horizontale possible");
                 return true;
             }
             // Si une fusion verticale est possible lors d'une déplacement vertical, true
             if(this.fusionPossible(tuilesSurMemeColonne, direction)
                 && (direction === MESSAGE.UP || direction === MESSAGE.DOWN)){
-                console.log("Fusion verticale possible");
+                //console.log("Fusion verticale possible");
                 return true;
             }
 
@@ -597,6 +605,9 @@ class Grille2048{
         }
         tuile1.setValue(tuile1.getValue() + tuile2.getValue());
 
+        // On augmente le score
+        this.score += tuile1.value;
+
         // Afin de ne pas faire de double fusion lors du même tour, on marque la tuile survivante :
         tuile1.setFusion(false);
 
@@ -619,6 +630,15 @@ class Grille2048{
     remove(array, element){
         let index = array.indexOf(element);
         array.splice(index,1);
+    }
+
+    /**
+     * Puisque le score est compté dans cette classe, 2048 doit le récuperer
+     * pour ensuite l'envoyer à Ciment qui fera son affichage
+     * @return {number} score actuel
+     */
+    getScore(){
+        return this.score;
     }
 
 }
