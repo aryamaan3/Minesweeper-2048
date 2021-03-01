@@ -24,6 +24,7 @@ class MESSAGE {
     static CLIC_DROIT = "clickDroit"
     static CLEAR_CONTAINER = "clearcontainer";
     static SCORE = "score";
+    static MINES_RESTANT = "mines_restants"
 }
 
 class Abs {

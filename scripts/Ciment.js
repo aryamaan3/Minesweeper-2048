@@ -14,19 +14,32 @@ class PresCiment extends Pres{
     constructor() {
         super();
         this.time = 0;
-        this.timer;
+        this.timer = undefined;
     }
 
 
     getMessage(message, pieceJointe){
         if(message === MESSAGE.CHANGEPAGE){
             this.removeStats();
-            if(pieceJointe === MESSAGE.INIT2048 || pieceJointe === MESSAGE.DEMINEUR) {
+            if(pieceJointe === MESSAGE.INIT2048) {
                 this.initStats(pieceJointe);
+            }
+            else if (message === MESSAGE.DEMINEUR){
+                this.removeStats();
+            }
+        }
+        else if (message === MESSAGE.DEMINEUR){
+            this.removeStats();
+            this.initStats(message);
+            if (pieceJointe){ //cas où c'est le bouton nouvelle partie qui a été utilisé
+                this.removeStats();
             }
         }
         else if (message === MESSAGE.SCORE){
             this.changeScore(pieceJointe);
+        }
+        else if (message === MESSAGE.MINES_RESTANT){
+            this.changeMines(pieceJointe);
         }
     }
 
@@ -48,6 +61,7 @@ class PresCiment extends Pres{
             nbMines.id = "compteurmines";
             nbMines.innerHTML = "0";
             barreStats.appendChild(nbMines);
+            this.ctrl.recoitMessageDeLaPresentation(MESSAGE.MINES_RESTANT);
         }
         // Si c'est 2048, le compteur de mine est remplacé par un compteur de score
         else if(message === MESSAGE.INIT2048){
@@ -60,7 +74,7 @@ class PresCiment extends Pres{
         let boutonNouvellePartie = document.createElement("div");
         boutonNouvellePartie.id = "nouvellepartie";
         boutonNouvellePartie.innerHTML = "NOUVELLE PARTIE";
-        boutonNouvellePartie.addEventListener("click", e => {
+        boutonNouvellePartie.addEventListener("click", () => {
             // Comme dans la barre navigation, il faut donner l'ordre de nettoyer le container
             this.ctrl.recoitMessageDeLaPresentation(MESSAGE.CLEAR_CONTAINER);
             this.ctrl.recoitMessageDeLaPresentation(message);
@@ -121,6 +135,19 @@ class PresCiment extends Pres{
     changeScore(score) {
         let scoreDiv = document.getElementById("score");
         scoreDiv.innerHTML = score;
+    }
+
+    /**
+     * permet de modifier le nb de mines restant affiché
+     * @param mines
+     */
+    changeMines(mines){
+        try{
+            let scoreDiv = document.getElementById("compteurmines");
+            scoreDiv.innerHTML = mines;}
+        catch (erreur) {
+            console.log("barreStats pas encore crée");
+        }
     }
 }
 
@@ -189,6 +216,12 @@ class CtrlCiment extends Ctrl{
             // Permet d'afficher le nouveau score dans la barre de stats
             this.pres.getMessage(message, piecejointe);
         }
+        else if (message === MESSAGE.DEMINEUR){
+            this.pres.getMessage(message);
+        }
+        else if (message === MESSAGE.MINES_RESTANT){
+            this.pres.getMessage(message, piecejointe);
+        }
         // ça c'était dans le code de Monsieur RENEVIER
         else super.recoitMessageDUnEnfant(message, piecejointe);
     }
@@ -197,6 +230,7 @@ class CtrlCiment extends Ctrl{
         switch (message){
             case MESSAGE.DEMINEUR:
                 this.demineur.getMessageFromParent(MESSAGE.DEMINEUR);
+                this.pres.getMessage(message, MESSAGE.CLEAR_CONTAINER);
                 break;
             case MESSAGE.INIT2048:
                 this.j2048.getMessageFromParent(MESSAGE.INIT2048);
@@ -205,6 +239,10 @@ class CtrlCiment extends Ctrl{
                 // Pour supprimer l'ancien container
                 this.nav.getMessageFromParent(message);
                 break;
+
+            case MESSAGE.MINES_RESTANT:
+                //demande nbMines à demineur
+                this.demineur.getMessageFromParent(message);
         }
         //super.recoitMessageDeLaPresentation(message);
     }

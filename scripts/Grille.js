@@ -27,9 +27,15 @@ class Grille{
         let ctx = canvas.getContext("2d");
         this.ctx = ctx;
         presDem.setCtx(ctx);
-        canvas.classList.add("canvas");
+        canvas.classList.add("canvas"); //attribue classe par defaut
         canvas.id = "grilles";
         //on crée le canvas
+
+        //on change la classe css en fonction du niveau
+        if(niveau !== 1){
+            canvas.classList.remove("canvas");
+            canvas.classList.add("canvas2");
+        }
 
         canvas.addEventListener("click",  (e) => {
             // https://www.quirksmode.org/js/events_properties.html

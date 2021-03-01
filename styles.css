@@ -164,7 +164,7 @@ header{
     border: 10px solid rgb(153, 153, 153);
     border-radius: 15px;
     position: absolute;
-    top: 20%;
+    top: 30%;
     left: 50%;
     transform: translate(-50%, 30%);
 }
@@ -173,7 +173,7 @@ header{
     border: 10px solid rgb(153, 153, 153);
     border-radius: 15px;
     position: absolute;
-    top: 30%;
+    top: 20%;
     left: 50%;
     transform: translate(-50%, 30%);
 }
@@ -184,11 +184,13 @@ header{
 }
 
 .choose {
-    position: relative;
+    position: absolute;
     display: flex;
     flex-direction: column;
     text-align: center;
-    top: 10px;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .tuile{

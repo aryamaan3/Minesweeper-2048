@@ -5,6 +5,7 @@ class AbsDem extends Abs{
         this.colonne = 9; //colonne
         this.ligne = 9; //ligne
         this.afficheAll = false;
+        this.nbMines = 9;
     }
 
     /**
@@ -14,22 +15,24 @@ class AbsDem extends Abs{
     init(niveau){
         switch(niveau){
             case(1):
-                this.genTab();
+                this.nbMines = 9;
                 break;
 
             case(2):
                 this.colonne = 16;
                 this.ligne = 16;
-                this.genTab();
+                this.nbMines = 40;
                 break;
 
             case(3):
                 this.colonne = 16;
                 this.ligne = 30;
-                this.genTab();
+                this.nbMines = 99;
                 break;
 
         }
+        this.genTab();
+        //this.ctrl.getMessageFromAbstraction(MESSAGE.MINES_RESTANT, this.nbMines);
     }
 
     getMessage(message, pieceJointe){
@@ -63,7 +66,16 @@ class AbsDem extends Abs{
             let pos = [];
             pos[0] = posx;
             pos[1] = posy;
+            this.nbMines--;
             this.ctrl.getMessageFromAbstraction(message, pos);
+            this.ctrl.getMessageFromAbstraction(MESSAGE.MINES_RESTANT, this.nbMines);
+        }
+
+        else if(message === MESSAGE.MINES_RESTANT){
+            setTimeout(()=>{
+                this.ctrl.getMessageFromAbstraction(message, this.nbMines);
+            }, 100);
+            //on attends que barre stats a été crée
         }
 
         else {
@@ -463,6 +475,9 @@ class CtrlDem extends Ctrl{
         }
         else if (message === MESSAGE.INIT || message === MESSAGE.REMOVELISTENER){
         }
+        else if(message === MESSAGE.MINES_RESTANT){
+            this.abs.getMessage(message);
+        }
         else{
             super.recoitMessageDuParent(message, "demineur");
         }
@@ -478,6 +493,10 @@ class CtrlDem extends Ctrl{
             this.pres.getMessage(message, piecejointe);
             this.parent.recoitMessageDUnEnfant(message, piecejointe, this);
         }
+
+        else if (message === MESSAGE.MINES_RESTANT){
+            this.parent.recoitMessageDUnEnfant(message, piecejointe);
+        }
         else{
             super.recoitMessageDeLAbstraction(message)
         }
@@ -487,6 +506,9 @@ class CtrlDem extends Ctrl{
         //cela marche pour message : niveau, premierclick, clicDroit et click
         let result;
         result = this.abs.getMessage(message, piecejointe);
+        if (message === MESSAGE.NIVEAU){
+            this.parent.recoitMessageDUnEnfant(MESSAGE.DEMINEUR);
+        }
         if (result){
             super.recoitMessageDeLaPresentation(message)
         }
