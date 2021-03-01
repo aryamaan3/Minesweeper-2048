@@ -38,7 +38,7 @@ class PresCiment extends Pres{
 
         let timer = document.createElement("div");
         timer.id = "timer";
-        timer.innerHTML = "0";
+        timer.innerHTML = "00:00";
         this.startTimer();
         barreStats.appendChild(timer);
 
@@ -78,7 +78,7 @@ class PresCiment extends Pres{
 
             let timer = document.getElementById("timer");
 
-            timer.innerHTML = this.time;
+            timer.innerHTML = this.formatTimer(this.time);
         }, 1000);
     }
 
@@ -91,6 +91,21 @@ class PresCiment extends Pres{
         clearInterval(this.timer);
     }
 
+    /**
+     * Transforme le temps de seconde à un timer type "02:40"
+     * @param secondes
+     * @return {string} Timer type "02:40"
+     */
+    formatTimer(secondes){
+        let sec = secondes % 60;
+        let min = Math.floor(secondes / 60);
+        return ("0" + min).slice(-2) +":"+("0" + sec).slice(-2);
+    }
+
+    /**
+     * Supprime la barre de statistiques dans les cas où on n'en a pas besoin
+     * (Profil et Accueil par exemple)
+     */
     removeStats() {
         this.stopTimer();
         let barreStats = document.getElementById("barrestats");
