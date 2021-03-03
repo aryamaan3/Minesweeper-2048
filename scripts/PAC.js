@@ -24,7 +24,12 @@ class MESSAGE {
     static CLIC_DROIT = "clickDroit"
     static CLEAR_CONTAINER = "clearcontainer";
     static SCORE = "score";
-    static MINES_RESTANT = "mines_restants"
+    static MINES_RESTANT = "mines_restants";
+    static MEILLEURE_TUILE = "meilleuretuile";
+    static TIMER = "timer";
+    static NB_PARTIE_2048 = "nbpartie2048";
+    static TOUR = "tour";
+    static DATA_PROFIL = "dataprofil";
 }
 
 class Abs {

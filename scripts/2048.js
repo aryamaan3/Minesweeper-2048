@@ -1,6 +1,12 @@
 class Abs2048 extends Abs{
     constructor() {
         super();
+
+        this.meilleureTuile = 2;
+        this.score = 0;
+        this.nbTour = 0;
+        // Quand 2048 est atteint, on a une victoire mais on peut continuer
+        this.victoire = false;
     }
 
     /**
@@ -25,6 +31,31 @@ class Abs2048 extends Abs{
     }
 
     /**
+     *
+     * @param data score, meilleure tuile et nbTour reçu de la présentation
+     */
+    tour(data){
+        // A chaque tour effectué dans la présentation, on récupère les données importantes
+        this.meilleureTuile = data.meilleureTuile;
+        this.score = data.score;
+        this.nbTour = data.nbTour;
+
+        // On vérifie si on a une victoire
+        if(this.meilleureTuile > 2048){
+            //TODO : pop up pour indiquer une victoire à l'user
+            //TODO : envoyer le timer à profil
+            this.victoire = true;
+            console.log("VICTOIRE");
+        }
+
+        // On maj les données du profil
+        this.ctrl.getMessageFromAbstraction(MESSAGE.DATA_PROFIL, {
+            score:this.score,
+            meilleureTuile:this.meilleureTuile
+        });
+    }
+
+    /**
      * Permet à Abs2048 de recevoir un message de la part de son contrôleur
      * @param message
      * @param pieceJointe
@@ -38,6 +69,9 @@ class Abs2048 extends Abs{
                 break;
             case MESSAGE.REMOVELISTENER:
                 this.removeListener();
+                break;
+            case MESSAGE.TOUR:
+                this.tour(pieceJointe);
                 break;
             default:
                 result = super.recoitMessage(message, pieceJointe);
@@ -90,6 +124,8 @@ class Pres2048 extends Pres{
 
         // N'est pas stocké ici mais dans Grille2048
         this.score = 0;
+        this.meilleureTuile = 2;
+
     }
 
     getMessage(message, pieceJointe){
@@ -118,15 +154,29 @@ class Pres2048 extends Pres{
         if(this.grille.nouveauTour(direction)){
             this.nbTour ++;
 
+            // On MAJ le score
             if(this.score !== this.grille.getScore()){
                 this.score = this.grille.getScore();
                 //console.log(this.score);
                 // On envoie le nouveau score pour l'affichage dans Ciment
+                //TODO : enlever ça
                 this.ctrl.getMessageFromPresentation(MESSAGE.SCORE, this.score);
             }
+
+            // On MAJ la meilleure tuile
+            this.meilleureTuile = this.grille.getMeilleureTuile();
+
+
+            // On prévient l'abstraction des évolutions
+            this.ctrl.getMessageFromPresentation(MESSAGE.TOUR, {
+                nbTour:this.nbTour,
+                score:this.score,
+                meilleureTuile:this.meilleureTuile
+            })
         }
 
     }
+
 
 }
 
@@ -155,13 +205,17 @@ class Ctrl2048 extends Ctrl{
             case MESSAGE.KEYPRESSED:
                 this.pres.getMessage(message, pieceJointe);
                 break;
+            case MESSAGE.DATA_PROFIL:
+                // A chaque tour, on MAJ nos données dans le profil
+                this.parent.recoitMessageDUnEnfant(message, pieceJointe);
+                break;
         }
     }
 
     getMessageFromPresentation(message, pieceJointe){
         switch (message){
-            case MESSAGE.SCORE:
-                this.parent.recoitMessageDUnEnfant(message,pieceJointe);
+            case MESSAGE.TOUR:
+                this.abs.getMessage(message, pieceJointe);
                 break;
         }
     }

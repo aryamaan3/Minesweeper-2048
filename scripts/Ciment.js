@@ -212,9 +212,12 @@ class CtrlCiment extends Ctrl{
         else if (message === MESSAGE.DEF_DEM) {
             this.profil.getMessageFromParent(message, piecejointe);
         }
-        else if (message === MESSAGE.SCORE){
+        else if (message === MESSAGE.DATA_PROFIL){
             // Permet d'afficher le nouveau score dans la barre de stats
-            this.pres.getMessage(message, piecejointe);
+            this.pres.getMessage(MESSAGE.SCORE, piecejointe.score);
+
+            // MAJ des infos du profil
+            this.profil.getMessageFromParent(message, piecejointe);
         }
         else if (message === MESSAGE.DEMINEUR){
             this.pres.getMessage(message);

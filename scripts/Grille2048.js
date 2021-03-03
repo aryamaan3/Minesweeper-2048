@@ -12,6 +12,10 @@ class Grille2048{
         // Variable qui sera incrémentée dans cette classe et récupérée à chaque
         // tour par 2048 pour pouvoir le display
         this.score = 0;
+
+        // Permet de generer une victoire si cette valeur est >= 2048
+        // est récupérée par 2048.js
+        this.meilleureTuile = 2;
     }
 
     /**
@@ -611,6 +615,11 @@ class Grille2048{
         // Afin de ne pas faire de double fusion lors du même tour, on marque la tuile survivante :
         tuile1.setFusion(false);
 
+        // On regarde si c'est une nouvelle meilleure tuile:
+        if(tuile1.getValue() > this.meilleureTuile){
+            this.meilleureTuile = tuile1.getValue();
+        }
+
         // On supprime tuile2 et son div .tuile associé
 
         // Cette ligne permet de ne pas fusionner une case qui vient de l'etre
@@ -641,4 +650,12 @@ class Grille2048{
         return this.score;
     }
 
+    /**
+     * Est récupérée par 2048.js afin de determiner si on a une victoire et
+     * (en fin de partie) pouvoir envoyer la meilleure tuile au Profil.
+     * @return {number}
+     */
+    getMeilleureTuile(){
+        return this.meilleureTuile;
+    }
 }
