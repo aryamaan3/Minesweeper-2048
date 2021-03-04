@@ -77,7 +77,7 @@ header{
     border-radius:15px;
     box-sizing: border-box;
     text-decoration:none;
-    font-weight:500;
+    font-weight:bold;
     color: black;
     transition: all 0.2s;
     background-color: antiquewhite;

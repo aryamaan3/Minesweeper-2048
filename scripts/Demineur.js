@@ -379,14 +379,14 @@ class PresDem extends Pres{
         //on crée le div
 
         let h1 = document.createElement('h1');
-        h1.innerHTML="choisissez votre niveau";
+        h1.innerHTML="Choisissez votre niveau";
         h1.style.cssText = "text-align:center; margin: 0 auto;";
         div.appendChild(h1);
 
         div.appendChild(document.createElement('br')); // saut de ligne
 
         let niv1 = document.createElement('button');
-        niv1.innerHTML = "débutant";
+        niv1.innerHTML = "Débutant";
         niv1.id = "1";
         niv1.classList.add('niveau');
         niv1.onclick = () =>{
@@ -399,7 +399,7 @@ class PresDem extends Pres{
         div.appendChild(niv1);
 
         let niv2 = document.createElement('button');
-        niv2.innerHTML = "moyen";
+        niv2.innerHTML = "Moyen";
         niv2.id = "2";
         niv2.classList.add('niveau');
         niv2.onclick = () =>{
@@ -412,7 +412,7 @@ class PresDem extends Pres{
         div.appendChild(niv2);
 
         let niv3 = document.createElement('button');
-        niv3.innerHTML = "expert";
+        niv3.innerHTML = "Expert";
         niv3.id = "3";
         niv3.classList.add('niveau');
         niv3.onclick = () =>{

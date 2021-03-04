@@ -4,18 +4,25 @@
     margin-left:auto;
     width: 500px;
     height: 50px;
+    text-align: center;
+    display: flex;
 }
 
 #barrestats div {
     width: 150px;
     height: 75px;
     background-color: burlywood;
-    display: inline-block;
-    border-radius:5px;
+    border-radius:10px;
+    line-height: 75px;
+    font-weight: bold;
 }
 
 #barrestats div:first-child {
     margin-right: 25px;
+    font-size: 30px;
+}
+#barrestats div:nth-child(2) {
+    font-size: 30px;
 }
 #barrestats div:last-child {
     margin-left: 25px;

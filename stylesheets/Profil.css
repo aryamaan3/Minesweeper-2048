@@ -1,0 +1,36 @@
+.Profil{
+    font-weight: 500;
+    margin: 0 auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(0%, 20%);
+    text-align: center;
+}
+.Profil div{
+    display: flex;
+    text-align: center;
+}
+.Profil :first-child { /*Score et Niveau*/
+    font-size: 35px;
+}
+
+.Profil * :first-child{
+    font-size: 20px;
+    border: 10px antiquewhite;
+    background-color: antiquewhite;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+#ProfilDemineur *{
+    margin: 10px;
+}
+
+#Profil2048 *{
+    margin: 10px;
+}
+
+.Profil * :not(:first-child){ /*Tous les elements du container sauf les titres respective*/
+    width: 300px;
+    text-align: center;
+}

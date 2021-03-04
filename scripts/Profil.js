@@ -186,6 +186,7 @@ class PresProfil extends Pres{
         /*-----------------------------SCORE ET NIVEAUX----------------------------*/
         let scoreEtNiveaux = document.createElement('div');
         scoreEtNiveaux.id = "container";
+        scoreEtNiveaux.classList.add('Profil');
         scoreEtNiveaux.innerHTML = "<p>Score et niveaux</p>";
 
         /*
@@ -199,7 +200,7 @@ class PresProfil extends Pres{
 
         /*----------------------------DEMINEUR------------------------------*/
         let demineur = document.createElement('div');
-        demineur.id = "demineur";
+        demineur.id = "ProfilDemineur";
         let title = document.createElement('h1');
         title.id = "title";
         title.innerHTML = "Demineur";
@@ -217,18 +218,20 @@ class PresProfil extends Pres{
 
         let ratio = document.createElement('p');
         ratio.id ="ratio";
-        ratio.innerHTML = "Ratio : "+ ((this.vicDemineur / this.lossDem).toFixed(2)) || 0; // si nan alors affiche 0
+        let nb = ((this.vicDemineur / this.lossDem).toFixed(2)) || 0; // si nan alors affiche 0
+        nb = (nb == Infinity) ? "stonks" : nb; // === fait false alors que == fait true
+        ratio.innerHTML = "Ratio : "+ nb;
         demineur.appendChild(ratio);
 
         scoreEtNiveaux.appendChild(demineur);
 
         /*-------------------------------2048------------------------------*/
         let j2048 = document.createElement('div');
-        j2048.id = "2048";
+        j2048.id = "Profil2048";
 
         let titre2048 = document.createElement('h1');
         titre2048.innerHTML = "2048";
-        demineur.appendChild(titre2048);
+        j2048.appendChild(titre2048);
 
         let timer2048 = document.createElement('p');
         timer2048.id = "timer2048";
