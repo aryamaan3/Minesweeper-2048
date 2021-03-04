@@ -83,13 +83,25 @@ class AbsProfil extends Abs{
         }
         /*----------- 2048 -----------*/
         else if (message === MESSAGE.DATA_PROFIL){
-            //TODO
+            // Si le score de ce nouveau tour est supérieur à celui en localstorage
+            if(this.score2048 < pieceJointe.score){
+                this.setMeilleurScore(pieceJointe.score);
+            }
+
+            if(this.meilleureTuile2048 < pieceJointe.meilleureTuile){
+                this.setMeilleureTuile(pieceJointe.meilleureTuile);
+            }
         }
         else if (message === MESSAGE.TIMER){
-
+            // On recoit un nouveau timer, si on a fait moins de temps
+            // que le précédent timer, on le localstorage
+            if(this.timer2048 < pieceJointe){   // On peut comparer les strings de cette façon puisque c'est formaté
+                this.setTimer(pieceJointe);
+            }
         }
         else if (message === MESSAGE.NB_PARTIE_2048){
-
+            console.log('Nouvelle partie 2048');
+            this.addNbPartie2048();
         }
         /*----- Si message pas connu ------*/
         else {
@@ -110,6 +122,46 @@ class AbsProfil extends Abs{
         this.defDemineur ++;
         localStorage.setItem('defDem', this.defDemineur);
         this.ctrl.getMessageFromAbstraction(MESSAGE.DEF_DEM, this.defDemineur);
+    }
+
+    /*--------- 2048 ---------*/
+
+    /**
+     * Change le localstorage ET le variable de cette session
+     * @param score (nouveau meilleur)
+     */
+    setMeilleurScore(score){
+        console.log("Exécution de setMeilleurScore");
+        this.score2048 = score;
+
+        // On change la valeur dans le localstorage
+        localStorage.setItem('score2048', this.score2048);
+        //console.log(this.score2048);
+
+        // On envoie le nouveau score à afficher dans le Profil
+        this.ctrl.getMessageFromAbstraction(MESSAGE.SCORE, this.score2048);
+    }
+
+    setMeilleureTuile(meilleureTuile){
+        this.meilleureTuile2048 = meilleureTuile;
+        localStorage.setItem('meilleureTuile2048', this.meilleureTuile2048);
+
+        // On envoie le nouveau score à afficher dans le Profil
+        this.ctrl.getMessageFromAbstraction(MESSAGE.MEILLEURE_TUILE, this.meilleureTuile2048);
+    }
+
+    setTimer(timer){
+        this.timer2048 = timer;
+        localStorage.setItem('timer2048', this.timer2048);
+
+        this.ctrl.getMessageFromAbstraction(MESSAGE.TIMER, this.timer2048);
+    }
+
+    addNbPartie2048(){
+        this.nbPartie2048 ++;
+        localStorage.setItem('nbPartie2048', this.nbPartie2048);
+
+        this.ctrl.getMessageFromAbstraction(MESSAGE.NB_PARTIE_2048, this.nbPartie2048);
     }
 }
 
@@ -133,7 +185,7 @@ class PresProfil extends Pres{
 
         /*-----------------------------SCORE ET NIVEAUX----------------------------*/
         let scoreEtNiveaux = document.createElement('div');
-        scoreEtNiveaux.id = "score";
+        scoreEtNiveaux.id = "container";
         scoreEtNiveaux.innerHTML = "<p>Score et niveaux</p>";
 
         /*
@@ -174,24 +226,28 @@ class PresProfil extends Pres{
         let j2048 = document.createElement('div');
         j2048.id = "2048";
 
-        let titre2048 = document.createElement('p');
+        let titre2048 = document.createElement('h1');
         titre2048.innerHTML = "2048";
         demineur.appendChild(titre2048);
 
         let timer2048 = document.createElement('p');
         timer2048.id = "timer2048";
+        timer2048.innerHTML = "Meilleur temps : " + this.timer2048;
         j2048.appendChild(timer2048);
 
         let meilleureTuile2048 = document.createElement('p');
         meilleureTuile2048.id = "meilleureTuile";
+        meilleureTuile2048.innerHTML = "Meilleure Tuile : " + this.meilleureTuile2048;
         j2048.appendChild(meilleureTuile2048);
 
         let meilleureScore2048 = document.createElement('p');
         meilleureScore2048.id = "meilleureScore2048";
+        meilleureScore2048.innerHTML = "Score : " + this.score2048;
         j2048.appendChild(meilleureScore2048);
 
         let nbPartie2048 = document.createElement('p');
         nbPartie2048.id = "nbPartie2048";
+        nbPartie2048.innerHTML = "Nombre de partie : " + this.nbPartie2048;
         j2048.appendChild(nbPartie2048);
 
         scoreEtNiveaux.appendChild(j2048);
@@ -281,12 +337,12 @@ class CtrlProfil extends Ctrl{
                     || message === MESSAGE.TIMER
                     || message === MESSAGE.NB_PARTIE_2048){
             this.abs.getMessage(message, pieceJointe);
-            console.log(pieceJointe);
+            //console.log(pieceJointe);
         }
     }
 
-    getMessageFromAbstraction(message, piecejointe){
-        this.pres.getMessage(message, piecejointe);
+    getMessageFromAbstraction(message, pieceJointe){
+        this.pres.getMessage(message, pieceJointe);
     }
 
     getMessageFromPresentation(message){

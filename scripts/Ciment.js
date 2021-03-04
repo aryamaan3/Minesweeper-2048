@@ -23,6 +23,9 @@ class PresCiment extends Pres{
             this.removeStats();
             if(pieceJointe === MESSAGE.INIT2048) {
                 this.initStats(pieceJointe);
+
+                // On rajoute nbPartie +1 au profil
+                this.ctrl.recoitMessageDeLaPresentation(MESSAGE.NB_PARTIE_2048);
             }
             else if (message === MESSAGE.DEMINEUR){
                 this.removeStats();
@@ -40,6 +43,10 @@ class PresCiment extends Pres{
         }
         else if (message === MESSAGE.MINES_RESTANT){
             this.changeMines(pieceJointe);
+        }
+        else if (message === MESSAGE.TIMER){
+            // On doit envoyer le timer au profil
+            this.ctrl.recoitMessageDeLaPresentation(MESSAGE.TIMER, this.getTimer());
         }
     }
 
@@ -149,6 +156,10 @@ class PresCiment extends Pres{
             console.log("barreStats pas encore crée");
         }
     }
+
+    getTimer(){
+        return this.timer;
+    }
 }
 
 class CtrlCiment extends Ctrl{
@@ -219,6 +230,12 @@ class CtrlCiment extends Ctrl{
             // MAJ des infos du profil
             this.profil.getMessageFromParent(message, piecejointe);
         }
+        else if (message === MESSAGE.TIMER){
+            // On a une victoire dans 2048, il faut donc aller chercher le timer
+            // dans ciment et l'envoyer au profil pour l'enregistrer si c'est un
+            // nouveau meilleur temps
+            this.pres.getMessage(MESSAGE.TIMER);
+        }
         else if (message === MESSAGE.DEMINEUR){
             this.pres.getMessage(message);
         }
@@ -229,14 +246,16 @@ class CtrlCiment extends Ctrl{
         else super.recoitMessageDUnEnfant(message, piecejointe);
     }
 
-    recoitMessageDeLaPresentation(message) {
+    recoitMessageDeLaPresentation(message, pieceJointe) {
         switch (message){
             case MESSAGE.DEMINEUR:
                 this.demineur.getMessageFromParent(MESSAGE.DEMINEUR);
                 this.pres.getMessage(message, MESSAGE.CLEAR_CONTAINER);
                 break;
             case MESSAGE.INIT2048:
-                this.j2048.getMessageFromParent(MESSAGE.INIT2048);
+                this.j2048.getMessageFromParent(message);
+                // On ++ le nombre de partie dans le profil
+                this.profil.getMessageFromParent(MESSAGE.NB_PARTIE_2048);
                 break;
             case MESSAGE.CLEAR_CONTAINER:
                 // Pour supprimer l'ancien container
@@ -246,7 +265,17 @@ class CtrlCiment extends Ctrl{
             case MESSAGE.MINES_RESTANT:
                 //demande nbMines à demineur
                 this.demineur.getMessageFromParent(message);
+                break;
+            case MESSAGE.TIMER:
+                this.profil.getMessageFromParent(message, pieceJointe);
+                break;
+            case MESSAGE.NB_PARTIE_2048:
+                this.profil.getMessageFromParent(message);
+                break;
         }
         //super.recoitMessageDeLaPresentation(message);
+    }
+
+    getMessageFromAbstraction(message){
     }
 }

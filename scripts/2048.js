@@ -46,6 +46,8 @@ class Abs2048 extends Abs{
             //TODO : envoyer le timer à profil
             this.victoire = true;
             console.log("VICTOIRE");
+
+            // Il faut envoyer les timer au profil
         }
 
         // On maj les données du profil
