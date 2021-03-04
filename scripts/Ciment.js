@@ -48,6 +48,15 @@ class PresCiment extends Pres{
             // On doit envoyer le timer au profil
             this.ctrl.recoitMessageDeLaPresentation(MESSAGE.TIMER, this.getTimer());
         }
+
+        else if (message === MESSAGE.REM_DRAPEAU){
+            let mines = document.getElementById('compteurmines');
+            let nb = parseInt(mines.innerHTML);
+            nb += 1;
+            setTimeout(() => { //decale l'ordre d'execution
+                this.changeMines(nb);
+            }, 10)
+        }
     }
 
     initStats(message){
@@ -151,7 +160,8 @@ class PresCiment extends Pres{
     changeMines(mines){
         try{
             let scoreDiv = document.getElementById("compteurmines");
-            scoreDiv.innerHTML = mines;}
+            scoreDiv.innerHTML = mines;
+            }
         catch (erreur) {
             console.log("barreStats pas encore crée");
         }
@@ -241,6 +251,9 @@ class CtrlCiment extends Ctrl{
         }
         else if (message === MESSAGE.MINES_RESTANT){
             this.pres.getMessage(message, piecejointe);
+        }
+        else if (message === MESSAGE.REM_DRAPEAU){
+            this.pres.getMessage(message);
         }
         // ça c'était dans le code de Monsieur RENEVIER
         else super.recoitMessageDUnEnfant(message, piecejointe);

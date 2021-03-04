@@ -78,6 +78,10 @@ class AbsDem extends Abs{
             //on attends que barre stats a été crée
         }
 
+        else if (message === MESSAGE.REM_DRAPEAU){
+            this.nbMines += 2;
+        }
+
         else {
             result = super.recoitMessage(message, pieceJointe);
             result = 1;
@@ -327,7 +331,7 @@ class PresDem extends Pres{
         }
 
         else if (message === MESSAGE.CLIC_DROIT){
-            this.grille.drapeau(pieceJointe);
+            this.grille.drapeau(pieceJointe, this);
         }
 
         else if (message === MESSAGE.VIC_DEM){
@@ -336,6 +340,10 @@ class PresDem extends Pres{
 
         else if (message === MESSAGE.DEF_DEM){
             this.afficher("Vous avez perdu");
+        }
+
+        else if (message === MESSAGE.REM_DRAPEAU){
+            this.ctrl.getMessageFromPresentation(message);
         }
 
         else {
@@ -503,14 +511,19 @@ class CtrlDem extends Ctrl{
     }
 
     getMessageFromPresentation(message, piecejointe){
-        //cela marche pour message : niveau, premierclick, clicDroit et click
-        let result;
-        result = this.abs.getMessage(message, piecejointe);
-        if (message === MESSAGE.NIVEAU){
-            this.parent.recoitMessageDUnEnfant(MESSAGE.DEMINEUR);
+        if (message === MESSAGE.REM_DRAPEAU){
+           this.parent.recoitMessageDUnEnfant(message);
+           this.abs.getMessage(message);
         }
-        if (result){
-            super.recoitMessageDeLaPresentation(message)
+        else { //ne rien ajouter si le message doit etre transmis à l'abs
+            let result;
+            result = this.abs.getMessage(message, piecejointe);
+            if (message === MESSAGE.NIVEAU){
+                this.parent.recoitMessageDUnEnfant(MESSAGE.DEMINEUR);
+            }
+            else if (result){
+                super.recoitMessageDeLaPresentation(message)
+            }
         }
 
     }

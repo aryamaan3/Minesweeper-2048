@@ -138,14 +138,17 @@ class Grille{
     /**
      * appel tuile pour dessiner un drapeau à l'endroit cliqué
      * @param pos de la tuile
+     * @param presDem la pres de demineur
      */
-    drapeau(pos){
+    drapeau(pos, presDem){
+
         let tuile = this.tabTuile[pos[0]][pos[1]];
         if (!tuile.isDrapeau()) { //si la tuile n'a pas de drapeau
             tuile.setDrapeau(true)
         }
         else { //si la tuile a deja un drapeau
             tuile.setDrapeau(false);
+            presDem.getMessage(MESSAGE.REM_DRAPEAU);
         }
         tuile.draw(this.ctx);
     }

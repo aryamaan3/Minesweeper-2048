@@ -30,6 +30,7 @@ class MESSAGE {
     static NB_PARTIE_2048 = "nbpartie2048";
     static TOUR = "tour";
     static DATA_PROFIL = "dataprofil";
+    static REM_DRAPEAU = "removeDrapeau";
 }
 
 class Abs {
