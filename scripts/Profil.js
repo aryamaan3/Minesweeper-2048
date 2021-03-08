@@ -110,8 +110,6 @@ class AbsProfil extends Abs{
             }
         }
         else if( message === MESSAGE.TIMER_DEMINEUR){
-            console.log("Profil abs recoit le timer "+ pieceJointe + " le compare avec "+ this.timerDemineur+
-                "on obtiens this.timer < piecejointe = "+ (this.timerDemineur > pieceJointe));
             if(this.timerDemineur > pieceJointe){   // On peut comparer les strings de cette façon puisque c'est formaté
                 this.setTimer(message,pieceJointe);
             }
@@ -209,9 +207,12 @@ class PresProfil extends Pres{
         let header = document.getElementById('title');
         header.innerHTML ="Profil";
 
+        let container = document.createElement('div');
+        container.id = "container";
+
         /*-----------------------------SCORE ET NIVEAUX----------------------------*/
         let scoreEtNiveaux = document.createElement('div');
-        scoreEtNiveaux.id = "container";
+        scoreEtNiveaux.id = "scoreEtNiveau";
         scoreEtNiveaux.classList.add('Profil');
         scoreEtNiveaux.innerHTML = "<p>Score et niveaux</p>";
 
@@ -286,8 +287,22 @@ class PresProfil extends Pres{
 
         scoreEtNiveaux.appendChild(j2048);
 
+        container.appendChild(scoreEtNiveaux);
 
-        document.body.appendChild(scoreEtNiveaux);
+        /*----------------------------- TROPHEES ----------------------------*/
+        let trophees = document.createElement("div");
+        trophees.id = "trophees";
+        trophees.innerHTML = "<p>Trophées</p>";
+
+        let trophee = new Trophee("2048", "1er trophée", "assets/trophées/trophee_1min.png")
+        let tropheeHTML = trophee.render();
+        trophees.appendChild(tropheeHTML);
+
+
+
+        container.appendChild(trophees);
+
+        document.body.appendChild(container);
     }
 
     getMessage(message, pieceJointe){

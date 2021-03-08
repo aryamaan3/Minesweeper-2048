@@ -33,7 +33,7 @@ class Grille2048{
 
         // On l'ajoute au html
         container.appendChild(this.grille);
-        
+
         this.placerNouvelleTuileSurGrille();
         this.placerNouvelleTuileSurGrille();
         this.miseAJourGrille();
