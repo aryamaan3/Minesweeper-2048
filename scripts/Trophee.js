@@ -1,6 +1,7 @@
 class Trophee {
-    constructor(type, description, img) {
+    constructor(type, id, description, img) {
         this.type = type; // 2048, DEMINEUR ou GENERAL
+        this.id = id; // Ex : 5min2048
         this.description = description;
         this.img = img; // url de l'image
     }
@@ -34,6 +35,10 @@ class Trophee {
      * @return {Trophee}
      */
     static revive(json){
-        return new Trophee(json.type, json.description, json.img);
+        return new Trophee(json.type, json.id, json.description, json.img);
+    }
+
+    getId(){
+        return this.id;
     }
 }

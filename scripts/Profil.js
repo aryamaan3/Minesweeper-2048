@@ -128,19 +128,37 @@ class AbsProfil extends Abs{
                 // On donne un trophée pour la première fois que l'user atteint 128, 1024 ou 2048
                 // pour que ça ne se fasse que la première fois, j'utilise pieceJointe et pas this.meilleureTuile
                 if(pieceJointe.meilleureTuile === 128){
-                    const trophee128 = new Trophee("2048", "Obtenir une tuile 128", "assets/trophées/trophee_128.png");
+                    const trophee128 = new Trophee("2048", "tuile128","Obtenir une tuile 128", "assets/trophées/trophee_128.png");
 
                     // On l'ajoute au localstorage + liste trophees
                     this.addTrophee(trophee128);
                 }
+                else if (pieceJointe.meilleureTuile === 1024){
+                    const trophee1024 = new Trophee("2048", "tuile1024", "Obtenir une tuile 1024", "assets/trophées/trophee_1024.png");
+                    this.addTrophee(trophee1024);
+                }
+                else if (pieceJointe.meilleureTuile === 2048){
+                    const trophee2048 = new Trophee("2048", "tuile2048","Obtenir une tuile 2048", "assets/trophées/trophee_2048.png");
+                    this.addTrophee(trophee2048);
+                }
             }
         }
         else if (message === MESSAGE.TIMER){
-            // TODO : vérifier ici les trophées
             // On recoit un nouveau timer, si on a fait moins de temps
             // que le précédent timer, on le localstorage
             if(this.timer2048 > pieceJointe){   // On peut comparer les strings de cette façon puisque c'est formaté
                 this.setTimer(message,pieceJointe);
+            }
+
+            if(pieceJointe < "05:00"){
+                let trophee5min = this.trophees.find( trophee => trophee.id === '5min2048');
+                // si il n'a pas déjà été obtenu
+                if(!trophee5min){
+                    // On gagne le trophée "gagner une partie en moins de 5 min"
+                    console.log("Pas de 5min");
+                    const trophee5min2048 = new Trophee("2048", "5min2048", "Gagner une partie en moins de 5 min","assets/trophées/trophee_5min.png" );
+                    this.addTrophee(trophee5min2048);
+                }
             }
         }
         else if( message === MESSAGE.TIMER_DEMINEUR){
@@ -180,7 +198,7 @@ class AbsProfil extends Abs{
      * @param score (nouveau meilleur)
      */
     setMeilleurScore(score){
-        console.log("Exécution de setMeilleurScore");
+        //console.log("Exécution de setMeilleurScore");
         this.score2048 = score;
 
         // On change la valeur dans le localstorage
@@ -342,9 +360,12 @@ class PresProfil extends Pres{
         trophees.id = "trophees";
         trophees.innerHTML = "<p>Trophées</p>";
 
-        let trophee = new Trophee("2048", "1er trophée", "assets/trophées/trophee_1min.png")
+        // SI BESOIN D'AFFICHER UN FAUX TROPHEE
+        /*
+        let trophee = new Trophee("2048", "test","1er trophée", "assets/trophées/trophee_1min.png")
         let tropheeHTML = trophee.render();
         trophees.appendChild(tropheeHTML);
+        */
 
         // On boucle sur la liste des trophées afin de tous les afficher
         this.trophees.forEach( trophee => {
