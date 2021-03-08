@@ -10,6 +10,9 @@ class AbsProfil extends Abs{
         this.nbPartie2048 = 0;
         this.score2048 = 0;
         this.timer2048 = "99:99";
+
+        /* Liste des trophées */
+        this.trophees ={};
     }
 
     init(){
@@ -75,6 +78,19 @@ class AbsProfil extends Abs{
         else {
             localStorage.setItem('nbPartie2048', '0');
         }
+
+
+        /*  Trophées  */
+
+        if (localStorage.getItem('trophees')){
+            // JSON.parse puisqu'on a stocké un array d'objet !
+            // TODO : vérifier que ça marche bien
+            this.trophee = JSON.parse(localStorage.getItem('trophees'));
+            //this.ctrl.getMessageFromAbstraction(MESSAGE.VIC_DEM, this.vicDemineur);
+        }
+        else {
+            localStorage.setItem('trophees', JSON.stringify({}));
+        }
     }
 
     getMessage(message, pieceJointe){
@@ -84,6 +100,7 @@ class AbsProfil extends Abs{
         }
 
         else if (message === MESSAGE.VIC_DEM){
+            // TODO : vérifier ici les trophées
             this.addVicDem();
         }
 
@@ -92,6 +109,7 @@ class AbsProfil extends Abs{
         }
         /*----------- 2048 -----------*/
         else if (message === MESSAGE.DATA_PROFIL){
+            // TODO : vérifier ici les trophées
             // Si le score de ce nouveau tour est supérieur à celui en localstorage
             if(this.score2048 < pieceJointe.score){
                 this.setMeilleurScore(pieceJointe.score);
@@ -102,7 +120,7 @@ class AbsProfil extends Abs{
             }
         }
         else if (message === MESSAGE.TIMER){
-
+            // TODO : vérifier ici les trophées
             // On recoit un nouveau timer, si on a fait moins de temps
             // que le précédent timer, on le localstorage
             if(this.timer2048 > pieceJointe){   // On peut comparer les strings de cette façon puisque c'est formaté
@@ -110,6 +128,7 @@ class AbsProfil extends Abs{
             }
         }
         else if( message === MESSAGE.TIMER_DEMINEUR){
+            // TODO : vérifier ici les trophées
             if(this.timerDemineur > pieceJointe){   // On peut comparer les strings de cette façon puisque c'est formaté
                 this.setTimer(message,pieceJointe);
             }

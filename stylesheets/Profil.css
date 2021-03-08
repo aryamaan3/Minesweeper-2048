@@ -34,3 +34,12 @@
     width: 300px;
     text-align: center;
 }
+
+#trophees{
+    background-color: red;
+}
+
+.trophee{
+    display: inline-flex;
+    text-align: center;
+}
