@@ -44,9 +44,10 @@ class PresCiment extends Pres{
         else if (message === MESSAGE.MINES_RESTANT){
             this.changeMines(pieceJointe);
         }
-        else if (message === MESSAGE.TIMER){
+        else if (message === MESSAGE.TIMER
+                    || message === MESSAGE.TIMER_DEMINEUR){
             // On doit envoyer le timer au profil
-            this.ctrl.recoitMessageDeLaPresentation(MESSAGE.TIMER, this.getTimer());
+            this.ctrl.recoitMessageDeLaPresentation(message, this.formatTimer(this.time));
         }
 
         else if (message === MESSAGE.REM_DRAPEAU){
@@ -229,6 +230,9 @@ class CtrlCiment extends Ctrl{
         }
         else if (message === MESSAGE.VIC_DEM) {
             this.profil.getMessageFromParent(message, piecejointe);
+            // Ici, on va aussi recupéré le timer pour l'envoyer au profil :
+            console.log("Victoire Demineur");
+            this.pres.getMessage(MESSAGE.TIMER_DEMINEUR);
         }
         else if (message === MESSAGE.DEF_DEM) {
             this.profil.getMessageFromParent(message, piecejointe);
@@ -280,6 +284,7 @@ class CtrlCiment extends Ctrl{
                 this.demineur.getMessageFromParent(message);
                 break;
             case MESSAGE.TIMER:
+            case MESSAGE.TIMER_DEMINEUR:
                 this.profil.getMessageFromParent(message, pieceJointe);
                 break;
             case MESSAGE.NB_PARTIE_2048:

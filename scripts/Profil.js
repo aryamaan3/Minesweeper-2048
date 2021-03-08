@@ -3,12 +3,13 @@ class AbsProfil extends Abs{
         super();
         this.vicDemineur = 0;
         this.defDemineur = 0;
+        this.timerDemineur = "99:99";
 
         /* 2048 */
         this.meilleureTuile2048 = 2;
         this.nbPartie2048 = 0;
         this.score2048 = 0;
-        this.timer2048 = "00:00";
+        this.timer2048 = "99:99";
     }
 
     init(){
@@ -26,6 +27,14 @@ class AbsProfil extends Abs{
         }
         else {
             localStorage.setItem('defDem', '0');
+        }
+
+        if (localStorage.getItem('timerDemineur')){
+            this.timerDemineur = localStorage.getItem('timerDemineur');
+            this.ctrl.getMessageFromAbstraction(MESSAGE.TIMER_DEMINEUR, this.timerDemineur);
+        }
+        else {
+            localStorage.setItem('timerDemineur', '99:99');
         }
 
 
@@ -51,11 +60,11 @@ class AbsProfil extends Abs{
 
         // Timer
         if (localStorage.getItem('timer2048')){
-            this.timer2048 = Number(localStorage.getItem('timer2048'));
+            this.timer2048 = localStorage.getItem('timer2048');
             this.ctrl.getMessageFromAbstraction(MESSAGE.TIMER, this.timer2048);
         }
         else {
-            localStorage.setItem('timer2048', '00:00');
+            localStorage.setItem('timer2048', '99:99');
         }
 
         // Nombre de partie
@@ -93,10 +102,18 @@ class AbsProfil extends Abs{
             }
         }
         else if (message === MESSAGE.TIMER){
+
             // On recoit un nouveau timer, si on a fait moins de temps
             // que le précédent timer, on le localstorage
-            if(this.timer2048 < pieceJointe){   // On peut comparer les strings de cette façon puisque c'est formaté
-                this.setTimer(pieceJointe);
+            if(this.timer2048 > pieceJointe){   // On peut comparer les strings de cette façon puisque c'est formaté
+                this.setTimer(message,pieceJointe);
+            }
+        }
+        else if( message === MESSAGE.TIMER_DEMINEUR){
+            console.log("Profil abs recoit le timer "+ pieceJointe + " le compare avec "+ this.timerDemineur+
+                "on obtiens this.timer < piecejointe = "+ (this.timerDemineur > pieceJointe));
+            if(this.timerDemineur > pieceJointe){   // On peut comparer les strings de cette façon puisque c'est formaté
+                this.setTimer(message,pieceJointe);
             }
         }
         else if (message === MESSAGE.NB_PARTIE_2048){
@@ -150,11 +167,20 @@ class AbsProfil extends Abs{
         this.ctrl.getMessageFromAbstraction(MESSAGE.MEILLEURE_TUILE, this.meilleureTuile2048);
     }
 
-    setTimer(timer){
-        this.timer2048 = timer;
-        localStorage.setItem('timer2048', this.timer2048);
-
-        this.ctrl.getMessageFromAbstraction(MESSAGE.TIMER, this.timer2048);
+    setTimer(jeu, timer){
+        switch (jeu){
+            case MESSAGE.TIMER:
+                // Pour 2048
+                this.timer2048 = timer;
+                localStorage.setItem('timer2048', this.timer2048);
+                this.ctrl.getMessageFromAbstraction(MESSAGE.TIMER, this.timer2048);
+                break;
+            case MESSAGE.TIMER_DEMINEUR:
+                this.timerDemineur = timer;
+                localStorage.setItem('timerDemineur', this.timerDemineur);
+                this.ctrl.getMessageFromAbstraction(MESSAGE.TIMER_DEMINEUR, this.timerDemineur);
+                break;
+        }
     }
 
     addNbPartie2048(){
@@ -170,12 +196,13 @@ class PresProfil extends Pres{
         super();
         this.vicDemineur = 0;
         this.lossDem = 0;
+        this.timerDemineur = "99:99";
 
         /* 2048 */
         this.meilleureTuile2048 = 2;
         this.nbPartie2048 = 0;
         this.score2048 = 0;
-        this.timer2048 = "00:00";
+        this.timer2048 = "99:99";
     }
 
     initPage(){
@@ -205,6 +232,11 @@ class PresProfil extends Pres{
         title.id = "title";
         title.innerHTML = "Demineur";
         demineur.appendChild(title);
+
+        let timerDemineur = document.createElement('p');
+        timerDemineur.id = "timerDemineur";
+        timerDemineur.innerHTML = "Meilleur temps : " + this.timerDemineur;
+        demineur.appendChild(timerDemineur);
 
         let pVic = document.createElement('p');
         pVic.id = "demineurVic";
@@ -272,6 +304,10 @@ class PresProfil extends Pres{
             this.setDefDem(pieceJointe);
         }
 
+        else if(message === MESSAGE.TIMER_DEMINEUR){
+            this.setTimerDemineur(pieceJointe);
+        }
+
         /*----------- 2048 -----------*/
         else if (message === MESSAGE.MEILLEURE_TUILE){
             this.setMeilleureTuile(pieceJointe);
@@ -295,21 +331,25 @@ class PresProfil extends Pres{
         this.lossDem = nb;
     }
 
+    setTimerDemineur(timer){
+        this.timerDemineur = timer;
+    }
+
     /*------------ 2048 -------------*/
     setMeilleureTuile(pieceJointe) {
         this.meilleureTuile2048 = pieceJointe;
     }
 
-    setScore(pieceJointe) {
-        this.score2048 = pieceJointe;
+    setScore(score) {
+        this.score2048 = score;
     }
 
-    setTimer(pieceJointe) {
-        this.timer2048 = pieceJointe;
+    setTimer(timer) {
+        this.timer2048 = timer;
     }
 
-    setNbPartie2048(pieceJointe) {
-        this.nbPartie2048 = pieceJointe;
+    setNbPartie2048(nbPartie) {
+        this.nbPartie2048 = nbPartie;
     }
 }
 
@@ -327,7 +367,8 @@ class CtrlProfil extends Ctrl{
             this.abs.getMessage(message);
         }
 
-        else if (message === MESSAGE.VIC_DEM){
+        else if (message === MESSAGE.VIC_DEM
+                || message === MESSAGE.TIMER_DEMINEUR){
             this.abs.getMessage(message, pieceJointe);
         }
 

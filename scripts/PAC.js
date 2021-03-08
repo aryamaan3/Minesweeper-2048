@@ -27,6 +27,7 @@ class MESSAGE {
     static MINES_RESTANT = "mines_restants";
     static MEILLEURE_TUILE = "meilleuretuile";
     static TIMER = "timer";
+    static TIMER_DEMINEUR = "timerDemineur";
     static NB_PARTIE_2048 = "nbpartie2048";
     static TOUR = "tour";
     static DATA_PROFIL = "dataprofil";
