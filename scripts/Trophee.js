@@ -25,4 +25,15 @@ class Trophee {
 
         return trophee;
     }
+
+    /**
+     * Lorsqu'on récupère les trophées dans localstorage, ils sont au format JSON
+     * on les parse pour avoir un objet mais cet objet !== Trophee
+     * on doit donc convertir l'objet lambda en un nouveau Trophee
+     * @param json
+     * @return {Trophee}
+     */
+    static revive(json){
+        return new Trophee(json.type, json.description, json.img);
+    }
 }

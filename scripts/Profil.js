@@ -12,7 +12,7 @@ class AbsProfil extends Abs{
         this.timer2048 = "99:99";
 
         /* Liste des trophées */
-        this.trophees ={};
+        this.trophees = [];
     }
 
     init(){
@@ -85,11 +85,18 @@ class AbsProfil extends Abs{
         if (localStorage.getItem('trophees')){
             // JSON.parse puisqu'on a stocké un array d'objet !
             // TODO : vérifier que ça marche bien
-            this.trophee = JSON.parse(localStorage.getItem('trophees'));
-            //this.ctrl.getMessageFromAbstraction(MESSAGE.VIC_DEM, this.vicDemineur);
+            let json = JSON.parse( localStorage.getItem('trophees') );
+
+            // Obligé de bouclé car sinon est reconnu comme étant une grosse chaine de caractère ...
+            for (let i = 0; i < json.length ; i++){
+                this.trophees.push(json[i]);
+                //console.log(json[i]);
+            }
+
+            this.ctrl.getMessageFromAbstraction(MESSAGE.TROPHEE, this.trophees);
         }
         else {
-            localStorage.setItem('trophees', JSON.stringify({}));
+            localStorage.setItem('trophees', JSON.stringify([{}]));
         }
     }
 
@@ -117,6 +124,15 @@ class AbsProfil extends Abs{
 
             if(this.meilleureTuile2048 < pieceJointe.meilleureTuile){
                 this.setMeilleureTuile(pieceJointe.meilleureTuile);
+
+                // On donne un trophée pour la première fois que l'user atteint 128, 1024 ou 2048
+                // pour que ça ne se fasse que la première fois, j'utilise pieceJointe et pas this.meilleureTuile
+                if(pieceJointe.meilleureTuile === 128){
+                    const trophee128 = new Trophee("2048", "Obtenir une tuile 128", "assets/trophées/trophee_128.png");
+
+                    // On l'ajoute au localstorage + liste trophees
+                    this.addTrophee(trophee128);
+                }
             }
         }
         else if (message === MESSAGE.TIMER){
@@ -205,6 +221,16 @@ class AbsProfil extends Abs{
 
         this.ctrl.getMessageFromAbstraction(MESSAGE.NB_PARTIE_2048, this.nbPartie2048);
     }
+
+    /* Trophées */
+    addTrophee(trophee){
+        this.trophees.push(trophee);
+
+        localStorage.setItem('trophees', JSON.stringify(this.trophees));
+
+        // On envoie ce trophée à la presentation
+        this.ctrl.getMessageFromAbstraction(MESSAGE.TROPHEE, this.trophees);
+    }
 }
 
 class PresProfil extends Pres{
@@ -219,6 +245,9 @@ class PresProfil extends Pres{
         this.nbPartie2048 = 0;
         this.score2048 = 0;
         this.timer2048 = "99:99";
+
+        /* Liste des trophées */
+        this.trophees =[];
     }
 
     initPage(){
@@ -317,6 +346,13 @@ class PresProfil extends Pres{
         let tropheeHTML = trophee.render();
         trophees.appendChild(tropheeHTML);
 
+        // On boucle sur la liste des trophées afin de tous les afficher
+        this.trophees.forEach( trophee => {
+            // il faut d'abord convertir le parsed JSON en un nouvel objet Trophee
+            let tropheeRevive = Trophee.revive(trophee);
+            // On a l'objet trophée, maintenant il faut en faire du HTML pour l'append
+            trophees.appendChild(tropheeRevive.render());
+        });
 
 
         container.appendChild(trophees);
@@ -354,6 +390,11 @@ class PresProfil extends Pres{
         else if (message === MESSAGE.NB_PARTIE_2048){
             this.setNbPartie2048(pieceJointe);
         }
+
+        /*----------- Trophées -----------*/
+        else if(message === MESSAGE.TROPHEE){
+            this.setTrophee(pieceJointe);
+        }
     }
 
     setVictoireDem(nb){
@@ -383,6 +424,12 @@ class PresProfil extends Pres{
 
     setNbPartie2048(nbPartie) {
         this.nbPartie2048 = nbPartie;
+    }
+
+    /* Trophée */
+
+    setTrophee(trophees){
+        this.trophees = trophees;
     }
 }
 

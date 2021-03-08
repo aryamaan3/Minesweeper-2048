@@ -32,6 +32,7 @@ class MESSAGE {
     static TOUR = "tour";
     static DATA_PROFIL = "dataprofil";
     static REM_DRAPEAU = "removeDrapeau";
+    static TROPHEE = "trophee";
 }
 
 class Abs {
