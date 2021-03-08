@@ -98,8 +98,10 @@ class Grille2048{
         let tuile = new Tuile2048();
         tuile.setLigne(ligne);
         tuile.setColonne(colonne);
-        //tuile.setValue(this.randomValue());
-        tuile.setValue(512);
+        tuile.setValue(this.randomValue());
+
+        // Si besoin de simuler une victoire rapidement :
+        //tuile.setValue(512);
 
         // Pour avoir une animation d'apparition
         tuile.setApparition(true);

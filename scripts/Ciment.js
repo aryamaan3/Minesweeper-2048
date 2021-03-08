@@ -48,6 +48,13 @@ class PresCiment extends Pres{
                     || message === MESSAGE.TIMER_DEMINEUR){
             // On doit envoyer le timer au profil
             this.ctrl.recoitMessageDeLaPresentation(message, this.formatTimer(this.time));
+
+            // et on arrete le timer
+            this.stopTimer();
+        }
+        else if( message === MESSAGE.DEF_DEM){
+            // Si on a une défaite, on doit tout de même arrêter le timer
+            this.stopTimer();
         }
 
         else if (message === MESSAGE.REM_DRAPEAU){
@@ -236,6 +243,9 @@ class CtrlCiment extends Ctrl{
         }
         else if (message === MESSAGE.DEF_DEM) {
             this.profil.getMessageFromParent(message, piecejointe);
+
+            // On arrête le timer
+            this.pres.getMessage(message);
         }
         else if (message === MESSAGE.DATA_PROFIL){
             // Permet d'afficher le nouveau score dans la barre de stats

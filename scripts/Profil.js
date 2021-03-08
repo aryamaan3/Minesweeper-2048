@@ -117,7 +117,6 @@ class AbsProfil extends Abs{
             }
         }
         else if (message === MESSAGE.NB_PARTIE_2048){
-            console.log('Nouvelle partie 2048');
             this.addNbPartie2048();
         }
         /*----- Si message pas connu ------*/
