@@ -6,6 +6,7 @@ class AbsDem extends Abs{
         this.ligne = 9; //ligne
         this.afficheAll = false;
         this.nbMines = 9;
+        this.loss = false;
     }
 
     /**
@@ -31,6 +32,7 @@ class AbsDem extends Abs{
                 break;
 
         }
+        this.loss = false;
         this.genTab();
         //this.ctrl.getMessageFromAbstraction(MESSAGE.MINES_RESTANT, this.nbMines);
     }
@@ -120,6 +122,7 @@ class AbsDem extends Abs{
      * @param coord tab des coordonnées x et y du click souris sur le canvas
      */
     genMines(mines, coord){
+
         let  i, x, y;
         let coordX = Math.floor(coord[0] / 30); //on le convertis aux indices d'un tab
         let coordY = Math.floor(coord[1] / 30);
@@ -201,31 +204,36 @@ class AbsDem extends Abs{
      * @param posy inidce colonne de la tuile dans tab
      */
     tuileClicked(posx, posy){
-        let tuile = this.tabTuiles[posx][posy];
-        let pos = [];
-        pos[0] = posx;
-        pos[1] = posy;
-        if (tuile.isHidden()){
-            if (tuile.isMine()){
-                this.ctrl.getMessageFromAbstraction(MESSAGE.MINE, pos);
-                tuile.setDecouvert();
-                if (!this.afficheAll) {
-                    this.ctrl.getMessageFromAbstraction(MESSAGE.DEF_DEM, this.getNiveau());
-                    this.afficheTout();
+        try {
+            let tuile = this.tabTuiles[posx][posy];
+            let pos = [];
+            pos[0] = posx;
+            pos[1] = posy;
+            if (tuile.isHidden()) {
+                if (tuile.isMine()) {
+                    this.ctrl.getMessageFromAbstraction(MESSAGE.MINE, pos);
+                    tuile.setDecouvert();
+                    if (!this.afficheAll) {
+                        this.ctrl.getMessageFromAbstraction(MESSAGE.DEF_DEM, this.getNiveau());
+                        this.loss = true;
+                        this.afficheTout();
+
+                    }
+                } else {
+                    this.ctrl.getMessageFromAbstraction(MESSAGE.DECOUVRE, pos);
+                    tuile.setDecouvert(); //marque tuile comme decouvert
+                    let posEtIndice = [];
+                    posEtIndice[0] = pos;
+                    posEtIndice [1] = tuile.getIndice();
+                    this.ctrl.getMessageFromAbstraction(MESSAGE.INDICE, posEtIndice); //montre le nb des mines adjacents
+                    if (!posEtIndice[1]) { //si indice 0
+                        this.decouvrirAutour(tuile, pos); //decouvre les tuile à 0 autour
+                    }
+                    this.verifVictoire() //verifie si le joueur a gagné
                 }
             }
-            else {
-                this.ctrl.getMessageFromAbstraction(MESSAGE.DECOUVRE, pos);
-                tuile.setDecouvert(); //marque tuile comme decouvert
-                let posEtIndice = [];
-                posEtIndice[0] = pos;
-                posEtIndice [1] = tuile.getIndice();
-                this.ctrl.getMessageFromAbstraction(MESSAGE.INDICE, posEtIndice); //montre le nb des mines adjacents
-                if (!posEtIndice[1]){ //si indice 0
-                    this.decouvrirAutour(tuile, pos); //decouvre les tuile à 0 autour
-                }
-                this.verifVictoire() //verifie si le joueur a gagné
-            }
+        } catch {
+            console.log("bordure cliqué");
         }
     }
 
@@ -256,36 +264,38 @@ class AbsDem extends Abs{
     }
 
     verifVictoire(){
-        let nbHidden = 0;
-        //on compte le nb de tuiles encore cachés dans le tab
-        for (let ligne = 0; ligne < this.ligne; ligne++){
-            for (let colonne = 0; colonne < this.colonne; colonne++){
-                let tuile = this.tabTuiles[ligne][colonne];
-                if (tuile.isHidden()){
-                    nbHidden ++;
+        if (!this.loss) {
+            let nbHidden = 0;
+            //on compte le nb de tuiles encore cachés dans le tab
+            for (let ligne = 0; ligne < this.ligne; ligne++) {
+                for (let colonne = 0; colonne < this.colonne; colonne++) {
+                    let tuile = this.tabTuiles[ligne][colonne];
+                    if (tuile.isHidden()) {
+                        nbHidden++;
+                    }
                 }
             }
-        }
-        //on differencie par niveau
-        switch(this.ligne){
-            case(9):
-                if (nbHidden === 9){
-                    this.ctrl.getMessageFromAbstraction(MESSAGE.VIC_DEM, 1);
-                    //this.afficheTout();
-                }
-                break;
+            //on differencie par niveau
+            switch (this.ligne) {
+                case(9):
+                    if (nbHidden === 9) {
+                        this.ctrl.getMessageFromAbstraction(MESSAGE.VIC_DEM, 1);
+                        //this.afficheTout();
+                    }
+                    break;
 
-            case(16):
-                if (nbHidden === 40){
-                    this.ctrl.getMessageFromAbstraction(MESSAGE.VIC_DEM, 2);
-                }
-                break;
+                case(16):
+                    if (nbHidden === 40) {
+                        this.ctrl.getMessageFromAbstraction(MESSAGE.VIC_DEM, 2);
+                    }
+                    break;
 
-            default:
-                if (nbHidden === 99){
-                    this.ctrl.getMessageFromAbstraction(MESSAGE.VIC_DEM, 3);
-                }
-                break;
+                default:
+                    if (nbHidden === 99) {
+                        this.ctrl.getMessageFromAbstraction(MESSAGE.VIC_DEM, 3);
+                    }
+                    break;
+            }
         }
     }
 
@@ -363,15 +373,11 @@ class PresDem extends Pres{
      * genere la page et appel la methode pour choisir le niveau
      */
     initPage(){
+
         let header = document.getElementById("title");
         header.innerHTML = "Démineur";
         this.selectLevel();
 
-        /* Si besoin de simuler une victoire */
-        let gagner = document.createElement("button");
-        gagner.innerHTML = "gagner";
-        gagner.onclick = ()=> {this.ctrl.getMessageFromAbstraction(MESSAGE.VIC_DEM, 3)};
-        document.body.appendChild(gagner);
     }
 
     /**
@@ -430,6 +436,8 @@ class PresDem extends Pres{
         };
         div.appendChild(niv3);
 
+
+
     }
 
     /**
@@ -465,12 +473,19 @@ class PresDem extends Pres{
      * @param texte à afficher
      */
     afficher(texte){
-        this.ctx.fillStyle = "#FFF"
-        this.ctx.fillRect(0, (this.canvas.height - 70) / 2, this.canvas.width, 50);
+        let canvas2 = document.createElement('canvas');
+        canvas2.id = "gui";
+        canvas2.classList.add('gui');
+        canvas2.width = 300;
+        canvas2.height = 100;
+        let context = canvas2.getContext('2d');
 
-        this.ctx.fillStyle = "#000"
-        this.ctx.font = "20px 'San Francisco'";
-        this.ctx.fillText(texte, (this.canvas.width / 2) - 65, (this.canvas.height / 2) - 5);
+        context.fillStyle = "#000"
+        context.font = "20px 'San Francisco'";
+        context.fillText(texte, (canvas2.width / 2) - 70, (canvas2.height / 2) - 5);
+
+        let container = document.getElementById('container');
+        container.appendChild(canvas2);
     }
 
 

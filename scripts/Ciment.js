@@ -55,6 +55,7 @@ class PresCiment extends Pres{
         else if (message === MESSAGE.VIC_DEM){
             // On conserve notre pieceJointe qui est le type de jeu gagné (débutant,...)
             this.ctrl.recoitMessageDeLaPresentation(message, {type: pieceJointe,timer: this.formatTimer(this.time)});
+            this.stopTimer();
         }
         else if( message === MESSAGE.DEF_DEM){
             // Si on a une défaite, on doit tout de même arrêter le timer

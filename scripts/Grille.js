@@ -111,9 +111,14 @@ class Grille{
      * @param pos : index de la tuile dans tab
      */
     decouvreTuile(pos){
-        let tuile = this.tabTuile[pos[0]][pos[1]];
-        tuile.setCache();
-        tuile.draw(this.ctx);
+        try{
+            let tuile = this.tabTuile[pos[0]][pos[1]];
+            tuile.setCache();
+            tuile.draw(this.ctx);
+        }catch (e) {
+            console.log("bordure cliqué 2")
+            console.log(pos);
+        }
     }
 
     /**

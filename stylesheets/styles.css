@@ -106,17 +106,8 @@ header{
     margin-left:auto;
     width: 500px;
     height: 500px;
-    /*border: 0.1em solid black;*/
 }
 
-#containerDem{
-    margin-top: 150px;
-    margin-right:auto;
-    margin-left:auto;
-    width: 500px;
-    height: 500px;
-    /*border: 0.1em solid black;*/
-}
 
 #grille2048 {
     background-color: burlywood;
@@ -163,17 +154,18 @@ header{
 .canvas {
     border: 10px solid rgb(153, 153, 153);
     border-radius: 15px;
-    position: absolute;
+    position: relative;
     top: 30%;
     left: 50%;
     transform: translate(-50%, 30%);
+    z-index: 1;
 }
 
 .canvas2 {
     border: 10px solid rgb(153, 153, 153);
     border-radius: 15px;
     position: absolute;
-    top: 20%;
+    top: -10%;
     left: 50%;
     transform: translate(-50%, 30%);
 }
@@ -202,4 +194,17 @@ header{
 .jeu {
     text-align: center;
     display: inline;
+}
+
+.containerDem{
+    position: relative;
+    align-items: center;
+    display: table;
+}
+
+.gui{
+    position:absolute;
+    top:0px;
+    left: 20%;
+    display: table-cell;
 }
