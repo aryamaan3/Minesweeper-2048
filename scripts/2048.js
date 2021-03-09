@@ -48,6 +48,9 @@ class Abs2048 extends Abs{
             case MESSAGE.TOUR:
                 this.tour(pieceJointe);
                 break;
+            case MESSAGE.FIN_2048:
+                this.finirPartie();
+                break;
             default:
                 result = super.recoitMessage(message, pieceJointe);
         }
@@ -99,8 +102,6 @@ class Abs2048 extends Abs{
 
         // On vérifie si on a une victoire
         if(this.meilleureTuile >= 2048 && this.victoire === false){
-            //TODO : pop up pour indiquer une victoire à l'user
-            //TODO : envoyer le timer à profil
             this.victoire = true;
             console.log("VICTOIRE");
 
@@ -113,6 +114,10 @@ class Abs2048 extends Abs{
             score:this.score,
             meilleureTuile:this.meilleureTuile
         });
+    }
+
+    finirPartie() {
+        this.ctrl.getMessageFromAbstraction(MESSAGE.FIN_2048);
     }
 }
 
@@ -128,6 +133,8 @@ class Pres2048 extends Pres{
         // N'est pas stocké ici mais dans Grille2048
         this.score = 0;
         this.meilleureTuile = 2;
+
+        this.fin = false;
 
     }
 
@@ -175,7 +182,28 @@ class Pres2048 extends Pres{
             });
 
         }
+        else if( !this.grille.nouveauTour(MESSAGE.UP)
+                && !this.grille.nouveauTour(MESSAGE.DOWN)
+                && !this.grille.nouveauTour(MESSAGE.RIGHT)
+                && !this.grille.nouveauTour(MESSAGE.LEFT)
+                && !this.fin){
+            // Aucun déplacement possible, on est bloqué : fin de partie
+            console.log("FIN DE PARTIE");
+            this.fin = true;
+            this.ctrl.getMessageFromPresentation(MESSAGE.FIN_2048);
+            this.affichePanneau();
+        }
 
+    }
+
+    affichePanneau(){
+        let container = document.getElementById("container");
+
+        let panneau = document.createElement("div");
+        panneau.id = "panneauFin";
+        panneau.innerHTML = "PARTIE TERMINÉE";
+
+        container.after(panneau);
     }
 
 
@@ -213,12 +241,18 @@ class Ctrl2048 extends Ctrl{
             case MESSAGE.TIMER:
                 this.parent.recoitMessageDUnEnfant(message);
                 break;
+            case MESSAGE.FIN_2048:
+                this.parent.recoitMessageDUnEnfant(message);
+                break;
         }
     }
 
     getMessageFromPresentation(message, pieceJointe){
         switch (message){
             case MESSAGE.TOUR:
+                this.abs.getMessage(message, pieceJointe);
+                break;
+            case MESSAGE.FIN_2048:
                 this.abs.getMessage(message, pieceJointe);
                 break;
         }

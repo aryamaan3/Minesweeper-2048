@@ -56,11 +56,11 @@ class PresCiment extends Pres{
             // On conserve notre pieceJointe qui est le type de jeu gagné (débutant,...)
             this.ctrl.recoitMessageDeLaPresentation(message, {type: pieceJointe,timer: this.formatTimer(this.time)});
         }
-        else if( message === MESSAGE.DEF_DEM){
+        else if( message === MESSAGE.DEF_DEM
+                    || message === MESSAGE.FIN_2048){
             // Si on a une défaite, on doit tout de même arrêter le timer
             this.stopTimer();
         }
-
         else if (message === MESSAGE.REM_DRAPEAU){
             let mines = document.getElementById('compteurmines');
             let nb = parseInt(mines.innerHTML);
@@ -280,6 +280,9 @@ class CtrlCiment extends Ctrl{
             this.pres.getMessage(message, piecejointe);
         }
         else if (message === MESSAGE.REM_DRAPEAU){
+            this.pres.getMessage(message);
+        }
+        else if (message === MESSAGE.FIN_2048){
             this.pres.getMessage(message);
         }
         // ça c'était dans le code de Monsieur RENEVIER

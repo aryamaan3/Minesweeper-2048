@@ -18,6 +18,7 @@ class Trophee {
         img.src = this.img;
         img.height = 60;
         img.width = 60;
+        img.onload = function () {console.log("Loaded trophee")};
         trophee.appendChild(img);
 
         const description = document.createElement("p");

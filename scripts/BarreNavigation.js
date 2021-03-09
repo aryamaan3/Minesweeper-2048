@@ -189,7 +189,9 @@ class PresNav extends Pres{
         img2048.width = 200;
         img2048.height = 200;
         img2048.alt = "Jouer au 2048";
+        img2048.onload = function () {console.log("Loaded 2048")};
         j2048.appendChild(img2048);
+
 
         let demineur = document.createElement('div');
         demineur.className = "jeu";
@@ -204,6 +206,7 @@ class PresNav extends Pres{
         imgDemineur.width = 200;
         imgDemineur.height = 200;
         imgDemineur.alt = "Jouer au démineur";
+        imgDemineur.onload = function () {console.log("Loaded demineur")};
         demineur.appendChild(imgDemineur);
     }
 }
