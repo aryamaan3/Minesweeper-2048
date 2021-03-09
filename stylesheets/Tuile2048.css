@@ -84,7 +84,7 @@ div[class^="tuile"] {
     background-color: yellowgreen;
 }
 
-.case .tuile{
+.case [class^="tuile"]{
     /* Permet d'hériter les borders radius du parent, donc si coin au gauche
     on applique le style par ex */
     border-radius: inherit;

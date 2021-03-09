@@ -33,6 +33,7 @@ class MESSAGE {
     static DATA_PROFIL = "dataprofil";
     static REM_DRAPEAU = "removeDrapeau";
     static TROPHEE = "trophee";
+    static FIN_2048 = "fin2048";
 }
 
 class Abs {
