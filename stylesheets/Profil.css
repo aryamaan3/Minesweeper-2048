@@ -3,7 +3,7 @@
     margin: 0 auto;
     top: 50%;
     left: 50%;
-    transform: translate(0%, 20%);
+    transform: translate(0%, 40%);
     text-align: center;
 }
 .Profil div{
@@ -20,6 +20,7 @@
     background-color: antiquewhite;
     border-radius: 10px;
     padding: 5px;
+    line-height: 50px;
 }
 
 #ProfilDemineur *{
@@ -36,10 +37,33 @@
 }
 
 #trophees{
-    background-color: red;
+    margin: 20px;
+    top: 30%;
+    transform: translate(0%, 50%);
+}
+
+#trophees :first-child{
+    font-weight: 500;
+    font-size: 35px;
+    text-align: center;
 }
 
 .trophee{
     display: inline-flex;
     text-align: center;
+}
+
+#trophees * :not(:first-child){ /*Tous les elements du container sauf les titres respective*/
+    width: 300px;
+    text-align: center;
+    margin: 10px;
+    font-weight: 500;
+}
+
+.vide{
+    transform: translate(0%, 50%);
+    width: 300px;
+    text-align: center;
+    margin: 10px;
+    font-weight: 500;
 }

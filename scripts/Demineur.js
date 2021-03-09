@@ -374,8 +374,8 @@ class PresDem extends Pres{
      */
     initPage(){
 
-        let header = document.getElementById("title");
-        header.innerHTML = "Démineur";
+        /*let header = document.getElementById("title");
+        header.innerHTML = "Démineur";*/
         this.selectLevel();
 
     }

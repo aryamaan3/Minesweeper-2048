@@ -195,7 +195,7 @@ class CtrlCiment extends Ctrl{
      */
     init() {
         this.enfants.forEach(e => e.getMessageFromParent(MESSAGE.INIT));
-        this.header = document.getElementById('title');
+        //this.header = document.getElementById('title');
         this.j2048 = this.enfants[0];
         this.demineur = this.enfants[1];
         this.profil = this.enfants[2];
@@ -207,7 +207,7 @@ class CtrlCiment extends Ctrl{
 
             switch (piecejointe) {
                 case(MESSAGE.ACCUEIL):
-                    this.header.innerHTML = "Site de jeux en ligne"
+                    //this.header.innerHTML = "Site de jeux en ligne"
 
                     // on va déléguer l'affichage de l'acceuil à BarreNavigation
                     this.nav.getMessageFromParent(piecejointe);

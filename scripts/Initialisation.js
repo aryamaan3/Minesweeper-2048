@@ -28,3 +28,12 @@ window.onload = function init(){
     ctrlCiment.init();
 }
 
+function isEmpty(obj){ //verifie si un objet json est vide
+    for (let cle in obj){
+        if (obj.hasOwnProperty(cle)){
+            return false;
+        }
+    }
+    return true
+}
+

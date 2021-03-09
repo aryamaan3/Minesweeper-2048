@@ -299,13 +299,13 @@ class PresProfil extends Pres{
         super();
         this.vicDemineur = 0;
         this.lossDem = 0;
-        this.timerDemineur = "99:99";
+        this.timerDemineur = "";
 
         /* 2048 */
         this.meilleureTuile2048 = 2;
         this.nbPartie2048 = 0;
         this.score2048 = 0;
-        this.timer2048 = "99:99";
+        this.timer2048 = "";
 
         /* Liste des trophées */
         this.trophees =[];
@@ -313,113 +313,124 @@ class PresProfil extends Pres{
 
     initPage(){
         /*-----------------------------TITRE--------------------------------*/
-        let header = document.getElementById('title');
-        header.innerHTML ="Profil";
+        /*let header = document.getElementById('title');
+        header.innerHTML = "Profil";*/
 
         let container = document.createElement('div');
         container.id = "container";
 
-        /*-----------------------------SCORE ET NIVEAUX----------------------------*/
-        let scoreEtNiveaux = document.createElement('div');
-        scoreEtNiveaux.id = "scoreEtNiveau";
-        scoreEtNiveaux.classList.add('Profil');
-        scoreEtNiveaux.innerHTML = "<p>Score et niveaux</p>";
+        if (this.nbPartie2048 || this.vicDemineur || this.lossDem) { //si le joueur a déjà fait une partie
 
-        /*
-        let div = document.createElement('div');
-        div.id = "container";
-        let h = document.createElement('h1');
-        h.id = "total";
-        h.innerHTML = "Vous avez joué à : "+ (this.vicDemineur + this.vic2048 + this.lossDem + this.loss2048) + " partie(s)";
-        div.appendChild(h);
-        */
+            /*-----------------------------SCORE ET NIVEAUX----------------------------*/
+            let scoreEtNiveaux = document.createElement('div');
+            scoreEtNiveaux.id = "scoreEtNiveau";
+            scoreEtNiveaux.classList.add('Profil');
+            scoreEtNiveaux.innerHTML = "<p>Score et niveaux</p>";
 
-        /*----------------------------DEMINEUR------------------------------*/
-        let demineur = document.createElement('div');
-        demineur.id = "ProfilDemineur";
-        let title = document.createElement('h1');
-        title.id = "title";
-        title.innerHTML = "Demineur";
-        demineur.appendChild(title);
+            /*
+            let div = document.createElement('div');
+            div.id = "container";
+            let h = document.createElement('h1');
+            h.id = "total";
+            h.innerHTML = "Vous avez joué à : "+ (this.vicDemineur + this.vic2048 + this.lossDem + this.loss2048) + " partie(s)";
+            div.appendChild(h);
+            */
 
-        let timerDemineur = document.createElement('p');
-        timerDemineur.id = "timerDemineur";
-        timerDemineur.innerHTML = "Meilleur temps : " + this.timerDemineur;
-        demineur.appendChild(timerDemineur);
+            /*----------------------------DEMINEUR------------------------------*/
+            let demineur = document.createElement('div');
+            demineur.id = "ProfilDemineur";
+            let title = document.createElement('h1');
+            title.id = "title";
+            title.innerHTML = "Demineur";
+            demineur.appendChild(title);
 
-        let pVic = document.createElement('p');
-        pVic.id = "demineurVic";
-        pVic.innerHTML = "Victoire(s) : "+ this.vicDemineur;
-        demineur.appendChild(pVic);
+            let timerDemineur = document.createElement('p');
+            timerDemineur.id = "timerDemineur";
+            timerDemineur.innerHTML = "Meilleur temps : " + this.timerDemineur;
+            demineur.appendChild(timerDemineur);
 
-        let pLoss = document.createElement('p');
-        pLoss.id = "demineurPertes";
-        pLoss.innerHTML = "Defaite(s) : "+this.lossDem;
-        demineur.appendChild(pLoss);
+            let pVic = document.createElement('p');
+            pVic.id = "demineurVic";
+            pVic.innerHTML = "Victoire(s) : " + this.vicDemineur;
+            demineur.appendChild(pVic);
 
-        let ratio = document.createElement('p');
-        ratio.id ="ratio";
-        let nb = ((this.vicDemineur / this.lossDem).toFixed(2)) || 0; // si nan alors affiche 0
-        nb = (nb == Infinity) ? "stonks" : nb; // === fait false alors que == fait true
-        ratio.innerHTML = "Ratio : "+ nb;
-        demineur.appendChild(ratio);
+            let pLoss = document.createElement('p');
+            pLoss.id = "demineurPertes";
+            pLoss.innerHTML = "Defaite(s) : " + this.lossDem;
+            demineur.appendChild(pLoss);
 
-        scoreEtNiveaux.appendChild(demineur);
+            let ratio = document.createElement('p');
+            ratio.id = "ratio";
+            let nb = ((this.vicDemineur / this.lossDem).toFixed(2)) || 0; // si nan alors affiche 0
+            nb = (nb == Infinity) ? "stonks" : nb; // === fait false alors que == fait true
+            ratio.innerHTML = "Ratio : " + nb;
+            demineur.appendChild(ratio);
 
-        /*-------------------------------2048------------------------------*/
-        let j2048 = document.createElement('div');
-        j2048.id = "Profil2048";
+            scoreEtNiveaux.appendChild(demineur);
 
-        let titre2048 = document.createElement('h1');
-        titre2048.innerHTML = "2048";
-        j2048.appendChild(titre2048);
+            /*-------------------------------2048------------------------------*/
+            let j2048 = document.createElement('div');
+            j2048.id = "Profil2048";
 
-        let timer2048 = document.createElement('p');
-        timer2048.id = "timer2048";
-        timer2048.innerHTML = "Meilleur temps : " + this.timer2048;
-        j2048.appendChild(timer2048);
+            let titre2048 = document.createElement('h1');
+            titre2048.innerHTML = "2048";
+            j2048.appendChild(titre2048);
 
-        let meilleureTuile2048 = document.createElement('p');
-        meilleureTuile2048.id = "meilleureTuile";
-        meilleureTuile2048.innerHTML = "Meilleure Tuile : " + this.meilleureTuile2048;
-        j2048.appendChild(meilleureTuile2048);
+            let timer2048 = document.createElement('p');
+            timer2048.id = "timer2048";
+            timer2048.innerHTML = "Meilleur temps : " + this.timer2048;
+            j2048.appendChild(timer2048);
 
-        let meilleureScore2048 = document.createElement('p');
-        meilleureScore2048.id = "meilleureScore2048";
-        meilleureScore2048.innerHTML = "Score : " + this.score2048;
-        j2048.appendChild(meilleureScore2048);
+            let meilleureTuile2048 = document.createElement('p');
+            meilleureTuile2048.id = "meilleureTuile";
+            meilleureTuile2048.innerHTML = "Meilleure Tuile : " + this.meilleureTuile2048;
+            j2048.appendChild(meilleureTuile2048);
 
-        let nbPartie2048 = document.createElement('p');
-        nbPartie2048.id = "nbPartie2048";
-        nbPartie2048.innerHTML = "Nombre de partie : " + this.nbPartie2048;
-        j2048.appendChild(nbPartie2048);
+            let meilleureScore2048 = document.createElement('p');
+            meilleureScore2048.id = "meilleureScore2048";
+            meilleureScore2048.innerHTML = "Score : " + this.score2048;
+            j2048.appendChild(meilleureScore2048);
 
-        scoreEtNiveaux.appendChild(j2048);
+            let nbPartie2048 = document.createElement('p');
+            nbPartie2048.id = "nbPartie2048";
+            nbPartie2048.innerHTML = "Nombre de partie : " + this.nbPartie2048;
+            j2048.appendChild(nbPartie2048);
 
-        container.appendChild(scoreEtNiveaux);
+            scoreEtNiveaux.appendChild(j2048);
 
-        /*----------------------------- TROPHEES ----------------------------*/
-        let trophees = document.createElement("div");
-        trophees.id = "trophees";
-        trophees.innerHTML = "<p>Trophées</p>";
+            container.appendChild(scoreEtNiveaux);
 
-        // SI BESOIN D'AFFICHER UN FAUX TROPHEE
-        /*
-        let trophee = new Trophee("2048", "test","1er trophée", "assets/trophées/trophee_1min.png")
-        let tropheeHTML = trophee.render();
-        trophees.appendChild(tropheeHTML);
-        */
+            // SI BESOIN D'AFFICHER UN FAUX TROPHEE
+            /*
+            let trophee = new Trophee("2048", "test","1er trophée", "assets/trophées/trophee_1min.png")
+            let tropheeHTML = trophee.render();
+            trophees.appendChild(tropheeHTML);
+            */
 
-        // On boucle sur la liste des trophées afin de tous les afficher
-        this.trophees.forEach( trophee => {
-            // il faut d'abord convertir le parsed JSON en un nouvel objet Trophee
-            let tropheeRevive = Trophee.revive(trophee);
-            // On a l'objet trophée, maintenant il faut en faire du HTML pour l'append
-            trophees.appendChild(tropheeRevive.render());
-        });
+            if (!isEmpty(this.trophees[0]) || this.trophees[1]) { // s'affiche seulement si joueur a gagné des trophées
+                /*----------------------------- TROPHEES ----------------------------*/
+                let trophees = document.createElement("div");
+                trophees.id = "trophees";
+                trophees.innerHTML = "<p>Trophées</p>";
 
 
-        container.appendChild(trophees);
+                // On boucle sur la liste des trophées afin de tous les afficher
+                this.trophees.forEach(trophee => {
+                    // il faut d'abord convertir le parsed JSON en un nouvel objet Trophee
+                    let tropheeRevive = Trophee.revive(trophee);
+                    // On a l'objet trophée, maintenant il faut en faire du HTML pour l'append
+                    trophees.appendChild(tropheeRevive.render());
+                });
+
+
+                container.appendChild(trophees);
+            }
+
+        }
+        else{ //si le joueur n'a pas fait de partie encore
+            container.classList.add('vide');
+            container.innerHTML = "<p>Veuillez jouer pour voir vos statistiques</p>"
+        }
 
         document.body.appendChild(container);
     }

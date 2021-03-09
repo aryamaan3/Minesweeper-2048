@@ -150,8 +150,8 @@ class Pres2048 extends Pres{
     }
 
     afficheGrille(){
-        let header = document.getElementById('title');
-        header.innerHTML = "2048";
+        //let header = document.getElementById('title');
+        //header.innerHTML = "2048";
 
         this.grille = new Grille2048();
         this.grille.construction();
