@@ -203,6 +203,9 @@ class CtrlCiment extends Ctrl{
             switch (piecejointe) {
                 case(MESSAGE.ACCUEIL):
                     this.header.innerHTML = "Site de jeux en ligne"
+
+                    // on va déléguer l'affichage de l'acceuil à BarreNavigation
+                    this.nav.getMessageFromParent(piecejointe);
                     this.pres.getMessage(message);
                     break;
 
@@ -237,6 +240,7 @@ class CtrlCiment extends Ctrl{
         }
         else if (message === MESSAGE.VIC_DEM) {
             this.profil.getMessageFromParent(message, piecejointe);
+
             // Ici, on va aussi recupéré le timer pour l'envoyer au profil :
             console.log("Victoire Demineur");
             this.pres.getMessage(MESSAGE.TIMER_DEMINEUR);

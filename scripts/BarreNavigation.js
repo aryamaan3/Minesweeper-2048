@@ -80,6 +80,9 @@ class PresNav extends Pres{
             case MESSAGE.CLEAR_CONTAINER:
                 this.reinitialisationPage();
                 break;
+            case MESSAGE.ACCUEIL:
+                this.afficheAccueil();
+                break;
         }
     }
 
@@ -162,6 +165,47 @@ class PresNav extends Pres{
         // On dit à tous le monde de supprimer ses listeners
         this.ctrl.getMessageFromPresentation(MESSAGE.REMOVELISTENER);
     }
+
+    afficheAccueil() {
+        let barreNav = document.getElementById('barrenav');
+
+        let container = document.createElement('div');
+        container.id = "container";
+        barreNav.after(container);
+
+        let titre = document.createElement('h1');
+        titre.innerHTML= "Veuillez sélectionner un jeu pour commencer :";
+
+        let j2048 = document.createElement('div');
+        j2048.className = "jeu";
+        container.appendChild(j2048);
+        j2048.addEventListener("click", () => {
+            this.reinitialisationPage();
+            this.ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE.INIT2048);
+        });
+
+        let img2048 = document.createElement('img');
+        img2048.src = "assets/2048.png";
+        img2048.width = 200;
+        img2048.height = 200;
+        img2048.alt = "Jouer au 2048";
+        j2048.appendChild(img2048);
+
+        let demineur = document.createElement('div');
+        demineur.className = "jeu";
+        container.appendChild(demineur);
+        demineur.addEventListener("click", () => {
+            this.reinitialisationPage();
+            this.ctrl.getMessageFromPresentation(MESSAGE.CHANGEPAGE, MESSAGE.DEMINEUR);
+        });
+
+        let imgDemineur = document.createElement('img');
+        imgDemineur.src = "assets/Demineur.png";
+        imgDemineur.width = 200;
+        imgDemineur.height = 200;
+        imgDemineur.alt = "Jouer au démineur";
+        demineur.appendChild(imgDemineur);
+    }
 }
 
 class CtrlNav extends Ctrl{
@@ -175,6 +219,9 @@ class CtrlNav extends Ctrl{
             this.pres.getMessage(MESSAGE.AFFICHETOI); //affiche barre de nav
         }
         else if(message === MESSAGE.CLEAR_CONTAINER){
+            this.pres.getMessage(message);
+        }
+        else if(message === MESSAGE.ACCUEIL){
             this.pres.getMessage(message);
         }
     }

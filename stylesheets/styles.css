@@ -198,3 +198,8 @@ header{
     width: 100px;
     height: 100px;
 }
+
+.jeu {
+    text-align: center;
+    display: inline;
+}

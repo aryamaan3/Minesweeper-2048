@@ -102,7 +102,7 @@ class Grille2048{
 
         // Si besoin de simuler une victoire rapidement :
         //tuile.setValue(512);
-        tuile.setValue(64);
+        //tuile.setValue(64);
 
         // Pour avoir une animation d'apparition
         tuile.setApparition(true);

@@ -109,6 +109,9 @@ class AbsProfil extends Abs{
         else if (message === MESSAGE.VIC_DEM){
             // TODO : vérifier ici les trophées
             this.addVicDem();
+
+            // pieceJointe ici c'est 1: debutant, 2: intermédiaire, 3:expert
+
         }
 
         else if (message === MESSAGE.DEF_DEM){
