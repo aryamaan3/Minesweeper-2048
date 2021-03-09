@@ -378,11 +378,6 @@ class PresDem extends Pres{
         header.innerHTML = "Démineur";
         this.selectLevel();
 
-        /* Si besoin de simuler une victoire */
-        let gagner = document.createElement("button");
-        gagner.innerHTML = "gagner";
-        gagner.onclick = ()=> {this.ctrl.getMessageFromAbstraction(MESSAGE.VIC_DEM, 3)};
-        document.body.appendChild(gagner);
     }
 
     /**
@@ -476,6 +471,7 @@ class PresDem extends Pres{
      * @param texte à afficher
      */
     afficher(texte){
+        /*
         let canvas2 = document.createElement('canvas');
         canvas2.id = "gui";
         canvas2.classList.add('gui');
@@ -489,6 +485,16 @@ class PresDem extends Pres{
 
         let container = document.getElementById('container');
         container.appendChild(canvas2);
+
+         */
+
+        let container = document.getElementById('container');
+        let panneau = document.createElement("div");
+        panneau.id = "panneauFin";
+        panneau.classList.add('gui');
+        panneau.innerHTML = texte;
+
+        container.appendChild(panneau);
     }
 
 

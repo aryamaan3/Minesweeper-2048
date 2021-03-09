@@ -205,7 +205,6 @@ header{
 .gui{
     position:absolute;
     top:0px;
-    left: 20%;
     display: table-cell;
 }
 
