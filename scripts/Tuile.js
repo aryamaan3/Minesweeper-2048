@@ -22,6 +22,17 @@ drapeau.onload = function (){
 }
 drapeau.src = 'assets/drapeau.png';
 
+let couleurs = [];
+couleurs[0] = "#0000ff";
+couleurs[1] = "#008000"
+couleurs[2] = "#ff0000"
+couleurs[3] = "#00008B"
+couleurs[4] = "#800000"
+couleurs[5] = "#00ffff"
+couleurs[6] = "#000000"
+couleurs[7] = "#808080"
+
+
 class Tuile{
     constructor(x, y) {
         this.size = 30;
@@ -59,9 +70,9 @@ class Tuile{
     }
 
     drawIndice(ctx, indice){
-        ctx.fillStyle = "#000";
-        ctx.font = "20px 'San Francisco'";
-        ctx.fillText(indice, this.x + 10, this.y + 20);
+        ctx.fillStyle = couleurs[indice - 1];
+        ctx.font = " 20px 'San Francisco'";
+        ctx.fillText(indice, this.x + 11, this.y + 21);
     }
 
     setCache(){
