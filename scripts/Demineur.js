@@ -366,6 +366,12 @@ class PresDem extends Pres{
         let header = document.getElementById("title");
         header.innerHTML = "Démineur";
         this.selectLevel();
+
+        /* Si besoin de simuler une victoire */
+        let gagner = document.createElement("button");
+        gagner.innerHTML = "gagner";
+        gagner.onclick = ()=> {this.ctrl.getMessageFromAbstraction(MESSAGE.VIC_DEM, 3)};
+        document.body.appendChild(gagner);
     }
 
     /**

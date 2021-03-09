@@ -84,7 +84,6 @@ class AbsProfil extends Abs{
 
         if (localStorage.getItem('trophees')){
             // JSON.parse puisqu'on a stocké un array d'objet !
-            // TODO : vérifier que ça marche bien
             let json = JSON.parse( localStorage.getItem('trophees') );
 
             // Obligé de bouclé car sinon est reconnu comme étant une grosse chaine de caractère ...
@@ -107,11 +106,59 @@ class AbsProfil extends Abs{
         }
 
         else if (message === MESSAGE.VIC_DEM){
-            // TODO : vérifier ici les trophées
+            //console.log('Profil recoit '+ message + "avec type: "+ pieceJointe.type + ", timer : "+pieceJointe.timer);
             this.addVicDem();
 
-            // pieceJointe ici c'est 1: debutant, 2: intermédiaire, 3:expert
+            /* pieceJointe ici c'est un objet :
+            {type: 1, timer: "00:50" } avec type => 1: debutant, 2: intermédiaire, 3:expert
+            */
+            if(this.timerDemineur > pieceJointe.timer){   // On peut comparer les strings de cette façon puisque c'est formaté
+                this.setTimer(MESSAGE.TIMER_DEMINEUR,pieceJointe.timer);
+            }
 
+            switch (pieceJointe.type){
+                case 1:
+                    // On vérifie si le trophée a déjà été distribué
+                    let debutant = this.trophees.find( trophee => trophee.id === 'debutant');
+                    if(!debutant){
+                        const debutant = new Trophee("demineur", "debutant", "Gagner une partie en débutant","assets/trophées/trophee_debutant.png" );
+                        this.addTrophee(debutant);
+                    }
+
+                    // On regarde si le timer < 1min au quel cas, on distribue un second trophée
+                    let debutant1min = this.trophees.find( trophee => trophee.id === 'debutant1min');
+                    if(!debutant1min && pieceJointe.timer < "01:00"){
+                        const debutant1min = new Trophee("demineur", "debutant1min", "Gagner une partie en débutant en moins d'une minute","assets/trophées/trophee_1min.png" );
+                        this.addTrophee(debutant1min);
+                    }
+                    break;
+                case 2:
+                    let intermediaire = this.trophees.find( trophee => trophee.id === 'intermediaire');
+                    if(!intermediaire){
+                        const intermediaire = new Trophee("demineur", "intermediaire", "Gagner une partie en intermediaire","assets/trophées/trophee_intermediaire.png" );
+                        this.addTrophee(intermediaire);
+                    }
+
+                    let intermediaire2min = this.trophees.find( trophee => trophee.id === 'intermediaire2min');
+                    if(!intermediaire2min && pieceJointe.timer < "02:00"){
+                        const intermediaire2min = new Trophee("demineur", "intermediaire2min", "Gagner une partie en intermédiaire en moins de deux minutes","assets/trophées/trophee_2min.png" );
+                        this.addTrophee(intermediaire2min);
+                    }
+                    break;
+                case 3:
+                    let expert = this.trophees.find( trophee => trophee.id === 'expert');
+                    if(!expert){
+                        const expert = new Trophee("demineur", "expert", "Gagner une partie en expert","assets/trophées/trophee_expert.png" );
+                        this.addTrophee(expert);
+                    }
+
+                    let expert4min = this.trophees.find( trophee => trophee.id === 'expert4min');
+                    if(!expert4min && pieceJointe.timer < "04:00"){
+                        const expert4min = new Trophee("demineur", "expert4min", "Gagner une partie en expert en moins de quatre minutes","assets/trophées/trophee_4min.png" );
+                        this.addTrophee(expert4min);
+                    }
+                    break;
+            }
         }
 
         else if (message === MESSAGE.DEF_DEM){
@@ -119,7 +166,6 @@ class AbsProfil extends Abs{
         }
         /*----------- 2048 -----------*/
         else if (message === MESSAGE.DATA_PROFIL){
-            // TODO : vérifier ici les trophées
             // Si le score de ce nouveau tour est supérieur à celui en localstorage
             if(this.score2048 < pieceJointe.score){
                 this.setMeilleurScore(pieceJointe.score);
@@ -162,12 +208,6 @@ class AbsProfil extends Abs{
                     const trophee5min2048 = new Trophee("2048", "5min2048", "Gagner une partie en moins de 5 min","assets/trophées/trophee_5min.png" );
                     this.addTrophee(trophee5min2048);
                 }
-            }
-        }
-        else if( message === MESSAGE.TIMER_DEMINEUR){
-            // TODO : vérifier ici les trophées
-            if(this.timerDemineur > pieceJointe){   // On peut comparer les strings de cette façon puisque c'est formaté
-                this.setTimer(message,pieceJointe);
             }
         }
         else if (message === MESSAGE.NB_PARTIE_2048){
