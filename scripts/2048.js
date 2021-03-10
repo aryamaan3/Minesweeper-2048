@@ -158,7 +158,6 @@ class Pres2048 extends Pres{
     }
 
     deplacement(direction){
-
         // Si le tour est valide, on compte un tour supplémentaire
         // et on vérifie que le score n'est pas changé
         if(this.grille.nouveauTour(direction)){
@@ -182,10 +181,10 @@ class Pres2048 extends Pres{
             });
 
         }
-        else if( !this.grille.nouveauTour(MESSAGE.UP)
-                && !this.grille.nouveauTour(MESSAGE.DOWN)
-                && !this.grille.nouveauTour(MESSAGE.RIGHT)
-                && !this.grille.nouveauTour(MESSAGE.LEFT)
+        else if( !this.grille.mouvementPossible(MESSAGE.UP)
+                && !this.grille.mouvementPossible(MESSAGE.DOWN)
+                && !this.grille.mouvementPossible(MESSAGE.RIGHT)
+                && !this.grille.mouvementPossible(MESSAGE.LEFT)
                 && !this.fin){
             // Aucun déplacement possible, on est bloqué : fin de partie
             console.log("FIN DE PARTIE");
@@ -203,7 +202,7 @@ class Pres2048 extends Pres{
         panneau.id = "panneauFin";
         panneau.innerHTML = "PARTIE TERMINÉE";
 
-        container.after(panneau);
+        container.appendChild(panneau);
     }
 
 

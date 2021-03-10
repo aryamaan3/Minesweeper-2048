@@ -2,11 +2,12 @@ class AbsNav extends Abs {
     constructor() {
         super();
         //Variable pour savoir quelle page est la page actuelle
-        this.PAGE = "INITIALISATION";
-        this.choixPage(this.PAGE);
+        //this.PAGE = "INITIALISATION";
+        //this.choixPage(this.PAGE);
     }
 
     init(){
+        //this.choixPage(MESSAGE.ACCUEIL);
     }
 
     getMessage(message, pieceJointe){
@@ -30,25 +31,25 @@ class AbsNav extends Abs {
         switch (message){
             case MESSAGE.INIT ://Même chose que accueil
             case MESSAGE.ACCUEIL:
-                // On envoie un message à la classe Accueil pour qu'elle charge sa page
                 this.ctrl.getMessageFromAbstraction(MESSAGE.CHANGEPAGE, MESSAGE.ACCUEIL);
-                this.PAGE = "ACCUEIL";
+                //this.PAGE = "ACCUEIL";
                 // On highlight l'onglet qui a été cliqué
                 this.ctrl.getMessageFromAbstraction(MESSAGE.HIGHLIGHT, "Accueil");
                 break;
             case MESSAGE.INIT2048:
+                // On envoie un message à la classe 2048 pour qu'elle charge sa page
                 this.ctrl.getMessageFromAbstraction(MESSAGE.CHANGEPAGE, MESSAGE.INIT2048);
-                this.PAGE = "2048";
+                //this.PAGE = "2048";
                 this.ctrl.getMessageFromAbstraction(MESSAGE.HIGHLIGHT, "2048");
                 break;
             case MESSAGE.DEMINEUR:
                 this.ctrl.getMessageFromAbstraction(MESSAGE.CHANGEPAGE, MESSAGE.DEMINEUR);
-                this.PAGE = "DEMINEUR";
+                //this.PAGE = "DEMINEUR";
                 this.ctrl.getMessageFromAbstraction(MESSAGE.HIGHLIGHT, "Demineur");
                 break;
             case MESSAGE.PROFIL:
                 this.ctrl.getMessageFromAbstraction(MESSAGE.CHANGEPAGE, MESSAGE.PROFIL);
-                this.PAGE = "PROFIL";
+                //this.PAGE = "PROFIL";
                 this.ctrl.getMessageFromAbstraction(MESSAGE.HIGHLIGHT, "Profil");
                 break;
         }
@@ -73,6 +74,7 @@ class PresNav extends Pres{
                 break;
             case MESSAGE.AFFICHETOI:
                 this.afficheNav();
+                this.afficheAccueil();
                 break;
             case MESSAGE.HIGHLIGHT:
                 this.highlightOnglet(pieceJointe);
