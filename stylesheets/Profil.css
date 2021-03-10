@@ -14,17 +14,20 @@
     font-size: 35px;
 }
 
+#ProfilDemineur *{
+    margin: 10px;
+}
+
 .Profil * :first-child{
     font-size: 20px;
-    border: 10px antiquewhite;
-    background-color: antiquewhite;
+    border: 10px burlywood;
+    background-color: burlywood;
     border-radius: 10px;
     padding: 5px;
     line-height: 50px;
-}
-
-#ProfilDemineur *{
-    margin: 10px;
+    width: 400px;
+    height: 50px;
+    text-align: center;
 }
 
 #Profil2048 *{

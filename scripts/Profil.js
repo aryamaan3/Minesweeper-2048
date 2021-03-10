@@ -339,7 +339,7 @@ class PresProfil extends Pres{
             /*----------------------------DEMINEUR------------------------------*/
             let demineur = document.createElement('div');
             demineur.id = "ProfilDemineur";
-            let title = document.createElement('h1');
+            let title = document.createElement('div');
             title.id = "title";
             title.innerHTML = "Demineur";
             demineur.appendChild(title);
@@ -372,7 +372,7 @@ class PresProfil extends Pres{
             let j2048 = document.createElement('div');
             j2048.id = "Profil2048";
 
-            let titre2048 = document.createElement('h1');
+            let titre2048 = document.createElement('div');
             titre2048.innerHTML = "2048";
             j2048.appendChild(titre2048);
 

@@ -174,9 +174,12 @@ class PresNav extends Pres{
         let container = document.createElement('div');
         container.id = "container";
         barreNav.after(container);
+        container.style.paddingTop="5em";
+        container.style.textAlign = "center";
 
         let titre = document.createElement('h1');
         titre.innerHTML= "Veuillez sélectionner un jeu pour commencer :";
+        container.appendChild(titre);
 
         let j2048 = document.createElement('div');
         j2048.className = "jeu";
