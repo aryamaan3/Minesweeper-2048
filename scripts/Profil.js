@@ -141,7 +141,7 @@ class AbsProfil extends Abs{
 
                     let intermediaire2min = this.trophees.find( trophee => trophee.id === 'intermediaire2min');
                     if(!intermediaire2min && pieceJointe.timer < "02:00"){
-                        const intermediaire2min = new Trophee("demineur", "intermediaire2min", "Gagner une partie en intermédiaire en moins de deux minutes","assets/trophées/trophee_2min.png" );
+                        const intermediaire2min = new Trophee("demineur", "intermediaire2min", "Gagner en intermédiaire en moins de 2 minutes","assets/trophées/trophee_2min.png" );
                         this.addTrophee(intermediaire2min);
                     }
                     break;
@@ -154,7 +154,7 @@ class AbsProfil extends Abs{
 
                     let expert4min = this.trophees.find( trophee => trophee.id === 'expert4min');
                     if(!expert4min && pieceJointe.timer < "04:00"){
-                        const expert4min = new Trophee("demineur", "expert4min", "Gagner une partie en expert en moins de quatre minutes","assets/trophées/trophee_4min.png" );
+                        const expert4min = new Trophee("demineur", "expert4min", "Gagner une partie en expert en moins de 4 minutes","assets/trophées/trophee_4min.png" );
                         this.addTrophee(expert4min);
                     }
                     break;
@@ -291,6 +291,9 @@ class AbsProfil extends Abs{
 
         // On envoie ce trophée à la presentation
         this.ctrl.getMessageFromAbstraction(MESSAGE.TROPHEE, this.trophees);
+
+        //on demande à ctrl d'afficher le trophée
+        this.ctrl.getMessageFromAbstraction(MESSAGE.HIGHLIGHT, trophee.description);
     }
 }
 
@@ -361,7 +364,8 @@ class PresProfil extends Pres{
 
             let ratio = document.createElement('p');
             ratio.id = "ratio";
-            let nb = ((this.vicDemineur / this.lossDem).toFixed(2)) || 0; // si nan alors affiche 0
+            let nb = ((this.vicDemineur / this.lossDem).toFixed(2)) || 0;
+            nb = isNaN(nb) ? 0: nb; // si nan alors affiche 0
             nb = (nb == Infinity) ? "stonks" : nb; // === fait false alors que == fait true
             ratio.innerHTML = "Ratio : " + nb;
             demineur.appendChild(ratio);
@@ -469,6 +473,10 @@ class PresProfil extends Pres{
         /*----------- Trophées -----------*/
         else if(message === MESSAGE.TROPHEE){
             this.setTrophee(pieceJointe);
+        }
+
+        else if (message === MESSAGE.HIGHLIGHT){
+            Trophee.afficher(pieceJointe);
         }
     }
 

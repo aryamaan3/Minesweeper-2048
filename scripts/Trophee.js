@@ -39,7 +39,17 @@ class Trophee {
         return new Trophee(json.type, json.id, json.description, json.img);
     }
 
-    getId(){
-        return this.id;
+    static afficher(texte){
+        let container = document.getElementById('container');
+        let panneau = document.createElement('div');
+        panneau.id = "panneau";
+        panneau.innerHTML = "Nouvelle Trophée gagné : <br>" + texte;
+
+        container.after(panneau);
+
+        setTimeout(() => {
+            document.body.removeChild(panneau);
+        }, 3000)
     }
+
 }

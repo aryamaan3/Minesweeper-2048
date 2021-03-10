@@ -199,6 +199,13 @@ header{
     position: relative;
     align-items: center;
     display: table;
+    height: 400px;
+}
+
+.containerDem2{
+    position: relative;
+    align-items: center;
+    display: table;
 }
 
 .gui{
@@ -219,4 +226,17 @@ header{
     font-size: 1.5em;
     border-radius: 15px;
     line-height: 2.3em;
+}
+
+#panneau{
+    margin-top: 1em;
+    margin-right: auto;
+    margin-left: auto;
+    width: 500px;
+    height: 100px;
+    background-color: burlywood;
+    text-align: center;
+    font-size: 1.5em;
+    border-radius: 15px;
+    line-height: 50px;
 }
