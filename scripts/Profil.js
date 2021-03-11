@@ -220,6 +220,9 @@ class AbsProfil extends Abs{
         return result;
     }
 
+    /**
+     * Ajoute une victoire démineur au localstorage
+     */
     addVicDem(){
         localStorage.removeItem('vicDem');
         this.vicDemineur ++;
@@ -227,6 +230,9 @@ class AbsProfil extends Abs{
         this.ctrl.getMessageFromAbstraction(MESSAGE.VIC_DEM, this.vicDemineur);
     }
 
+    /**
+     * Ajoute une défaite démineur au localstorage
+     */
     addDefDem(){
         localStorage.removeItem('defDem');
         this.defDemineur ++;
@@ -252,6 +258,9 @@ class AbsProfil extends Abs{
         this.ctrl.getMessageFromAbstraction(MESSAGE.SCORE, this.score2048);
     }
 
+    /**
+     * @param meilleureTuile
+     */
     setMeilleureTuile(meilleureTuile){
         this.meilleureTuile2048 = meilleureTuile;
         localStorage.setItem('meilleureTuile2048', this.meilleureTuile2048);
@@ -260,6 +269,11 @@ class AbsProfil extends Abs{
         this.ctrl.getMessageFromAbstraction(MESSAGE.MEILLEURE_TUILE, this.meilleureTuile2048);
     }
 
+    /**
+     *
+     * @param jeu, démineur ou 2048
+     * @param timer
+     */
     setTimer(jeu, timer){
         switch (jeu){
             case MESSAGE.TIMER:
@@ -275,7 +289,9 @@ class AbsProfil extends Abs{
                 break;
         }
     }
-
+    /**
+     * Ajoute une partie 2048 au localstorage
+     */
     addNbPartie2048(){
         this.nbPartie2048 ++;
         localStorage.setItem('nbPartie2048', this.nbPartie2048);
@@ -284,6 +300,10 @@ class AbsProfil extends Abs{
     }
 
     /* Trophées */
+    /**
+     * Ajoute un trophée à l'array et l'array au localstorage
+     * @param trophee
+     */
     addTrophee(trophee){
         this.trophees.push(trophee);
 
@@ -488,37 +508,67 @@ class PresProfil extends Pres{
         }
     }
 
+    /**
+     *
+     * @param nb, nombre de victoire
+     */
     setVictoireDem(nb){
         this.vicDemineur = nb;
     }
 
+    /**
+     * @param nb, nombre de défaite
+     */
     setDefDem(nb){
         this.lossDem = nb;
     }
 
+    /**
+     *
+     * @param timer
+     */
     setTimerDemineur(timer){
         this.timerDemineur = timer;
     }
 
     /*------------ 2048 -------------*/
-    setMeilleureTuile(pieceJointe) {
-        this.meilleureTuile2048 = pieceJointe;
+    /**
+     *
+     * @param tuile, Valeur de la tuile
+     */
+    setMeilleureTuile(tuile) {
+        this.meilleureTuile2048 = tuile;
     }
 
+    /**
+     *
+     * @param score
+     */
     setScore(score) {
         this.score2048 = score;
     }
 
+    /**
+     *
+     * @param timer
+     */
     setTimer(timer) {
         this.timer2048 = timer;
     }
 
+    /**
+     *
+     * @param nbPartie
+     */
     setNbPartie2048(nbPartie) {
         this.nbPartie2048 = nbPartie;
     }
 
     /* Trophée */
-
+    /**
+     *
+     * @param trophees
+     */
     setTrophee(trophees){
         this.trophees = trophees;
     }
@@ -561,6 +611,5 @@ class CtrlProfil extends Ctrl{
     }
 
     getMessageFromPresentation(message){
-        //TODO
     }
 }

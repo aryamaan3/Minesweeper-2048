@@ -116,6 +116,9 @@ class Abs2048 extends Abs{
         });
     }
 
+    /**
+     * Envoie le signal de fin de partie à Ciment
+     */
     finirPartie() {
         this.ctrl.getMessageFromAbstraction(MESSAGE.FIN_2048);
     }
@@ -149,6 +152,9 @@ class Pres2048 extends Pres{
         }
     }
 
+    /**
+     * Déclenchée par MESSAGE.AFFICHETOI à l'initialisation de la page
+     */
     afficheGrille(){
         //let header = document.getElementById('title');
         //header.innerHTML = "2048";
@@ -157,6 +163,10 @@ class Pres2048 extends Pres{
         this.grille.construction();
     }
 
+    /**
+     * Va effectuer un tour, si celui ci est permis, et envoie des données à l'abstraction
+     * @param direction
+     */
     deplacement(direction){
         // Si le tour est valide, on compte un tour supplémentaire
         // et on vérifie que le score n'est pas changé
@@ -195,6 +205,9 @@ class Pres2048 extends Pres{
 
     }
 
+    /**
+     * Génère le html du panneau de fin de partie (lorsqu'on ne peut plus bouger de tuile
+     */
     affichePanneau(){
         let container = document.getElementById("container");
 

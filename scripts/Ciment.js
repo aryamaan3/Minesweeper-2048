@@ -105,8 +105,9 @@ class PresCiment extends Pres{
         boutonNouvellePartie.innerHTML = "NOUVELLE PARTIE";
         boutonNouvellePartie.addEventListener("click", () => {
             // Comme dans la barre navigation, il faut donner l'ordre de nettoyer le container
+            this.stopTimer();
             this.ctrl.recoitMessageDeLaPresentation(MESSAGE.CLEAR_CONTAINER);
-            this.ctrl.recoitMessageDeLaPresentation(message);
+            this.ctrl.recoitMessageDeLaPresentation(MESSAGE.INIT2048);
         });
         barreStats.appendChild(boutonNouvellePartie);
 
@@ -129,7 +130,6 @@ class PresCiment extends Pres{
      * A appeller lors du game over
      */
     stopTimer(){
-        //TODO : appeler dans le game over des jeux
         this.time = 0;
         clearInterval(this.timer);
     }
@@ -297,6 +297,7 @@ class CtrlCiment extends Ctrl{
                 this.pres.getMessage(message, MESSAGE.CLEAR_CONTAINER);
                 break;
             case MESSAGE.INIT2048:
+                this.pres.getMessage(MESSAGE.CHANGEPAGE, MESSAGE.INIT2048);
                 this.j2048.getMessageFromParent(message);
                 // On ++ le nombre de partie dans le profil
                 this.profil.getMessageFromParent(MESSAGE.NB_PARTIE_2048);

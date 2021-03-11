@@ -23,34 +23,66 @@ class Tuile2048{
         // ces valeurs
     }
 
+    /**
+     *
+     * @param ligne
+     */
     setLigne(ligne){
         this.ligne = ligne;
     }
 
+    /**
+     *
+     * @param colonne
+     */
     setColonne(colonne){
         this.colonne = colonne;
     }
 
+    /**
+     *
+     * @param value
+     */
     setValue(value){
         this.value = value;
     }
 
+    /**
+     *
+     * @return {number}
+     */
     getValue(){
         return this.value;
     }
 
+    /**
+     *
+     * @param bool
+     */
     setApparition(bool){
         this.apparition = bool;
     }
 
+    /**
+     *
+     * @return {boolean}
+     */
     getApparition(){
         return this.apparition;
     }
 
+    /**
+     *
+     * @return {boolean}
+     */
     getFusion(){
         return this.fusion;
     }
 
+    /**
+     *
+     * @param bool
+     */
     setFusion(bool){
         this.fusion = bool;
     }

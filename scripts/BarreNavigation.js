@@ -26,7 +26,9 @@ class AbsNav extends Abs {
         return result;
     }
 
-    // Permet d'afficher la page qui doit l'être
+    /**
+     * Permet d'afficher la page qui doit l'être et modifie la barre de navigation en conséquence
+     */
     choixPage(message){
         switch (message){
             case MESSAGE.INIT ://Même chose que accueil
@@ -88,6 +90,11 @@ class PresNav extends Pres{
         }
     }
 
+    /**
+     * Simple modification du CSS de la barre de navigation pour mettre en lumière
+     * la page actuelle
+     * @param page
+     */
     highlightOnglet(page) {
         // Modifie le CSS pour mettre en valeur l'onglet actuel
 
@@ -108,6 +115,9 @@ class PresNav extends Pres{
         this.currentElement.style.cssText = "background-color: burlywood";
     }
 
+    /**
+     * Appelée à l'init afin de générer le HTML de la barre de navigation
+     */
     afficheNav() {
         // Création des divs clickables
         let boutonAcceuil = document.createElement("div");
@@ -168,6 +178,10 @@ class PresNav extends Pres{
         this.ctrl.getMessageFromPresentation(MESSAGE.REMOVELISTENER);
     }
 
+    /**
+     * La page d'accueil n'a pas de class particulière : son html est généré ici puisqu'il
+     * est relativement succinct
+     */
     afficheAccueil() {
         let barreNav = document.getElementById('barrenav');
 
