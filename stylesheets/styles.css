@@ -29,11 +29,8 @@ header{
 }
 
 .barre-nav {
-    margin: 0 auto;
-    position: absolute;
-    left: 50%;
+    margin: 10px auto;
     width: max-content;
-    transform: translateX(-50%);
     text-align: center;
     font-size: 16px;
     font-weight: bold;
@@ -100,11 +97,7 @@ header{
 }
 
 #container{
-    margin-top: 30px;
-    margin-right:auto;
-    margin-left:auto;
-    width: 500px;
-    height: 500px;
+    margin: auto;
 }
 
 
@@ -154,19 +147,12 @@ header{
     border: 10px solid rgb(153, 153, 153);
     border-radius: 15px;
     position: relative;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, 30%);
     z-index: 1;
 }
 
 .canvas2 {
     border: 10px solid rgb(153, 153, 153);
     border-radius: 15px;
-    position: absolute;
-    top: -10%;
-    left: 50%;
-    transform: translate(-50%, 30%);
 }
 
 .rules {
@@ -179,7 +165,7 @@ header{
     display: flex;
     flex-direction: column;
     text-align: center;
-    top: 60%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -193,13 +179,12 @@ header{
 .jeu {
     text-align: center;
     display: inline;
+    margin: 20px;
 }
 
 .containerDem{
-    position: relative;
     align-items: center;
     display: table;
-    height: 400px;
 }
 
 .containerDem2{
@@ -209,17 +194,10 @@ header{
 }
 
 .gui{
-    position:absolute;
-    top:0;
-    display: table-cell;
 }
 
 #panneauFin{
-    margin-top: 1em;
-    margin-right: auto;
-    margin-left: auto;
-    width: 500px;
-    height: 50px;
+    margin: 1em auto;
     background-color: burlywood;
     text-align: center;
     font-weight: bold;
@@ -229,14 +207,14 @@ header{
 }
 
 #panneau{
-    margin-top: 1em;
-    margin-right: auto;
-    margin-left: auto;
-    width: 500px;
-    height: 100px;
+    margin: 1em auto;
+    width: 300px;
     background-color: burlywood;
     text-align: center;
-    font-size: 1.5em;
     border-radius: 15px;
-    line-height: 50px;
+}
+
+.container2048 {
+    width: 500px;
+    height: 500px;
 }

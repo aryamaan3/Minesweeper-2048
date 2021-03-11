@@ -27,6 +27,7 @@ class Grille2048{
         // On crée et accroche notre element HTML à la page
         let container = document.createElement('div');
         container.id = "container";
+        container.classList.add('container2048');
         document.body.appendChild(container);
         // On la remplie
         this.fillGrilleDiv();
@@ -472,7 +473,6 @@ class Grille2048{
         let tuilesSurMemeColonne = [];
 
         // Présomption false, dès que c'est true => au moins un mouvement possible
-        let possible = false;
 
         // Le mur est la bord de la grille vers où les tuiles s'entassent
         // C'est l'indice de la ligne ou colonne

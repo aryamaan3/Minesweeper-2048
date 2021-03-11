@@ -380,10 +380,10 @@ class PresProfil extends Pres{
             titre2048.innerHTML = "2048";
             j2048.appendChild(titre2048);
 
-            let timer2048 = document.createElement('p');
+            /*let timer2048 = document.createElement('p');
             timer2048.id = "timer2048";
             timer2048.innerHTML = "Meilleur temps : " + this.timer2048;
-            j2048.appendChild(timer2048);
+            j2048.appendChild(timer2048);*/
 
             let meilleureTuile2048 = document.createElement('p');
             meilleureTuile2048.id = "meilleureTuile";
@@ -420,13 +420,21 @@ class PresProfil extends Pres{
 
                 // On boucle sur la liste des trophées afin de tous les afficher
                 this.trophees.forEach(trophee => {
-                    // il faut d'abord convertir le parsed JSON en un nouvel objet Trophee
-                    let tropheeRevive = Trophee.revive(trophee);
-                    // On a l'objet trophée, maintenant il faut en faire du HTML pour l'append
-                    trophees.appendChild(tropheeRevive.render());
+                    if(!isEmpty(trophee)) { //parfois trophee[0] est vide
+                        // il faut d'abord convertir le parsed JSON en un nouvel objet Trophee
+                        let tropheeRevive = Trophee.revive(trophee);
+                        // On a l'objet trophée, maintenant il faut en faire du HTML pour l'append
+                        trophees.appendChild(tropheeRevive.render());
+                    }
                 });
 
 
+                container.appendChild(trophees);
+            }
+            else{ //si le joueur n'a pas encore gagné des trophées
+                let trophees = document.createElement("div");
+                trophees.id = "trophees";
+                trophees.innerHTML = "<p>Vous n'avez pas encore gagné de trophée</p>";
                 container.appendChild(trophees);
             }
 

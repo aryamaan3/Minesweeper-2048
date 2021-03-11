@@ -174,7 +174,6 @@ class PresNav extends Pres{
         let container = document.createElement('div');
         container.id = "container";
         barreNav.after(container);
-        container.style.paddingTop="5em";
         container.style.textAlign = "center";
 
         let titre = document.createElement('h1');

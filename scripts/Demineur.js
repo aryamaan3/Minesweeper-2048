@@ -373,12 +373,12 @@ class PresDem extends Pres{
      * genere la page et appel la methode pour choisir le niveau
      */
     initPage(){
-        /*
-        let gagner = document.createElement("button");
+
+        /*let gagner = document.createElement("button");
         gagner.innerHTML = "gagner";
         gagner.onclick = ()=> {this.ctrl.getMessageFromAbstraction(MESSAGE.VIC_DEM, 1)};
-        document.body.appendChild(gagner);
-        */
+        document.body.appendChild(gagner);*/
+
 
         this.selectLevel();
 
