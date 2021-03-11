@@ -1,24 +1,20 @@
 let hidden = new Image();
 hidden.onload = function (){
-    console.log("cache loaded");
 }
 hidden.src = 'assets/tile.png';
 
 let decouvert = new Image();
 decouvert.onload = function (){
-    console.log("decouvert loaded");
 }
 decouvert.src = 'assets/decouvert.png';
 
 let mine = new Image();
 mine.onload = function (){
-    console.log("mine loaded");
 }
 mine.src = 'assets/mine.png';
 
 let drapeau = new Image();
 drapeau.onload = function (){
-    console.log("drapeau loaded");
 }
 drapeau.src = 'assets/drapeau.png';
 
@@ -43,6 +39,11 @@ class Tuile{
         this.drapeau = false;
     }
 
+    /**
+     * dessine la tuile sur le canvas
+     * @param ctx
+     * @param indice
+     */
     draw(ctx, indice){
         if (this.hidden) {
             ctx.drawImage(hidden, this.x, this.y, this.size, this.size);
@@ -65,10 +66,19 @@ class Tuile{
 
     }
 
+    /**
+     * dessine une mine
+     * @param ctx
+     */
     drawMine(ctx){
         ctx.drawImage(mine, this.x, this.y, this.size, this.size);
     }
 
+    /**
+     * dessine l'indice donné en param
+     * @param ctx
+     * @param indice
+     */
     drawIndice(ctx, indice){
         ctx.fillStyle = couleurs[indice - 1];
         ctx.font = " 20px 'San Francisco'";

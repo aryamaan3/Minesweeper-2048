@@ -180,9 +180,6 @@ class PresCiment extends Pres{
         }
     }
 
-    getTimer(){
-        return this.timer;
-    }
 }
 
 class CtrlCiment extends Ctrl{

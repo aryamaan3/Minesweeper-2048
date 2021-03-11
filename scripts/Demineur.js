@@ -62,7 +62,7 @@ class AbsDem extends Abs{
             this.tuileClicked(posx, posy)
         }
 
-        else if (message === MESSAGE.CLIC_DROIT){
+        else if (message === MESSAGE.CLIC_DROIT){ //drapeau
             let posx = Math.floor(pieceJointe[0] / 30); //on le convertis aux indices d'un tab
             let posy = Math.floor(pieceJointe[1] / 30);
             let pos = [];
@@ -105,6 +105,10 @@ class AbsDem extends Abs{
         }
     }
 
+    /**
+     * retourne le niveau de demineur choisie par l'utilisateur
+     * @returns {number} niveau
+     */
     getNiveau(){
         switch(this.ligne){
             case(9):
@@ -213,10 +217,10 @@ class AbsDem extends Abs{
                 if (tuile.isMine()) {
                     this.ctrl.getMessageFromAbstraction(MESSAGE.MINE, pos);
                     tuile.setDecouvert();
-                    if (!this.afficheAll) {
+                    if (!this.afficheAll) { // on veut effectuer cela qu'une fois
                         this.ctrl.getMessageFromAbstraction(MESSAGE.DEF_DEM, this.getNiveau());
                         this.loss = true;
-                        this.afficheTout();
+                        this.afficheTout(); //recursive
 
                     }
                 } else {
@@ -263,6 +267,9 @@ class AbsDem extends Abs{
         }
     }
 
+    /**
+     * verifie si le joueur a gagné
+     */
     verifVictoire(){
         if (!this.loss) {
             let nbHidden = 0;
@@ -299,6 +306,9 @@ class AbsDem extends Abs{
         }
     }
 
+    /**
+     * affiche toutes les cases de la grille
+     */
     afficheTout(){
         this.afficheAll = true;
         for (let li = 0; li < this.ligne; li++){
@@ -471,7 +481,7 @@ class PresDem extends Pres{
     }
 
     /**
-     * affiche le texte au milieu du canvas
+     * affiche le texte en dessous du canvas
      * @param texte à afficher
      */
     afficher(texte){
