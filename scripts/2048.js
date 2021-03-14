@@ -7,6 +7,7 @@ class Abs2048 extends Abs{
         this.nbTour = 0;
         // Quand 2048 est atteint, on a une victoire mais on peut continuer
         this.victoire = false;
+        this.fin = false;
     }
 
     /**
@@ -138,7 +139,6 @@ class Pres2048 extends Pres{
         this.meilleureTuile = 2;
 
         this.fin = false;
-
     }
 
     getMessage(message, pieceJointe){
@@ -158,6 +158,7 @@ class Pres2048 extends Pres{
     afficheGrille(){
         //let header = document.getElementById('title');
         //header.innerHTML = "2048";
+        this.fin = false;
 
         this.grille = new Grille2048();
         this.grille.construction();

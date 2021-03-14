@@ -107,7 +107,7 @@ class PresCiment extends Pres{
             // Comme dans la barre navigation, il faut donner l'ordre de nettoyer le container
             this.stopTimer();
             this.ctrl.recoitMessageDeLaPresentation(MESSAGE.CLEAR_CONTAINER);
-            this.ctrl.recoitMessageDeLaPresentation(MESSAGE.INIT2048);
+            this.ctrl.recoitMessageDeLaPresentation(message);
         });
         barreStats.appendChild(boutonNouvellePartie);
 
