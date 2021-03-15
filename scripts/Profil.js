@@ -386,7 +386,7 @@ class PresProfil extends Pres{
             ratio.id = "ratio";
             let nb = ((this.vicDemineur / this.lossDem).toFixed(2)) || 0;
             nb = isNaN(nb) ? 0: nb; // si nan alors affiche 0
-            nb = (nb == Infinity) ? "stonks" : nb; // === fait false alors que == fait true
+            nb = (nb == Infinity) ? "∞" : nb; // === fait false alors que == fait true
             ratio.innerHTML = "Ratio : " + nb;
             demineur.appendChild(ratio);
 

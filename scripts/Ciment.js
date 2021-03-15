@@ -171,12 +171,9 @@ class PresCiment extends Pres{
      * @param mines
      */
     changeMines(mines){
-        try{
-            let scoreDiv = document.getElementById("compteurmines");
+        let scoreDiv = document.getElementById("compteurmines");
+        if (scoreDiv) {
             scoreDiv.innerHTML = mines;
-            }
-        catch (erreur) {
-            console.log("barreStats pas encore crée");
         }
     }
 

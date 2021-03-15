@@ -2,9 +2,9 @@
 @keyframes apparition {
     0% {
         transform: translate(56px, 56px);
-        width: 0%;
-        height: 0%;
-        font-size: 0%;
+        width: 0;
+        height: 0;
+        font-size: 0;
 
     }
     100%{

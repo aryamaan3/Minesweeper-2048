@@ -79,7 +79,7 @@ class AbsDem extends Abs{
         else if(message === MESSAGE.MINES_RESTANT){
             setTimeout(()=>{
                 this.ctrl.getMessageFromAbstraction(message, this.nbMines);
-            }, 100);
+            }, 10);
             //on attends que barre stats a été crée
         }
 

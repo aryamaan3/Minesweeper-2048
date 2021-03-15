@@ -116,9 +116,6 @@ class Grille{
             tuile.setCache();
             tuile.draw(this.ctx);
         }catch (e) {
-            console.log("in catch of decouvreTuile")
-            console.log("x = " + pos[0] + " in canvas = " + pos[0] * 30);
-            console.log("y = " + pos[1] + " in canvas = " + pos[1] * 30);
         }
     }
 

@@ -104,7 +104,6 @@ class Abs2048 extends Abs{
         // On vérifie si on a une victoire
         if(this.meilleureTuile >= 2048 && this.victoire === false){
             this.victoire = true;
-            console.log("VICTOIRE");
 
             // Il faut envoyer une demande de Timer au ciment qui le transmettra au profil
             this.ctrl.getMessageFromAbstraction(MESSAGE.TIMER);
@@ -198,7 +197,6 @@ class Pres2048 extends Pres{
                 && !this.grille.mouvementPossible(MESSAGE.LEFT)
                 && !this.fin){
             // Aucun déplacement possible, on est bloqué : fin de partie
-            console.log("FIN DE PARTIE");
             this.fin = true;
             this.ctrl.getMessageFromPresentation(MESSAGE.FIN_2048);
             this.affichePanneau();
