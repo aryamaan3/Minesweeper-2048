@@ -17,6 +17,9 @@ class AbsDem extends Abs{
         switch(niveau){
             case(1):
                 this.nbMines = 9;
+                this.colonne = 9;
+                this.ligne = 9;
+                this.nbMines = 9;
                 break;
 
             case(2):
@@ -97,6 +100,7 @@ class AbsDem extends Abs{
      * les mines se genre apres le premier click
      */
     genTab(){
+        this.tabTuiles = [];
         for (let i = 0; i < this.ligne; i++){ //ligne
             this.tabTuiles[i] = []; //crée le deuxieme dim du tab
             for (let j = 0; j < this.colonne; j++){ //colonne
@@ -142,6 +146,7 @@ class AbsDem extends Abs{
             }
             this.tabTuiles[x][y].setMine();
         }
+
         //verifie si il y a bien le bon nb de mines genérés
         if (this.countMine() !== mines){
             console.log("erreur sur nb de mines genérés");
