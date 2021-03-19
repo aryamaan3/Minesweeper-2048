@@ -1,2 +1,3 @@
-# web-ihm-kunwar-maissa
-web-ihm-kunwar-maissa created by GitHub Classroom
+# Site de jeux en ligne
+
+Rapport du projet dans le fichier [doc](./doc)
