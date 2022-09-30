@@ -3,5 +3,3 @@
 Rapport du projet dans le fichier [doc](./doc) 
 
 ## [demo](https://site-de-jeux-en-ligne.netlify.app/)
-
-ne fonctionne pas sur safari !
